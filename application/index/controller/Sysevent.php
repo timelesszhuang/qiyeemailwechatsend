@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use think\Controller;
+use think\Loader;
 use think\Request;
 
 class Sysevent extends Controller

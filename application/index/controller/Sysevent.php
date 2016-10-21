@@ -2,6 +2,7 @@
 namespace app\index\controller;
 
 use think\Controller;
+use think\Request;
 
 class Sysevent extends Controller
 {
@@ -14,10 +15,11 @@ class Sysevent extends Controller
         //引入放在Thinkphp下的Library/Vendor/wechat 下的微信加解密包
         import('vendor.wechat.WXBizMsgCrypt', '', '.php');
         //安装官方要求接收4个get参数 并urldecode处理
-        $msg_signature = urldecode(I("get.msg_signature"));
-        $timestamp = urldecode(I("get.timestamp"));
-        $nonce = urldecode(I("get.nonce"));
-        $echostr = urldecode(I("get.echostr"));
+        // 获取当前请求的name变量
+        $msg_signature = urldecode(Request::instance()->param('msg_signature'));
+        $timestamp = urldecode(Request::instance()->param('timestamp'));
+        $nonce = urldecode(Request::instance()->param('nonce'));
+        $echostr = urldecode(Request::instance()->param('echostr'));
         //实例化加解密类
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, 'wxe041af5a55ce7365');
         //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echostr中

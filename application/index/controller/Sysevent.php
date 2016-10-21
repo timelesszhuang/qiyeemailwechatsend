@@ -1,7 +1,9 @@
 <?php
 namespace app\index\controller;
 
-class Sysevent
+use think\Controller;
+
+class Sysevent extends Controller
 {
     public function index()
     {
@@ -10,7 +12,7 @@ class Sysevent
         //企业号后台随机填写的token
         $token = "eCL75fcA";
         //引入放在Thinkphp下的Library/Vendor/wechat 下的微信加解密包
-        import('Vendor.wechat.WXBizMsgCrypt', '', '.php');
+        import('vendor.wechat.WXBizMsgCrypt', '', '.php');
         //安装官方要求接收4个get参数 并urldecode处理
         $msg_signature = urldecode(I("get.msg_signature"));
         $timestamp = urldecode(I("get.timestamp"));

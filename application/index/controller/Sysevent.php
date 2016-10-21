@@ -13,7 +13,7 @@ class Sysevent extends Controller
         //企业号后台随机填写的token
         $token = "eCL75fcA";
         //引入放在Thinkphp下的Library/Vendor/wechat 下的微信加解密包
-        import('vendor.wechat.WXBizMsgCrypt', '', '.php');
+        Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
         // 获取当前请求的name变量
         $msg_signature = urldecode(Request::instance()->param('msg_signature'));

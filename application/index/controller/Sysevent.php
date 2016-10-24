@@ -22,11 +22,12 @@ class Sysevent extends Controller
         $nonce = urldecode(Request::instance()->param('nonce'));
         $echostr = urldecode(Request::instance()->param('echostr'));
         //实例化加解密类
-        file_put_contents('$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce' . $nonce . '$echostr:' . $echostr, 'a.txt', FILE_APPEND);
+        file_put_contents('a.txt','$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, 'wxe041af5a55ce7365');
         //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echostr中
         $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echostr, $reecho);
-        if ($errCode == 0) {
+        file_put_content('a.txt','errorCode:'.$errCode,FILE_APPEND);
+	if ($errCode == 0){
             echo $reecho;
         } else {
             print $errCode;

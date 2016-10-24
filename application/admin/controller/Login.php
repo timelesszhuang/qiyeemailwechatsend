@@ -4,7 +4,7 @@ use think\Controller;
 
 
 /**
- *  不用账号登陆
+ *  企业账号不需要
  */
 class Login extends Controller
 {

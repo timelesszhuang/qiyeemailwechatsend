@@ -10,9 +10,9 @@ class Sysevent extends Controller
     public function index()
     {
         //企业号后台随机填写的encodingAesKey
-        $encodingAesKey = "uYQlKaDCeljc1AEDzIDNrFHGQF6haPh9Lsdv1InA9qA";
+        $encodingAesKey = "63zypb8isLdXy4hWEwYAhcqjBnoTYAt69YGD62VHzrY";
         //企业号后台随机填写的token
-        $token = "eCL75fcA";
+        $token = "xyLp3wkwVj8GomtUaIlqa";
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理

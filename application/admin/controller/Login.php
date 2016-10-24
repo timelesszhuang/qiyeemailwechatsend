@@ -1,9 +1,6 @@
 <?php
-namespace app\index\controller;
+namespace app\admin\controller;
 
-use think\Controller;
-use think\Loader;
-use think\Request;
 
 /**
  *  不用账号登陆

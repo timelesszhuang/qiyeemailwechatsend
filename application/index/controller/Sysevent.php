@@ -40,7 +40,7 @@ class Sysevent extends Controller
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-            file_put_contents('a.txt', var_dump($sMsg), FILE_APPEND);
+            file_put_contents('a.txt', print_r($sMsg,true), FILE_APPEND);
 //            $reqToUserName = $xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
 //            $reqFromUserName = $xml->getElementsByTagName('FromUserName')->item(0)->nodeValue;
 //            $reqCreateTime = $xml->getElementsByTagName('CreateTime')->item(0)->nodeValue;

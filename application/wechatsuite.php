@@ -6,7 +6,6 @@
  * Time: 下午5:15
  */
 return [
-
     //系统事件回调接口  比如10分钟发送一次 suite_token
     //http://sm.youdao.so/index.php/index/sysevent/index
     //套件提供者的 接口 实例

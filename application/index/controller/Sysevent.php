@@ -22,7 +22,7 @@ class Sysevent extends Controller
         $encodingAesKey = Config::get('EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('EMAILSEND_TOKEN');
-        $corp_id = Config::get('CORPID');
+        $suite_id = Config::get('EMAILSEND_SUITE_ID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -32,7 +32,7 @@ class Sysevent extends Controller
         $nonce = urldecode(Request::instance()->param('nonce'));
         //实例化加解密类
         //file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
-        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
+        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $sPostData = file_get_contents("php://input");
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过

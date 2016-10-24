@@ -19,10 +19,11 @@ class Sysevent extends Controller
     public function index()
     {
         //企业号后台随机填写的encodingAesKey
-        $encodingAesKey = Config::get('EMAILSEND_ENCODINGAESKEY');
+        $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
+
         //企业号后台随机填写的token
-        $token = Config::get('EMAILSEND_TOKEN');
-        $suite_id = Config::get('EMAILSEND_SUITE_ID');
+        $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
+        $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理

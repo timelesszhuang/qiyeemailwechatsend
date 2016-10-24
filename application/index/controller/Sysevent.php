@@ -5,9 +5,24 @@ use think\Controller;
 use think\Loader;
 use think\Request;
 
+/**
+ * 接收系统事件
+ */
 class Sysevent extends Controller
 {
+    /**
+     * 接收系统事件
+     * @access public
+     */
     public function index()
+    {
+        $this->verify_url();
+    }
+
+    /**
+     * 验证回调的url
+     */
+    private function verify_url()
     {
         //企业号后台随机填写的encodingAesKey
         $encodingAesKey = "63zypb8isLdXy4hWEwYAhcqjBnoTYAt69YGD62VHzrY";
@@ -36,5 +51,6 @@ class Sysevent extends Controller
         } catch (Exception $e) {
             //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
         }
+
     }
 }

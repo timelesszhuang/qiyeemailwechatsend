@@ -25,16 +25,19 @@ class Sysevent extends Controller
         file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
         try {
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, 'wxe041af5a55ce7365');
-            //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echost 
+            //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echost
+            echo '<pre>';
+            var_dump($wxcpt);
             $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echostr, $reecho);
             echo $reecho;
-	    if ($errCode == 0) {
-                echo $reecho;
+            file_put_contents('a.txt', 'errorcode:' . $errCode, FILE_APPEND);
+            if ($errCode == 0) {
+//                echo $reecho;
             } else {
                 //print $errCode;
             }
         } catch (Exception $e) {
-            file_put_contents('a.txt', $e->getMessage(), FILE_APPEND);
+            file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
         }
     }
 }

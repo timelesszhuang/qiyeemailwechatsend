@@ -8,6 +8,9 @@
  */
 namespace app\common\model;
 
+use think\Config;
+use think\Loader;
+
 class common
 {
     /**
@@ -16,7 +19,7 @@ class common
      */
     public static function phpmemcache()
     {
-        Loader::import('memcache.Memcachemanage', EXTEND_PATH, '.php');
+        Loader::import('memcache.Memcachemanage', EXTEND_PATH, '.class.php');
         $mem = new \Memcachemanage(Config::get('memcache.HOST'), Config::get('memcache.PORT'), Config::get('memcache.EXPIRE'), Config::get('memcache.MEMCACHE_PREFIX'));
         return $mem;
     }

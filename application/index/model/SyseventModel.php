@@ -89,7 +89,7 @@ class SyseventModel
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
                     //还需要 添加到数据库中  防止没有该字段
-                    Db::table('SuiteTicket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
+                    Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;
                 //还有好多的事件需要处理
             }

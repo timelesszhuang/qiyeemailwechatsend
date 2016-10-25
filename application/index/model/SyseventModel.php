@@ -83,9 +83,11 @@ class SyseventModel
             file_put_contents('a.txt', print_r($sMsg, true), FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
+            file_put_contents('a.txt', $info_type, FILE_APPEND);
             switch ($info_type) {
                 case "suite_ticket":
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
+                    file_put_contents('a.txt', $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
                     //还需要 添加到数据库中  防止没有该字段

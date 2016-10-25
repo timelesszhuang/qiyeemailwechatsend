@@ -111,7 +111,8 @@ class SyseventModel
                 //还有好多的事件需要处理
             }
         }
-        echo 'success';
+        header("Content-Type: text/html;charset=utf-8");
+        print 'success';
     }
 
 

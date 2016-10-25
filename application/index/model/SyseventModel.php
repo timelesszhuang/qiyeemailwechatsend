@@ -12,6 +12,7 @@ namespace app\index\model;
 use app\common\model\common;
 use think\Config;
 use think\console\command\make\Model;
+use think\Db;
 use think\Loader;
 use think\Request;
 

@@ -94,7 +94,7 @@ class SyseventModel
                     //还需要 添加到数据库中  防止没有该字段
                     Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;
-                case "auth_code":
+                case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
                     file_put_contents('a.txt', $authcode, FILE_APPEND);

@@ -73,7 +73,9 @@ class SyseventModel
         $msg_signature = urldecode(Request::instance()->param('msg_signature'));
         $timestamp = urldecode(Request::instance()->param('timestamp'));
         $nonce = urldecode(Request::instance()->param('nonce'));
+        file_put_contents('auth.txt', '授权', FILE_APPEND);
         //实例化加解密类
+        //授权的地方不是 使用suite_id 使用 try catch
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $sPostData = file_get_contents("php://input");
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
@@ -111,8 +113,7 @@ class SyseventModel
                 //还有好多的事件需要处理
             }
         }
-        header("Content-Type: text/html;charset=utf-8");
-        print 'success';
+        echo utf8_encode('success');
     }
 
 

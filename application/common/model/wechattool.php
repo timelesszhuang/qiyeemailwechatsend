@@ -23,6 +23,7 @@ class wechattool
     {
         $mem_obj = common::phpmemcache();
         $suite_ticket = $mem_obj->get(Config::get('memcache.SUITE_TICKET'));
+        file_put_contents('a.txt', 'suite_ticket' . $suite_ticket, FILE_APPEND);
         if ($suite_ticket) {
             return $suite_ticket;
         } else {

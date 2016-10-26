@@ -99,8 +99,8 @@ class SyseventModel
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
-                    file_put_contents('a.txt', print_r($sMsg, true), FILE_APPEND);
-                    file_put_contents('a.txt', $authcode, FILE_APPEND);
+                    file_put_contents('a.txt', 'xml:' . print_r($sMsg, true), FILE_APPEND);
+                    file_put_contents('a.txt', 'authcode:' . $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
                     $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
                     file_put_contents('a.txt', '$get_permanent_code_url:' . $get_permanent_code_url, FILE_APPEND);

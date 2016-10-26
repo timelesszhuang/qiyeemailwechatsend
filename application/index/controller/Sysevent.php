@@ -1,10 +1,8 @@
 <?php
 namespace app\index\controller;
 
-use think\Config;
 use think\Controller;
-use think\Loader;
-use think\Request;
+
 use app\common\model\common;
 use app\index\model\SyseventModel;
 
@@ -29,7 +27,6 @@ class Sysevent extends Controller
 //       SyseventModel::test_xml();
         //企业号后台随机填写的encodingAesKey
         SyseventModel::event();
-        file_put_contents('a.txt', SyseventModel::get_suite_ticket(), FILE_APPEND);
     }
 
 

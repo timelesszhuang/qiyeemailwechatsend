@@ -35,32 +35,29 @@ class common
      */
     public static function send_curl_request($url, $data = array(), $flag = 'post')
     {
-        try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-            if ($flag == 'get') {
-                curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
-            } else {
-                curl_setopt($ch, CURLOPT_POST, 1);           // 发送一个常规的Post请求
-                curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Post提交的数据包
-            }
-            curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-            curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-            curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-            curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
-            curl_setopt($ch, CURLOPT_HEADER, 0);            // 显示返回的Header区域内容
-            curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循
-            $temp = curl_exec($ch);
-            curl_close($ch);
-            if (curl_errno($ch)) {
-                file_put_contents('error.log', '发送curl请求错误：' . curl_error($ch) . "\r\n", FILE_APPEND);
-            }
-            file_put_contents('a.txt', $temp, FILE_APPEND);
-            return $temp;
-        } catch (Exception $ex) {
-            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        if ($flag == 'get') {
+            curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "GET");
+        } else {
+            curl_setopt($ch, CURLOPT_POST, 1);           // 发送一个常规的Post请求
+            curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Post提交的数据包
         }
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_HEADER, 0);            // 显示返回的Header区域内容
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循
+        $temp = curl_exec($ch);
+        if (curl_errno($ch)) {
+            file_put_contents('error.log', '发送curl请求错误：' . curl_error($ch) . "\r\n", FILE_APPEND);
+        }
+        curl_close($ch);
+        return $temp;
+
     }
 
 

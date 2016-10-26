@@ -51,6 +51,7 @@ class SyseventModel
                 print $errCode;
             }
         } catch (Exception $e) {
+            
         }
 
     }

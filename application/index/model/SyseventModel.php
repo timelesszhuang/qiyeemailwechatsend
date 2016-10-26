@@ -93,7 +93,7 @@ class SyseventModel
                     file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
-                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;

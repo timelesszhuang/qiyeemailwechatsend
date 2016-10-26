@@ -42,13 +42,16 @@ class wechattool
     public static function get_suite_access_token()
     {
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token';
+        file_put_contents('a.txt', 'suite_token_url' . $url, FILE_APPEND);
         //令牌套件
         $post = [
             'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
             'suite_secret' => Config::get('wechatsuite.EMAILSEND_SECRET'),
             'suite_ticket' => wechattool::get_suite_ticket(),
         ];
-        $info = json_decode(common::send_curl_request($url, $post));
+        $json_info = common::send_curl_request($url, $post);
+        file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
+        $info = json_decode($json_info);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }

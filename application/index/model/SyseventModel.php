@@ -66,7 +66,7 @@ class SyseventModel
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
         $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
-        $corp_id = Config::get('wechatsuite.CORPID');
+//        $corp_id = Config::get('wechatsuite.CORPID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -86,19 +86,21 @@ class SyseventModel
             $xml->loadXML($sMsg);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
-            file_put_contents('a.txt', $info_type, FILE_APPEND);
             switch ($info_type) {
                 case "suite_ticket":
                     //获取　suite_ticket
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
+                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
+                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
+                    file_put_contents('a.txt', $info_type, FILE_APPEND);
                     file_put_contents('a.txt', 'xml:' . print_r($sMsg, true), FILE_APPEND);
                     file_put_contents('a.txt', 'authcode:' . $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息

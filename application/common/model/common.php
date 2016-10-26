@@ -50,19 +50,17 @@ class common
             curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
             curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
             curl_setopt($ch, CURLOPT_HEADER, 0);            // 显示返回的Header区域内容
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循
             $temp = curl_exec($ch);
             curl_close($ch);
             if (curl_errno($ch)) {
-                file_put_contents('error.log', '微信推送消息错误：' . curl_error($ch) . "\r\n", FILE_APPEND);
+                file_put_contents('error.log', '发送curl请求错误：' . curl_error($ch) . "\r\n", FILE_APPEND);
             }
             file_put_contents('a.txt', $temp, FILE_APPEND);
             return $temp;
         } catch (Exception $ex) {
             file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
         }
-
     }
 
 

@@ -48,6 +48,7 @@ class wechattool
             'suite_ticket' => wechattool::get_suite_ticket(),
         ];
         $info = json_decode(common::send_curl_request($url, $post));
+        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }
 

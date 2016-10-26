@@ -66,6 +66,7 @@ class SyseventModel
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
         $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
+        $corp_id = Config::get('wechatsuite.CORPID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -73,17 +74,16 @@ class SyseventModel
         $msg_signature = urldecode(Request::instance()->param('msg_signature'));
         $timestamp = urldecode(Request::instance()->param('timestamp'));
         $nonce = urldecode(Request::instance()->param('nonce'));
-        file_put_contents('auth.txt', '授权', FILE_APPEND);
+//        file_put_contents('auth.txt', '授权', FILE_APPEND);
         //实例化加解密类
-        //授权的地方不是 使用suite_id 使用 try catch
-        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
+        //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
+        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-            file_put_contents('a.txt', print_r($sMsg, true), FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
             file_put_contents('a.txt', $info_type, FILE_APPEND);
@@ -99,16 +99,18 @@ class SyseventModel
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
+                    file_put_contents('a.txt', print_r($sMsg, true), FILE_APPEND);
                     file_put_contents('a.txt', $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
                     $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
+                    file_put_contents('a.txt', '$get_permanent_code_url:' . $get_permanent_code_url, FILE_APPEND);
                     $post = [
                         'suite_id' => $suite_id,
                         'auth_code' => $authcode,
                     ];
                     //永久授权码，并换取授权信息、企业access_token
                     $auth_info = json_decode(common::send_curl_request($get_permanent_code_url, $post, 'post'));
-                    file_put_contents('auth.txt', print_r($auth_info, true), FILE_APPEND);
+                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     break;
                 //还有好多的事件需要处理
             }

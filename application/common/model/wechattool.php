@@ -51,7 +51,7 @@ class wechattool
         ];
         $json_info = common::send_curl_request($url, json_encode($post), 'post');
         file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
-        $info = json_decode($json_info);
+        $info = json_decode($json_info,true);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }

@@ -1,7 +1,94 @@
-<xml>
+
+create_authxml:<xml>
   <SuiteId><![CDATA[tjc6c18d9276c5e886]]></SuiteId>
-  <AuthCode><![CDATA[vkqENY3IlaSxpCSrGbDSrOhytJMSFlsRFxp9_j-L4E1ih5htYfO2GqMJun8aI4eFIxKAoGppgy0qewwlpAec9g]]></AuthCode>
+  <AuthCode><![CDATA[dNRh7NWankMt8I9Kgibf4JZ7AWN9Q7OgePD7W2FaTue8ETAydew_RjRYyC1IWqIu]]></AuthCode>
   <InfoType><![CDATA[create_auth]]></InfoType>
-  <TimeStamp>1477446751</TimeStamp>
+  <TimeStamp>1477468254</TimeStamp>
 </xml>
-create_authvkqENY3IlaSxpCSrGbDSrOhytJMSFlsRFxp9_j-L4E1ih5htYfO2GqMJun8aI4eFIxKAoGppgy0qewwlpAec9g
+authcode:dNRh7NWankMt8I9Kgibf4JZ7AWN9Q7OgePD7W2FaTue8ETAydew_RjRYyC1IWqIusuite_token_urlhttps://qyapi.weixin.qq.com/cgi-bin/service/get_suite_tokensuite_ticketHSG23ryV7cqDzWXP0FsrulN3cPuu48sAQZ69rh7vyPe9dasrYrlt59fqkyOsWgeYjson suite_access_token{"expires_in":7200,"suite_access_token":"-AD0kJzbmiZdOUaXkf263bNrR7puA0ARiHhaffP_q3Z3fEoWgyFvMcWZYvy-ih4a"}suite_access_token:Array
+(
+    [expires_in] => 7200
+    [suite_access_token] => -AD0kJzbmiZdOUaXkf263bNrR7puA0ARiHhaffP_q3Z3fEoWgyFvMcWZYvy-ih4a
+)
+$get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=-AD0kJzbmiZdOUaXkf263bNrR7puA0ARiHhaffP_q3Z3fEoWgyFvMcWZYvy-ih4aauth_info:Array
+(
+    [access_token] => PFQLMTAOpJSaDhSSgD3Y9QiU91-fr2mLOBis43FY3zLL8458gWvZHjzur3GapqrX
+    [expires_in] => 7200
+    [permanent_code] => FDEoERfCfVRL7DmHl3TSrPPu-F9UV_pTgwSDFHCkjBzaqY8jjE7Cv6b1MRC8DOqy
+    [auth_corp_info] => Array
+        (
+            [corpid] => wxe041af5a55ce7365
+            [corp_name] => 易至信企业服务
+            [corp_type] => verified
+            [corp_round_logo_url] => http://mmbiz.qpic.cn/mmbiz_png/XfsnIbrvSfoxsAEuLnbV6Q8tStUpUluv5zSayUKBzg3t7KxcopVqt1iaN1xicib8yBK67f54Y1V0XyS77MvWdLlUQ/0
+            [corp_square_logo_url] => http://wx.qlogo.cn/mmhead/Q3auHgzwzM5hn3qql6bsyuTqEdSezGOaroTtdYRJKJ4icH4N2eTu2vA/0
+            [corp_user_max] => 400
+            [corp_agent_max] => 30
+            [corp_wxqrcode] => http://shp.qpic.cn/bizmp/x975icsyQQicv8Sn8x6ic9NXA6dBSxiavTRtxL9DTlPFbVWviagIvXfPibHg/
+            [corp_full_name] => 北京易至信科技有限公司
+            [subject_type] => 1
+            [verified_end_time] => 1506413540
+        )
+
+    [auth_info] => Array
+        (
+            [is_new_auth] => 1
+            [agent] => Array
+                (
+                    [0] => Array
+                        (
+                            [agentid] => 40
+                            [name] => 网易企业邮箱
+                            [square_logo_url] => /cgi-bin/redirect?url=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmocbiz%2Fx975icsyQQictyhbENawK2XrrNUoEonHD5WAaKbUp5sSmSXeuIQowyyw%2F
+                            [round_logo_url] => 
+                            [appid] => 1
+                            [api_group] => Array
+                                (
+                                )
+
+                            [privilege] => Array
+                                (
+                                    [level] => 2
+                                    [allow_party] => Array
+                                        (
+                                            [0] => 1
+                                        )
+
+                                    [allow_user] => Array
+                                        (
+                                        )
+
+                                    [allow_tag] => Array
+                                        (
+                                        )
+
+                                    [extra_party] => Array
+                                        (
+                                        )
+
+                                    [extra_user] => Array
+                                        (
+                                        )
+
+                                    [extra_tag] => Array
+                                        (
+                                        )
+
+                                )
+
+                        )
+
+                )
+
+            [department] => Array
+                (
+                )
+
+        )
+
+    [auth_user_info] => Array
+        (
+            [email] => guozhen@qiangbi.net
+        )
+
+)

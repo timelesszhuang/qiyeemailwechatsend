@@ -90,10 +90,10 @@ class SyseventModel
                 case "suite_ticket":
                     //获取　suite_ticket
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+//                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
-                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+//                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;
@@ -111,7 +111,8 @@ class SyseventModel
                         'auth_code' => $authcode,
                     ];
                     //永久授权码，并换取授权信息、企业access_token
-                    $auth_info = json_decode(common::send_curl_request($get_permanent_code_url, $post, 'post'));
+                    $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
+                    $auth_info = json_decode($json_auth_info);
                     file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     break;
                 //还有好多的事件需要处理

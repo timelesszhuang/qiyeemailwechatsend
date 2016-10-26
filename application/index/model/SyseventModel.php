@@ -115,7 +115,7 @@ class SyseventModel
                 //还有好多的事件需要处理
             }
         }
-        echo utf8_encode('success');
+        echo 'success';
     }
 
 

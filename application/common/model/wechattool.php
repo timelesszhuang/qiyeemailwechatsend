@@ -49,7 +49,7 @@ class wechattool
             'suite_secret' => Config::get('wechatsuite.EMAILSEND_SECRET'),
             'suite_ticket' => wechattool::get_suite_ticket(),
         ];
-        $json_info = common::send_curl_request($url, $post);
+        $json_info = common::send_curl_request($url, $post, 'post');
         file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);

@@ -121,3 +121,186 @@ $get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanen
     [mobile] => 15254124776
     [userid] => guozhen
 )
+create_authxml:<xml>
+  <SuiteId><![CDATA[tjc6c18d9276c5e886]]></SuiteId>
+  <AuthCode><![CDATA[1za2XinLjrWu1EThD1abzl0H2lWW4vhKryWMZinDeZFAiIJuGgZY7Glyb_-TxrQYbbh7zHZbEmT7ezuBfQdpIQ]]></AuthCode>
+  <InfoType><![CDATA[create_auth]]></InfoType>
+  <TimeStamp>1477554229</TimeStamp>
+</xml>
+authcode:1za2XinLjrWu1EThD1abzl0H2lWW4vhKryWMZinDeZFAiIJuGgZY7Glyb_-TxrQYbbh7zHZbEmT7ezuBfQdpIQsuite_token_urlhttps://qyapi.weixin.qq.com/cgi-bin/service/get_suite_tokensuite_ticketHSG23ryV7cqDzWXP0FsruoWVX5yo2I1Ecq5MDLLp2fjuI5aZHj7HCJI4rDL4jl6mjson suite_access_token{"expires_in":7200,"suite_access_token":"0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH"}suite_access_token:Array
+(
+    [expires_in] => 7200
+    [suite_access_token] => 0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH
+)
+$get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH||||add_auth_corp_info:Array
+(
+    [corp_id] => wxe041af5a55ce7365
+    [corp_name] => 易至信企业服务
+    [permanent_code] => X2Cl9whPhUageml5TAGcr2nog7r8NacqhumJJP_WHpmRvtF_fYOwCprXQ3poLxtE
+    [corp_type] => verified
+    [corp_round_logo_url] => http://mmbiz.qpic.cn/mmbiz_png/XfsnIbrvSfoxsAEuLnbV6Q8tStUpUluv5zSayUKBzg3t7KxcopVqt1iaN1xicib8yBK67f54Y1V0XyS77MvWdLlUQ/0
+    [corp_square_logo_url] => http://wx.qlogo.cn/mmhead/Q3auHgzwzM5hn3qql6bsyuTqEdSezGOaroTtdYRJKJ4icH4N2eTu2vA/0
+    [corp_user_max] => 400
+    [corp_agent_max] => 30
+    [corp_wxqrcode] => http://shp.qpic.cn/bizmp/x975icsyQQicv8Sn8x6ic9NXA6dBSxiavTRtxL9DTlPFbVWviagIvXfPibHg/
+    [corp_full_name] => 北京易至信科技有限公司
+    [subject_type] => 1
+    [verified_end_time] => 1506413540
+    [email] => 
+    [mobile] => 15254124776
+    [userid] => guozhen
+    [addtime] => 1477554229
+    [edittime] => 1477554229
+)
+create_authxml:<xml>
+  <SuiteId><![CDATA[tjc6c18d9276c5e886]]></SuiteId>
+  <AuthCode><![CDATA[15W2jlA7gfxJ_zS7IZ1L3mIodYtjUEzsBXUH-7F4iirbJ1tHx4a9QX7-bgViREVwP2xycHsJudm390ksq-pVQw]]></AuthCode>
+  <InfoType><![CDATA[create_auth]]></InfoType>
+  <TimeStamp>1477556345</TimeStamp>
+</xml>
+authcode:15W2jlA7gfxJ_zS7IZ1L3mIodYtjUEzsBXUH-7F4iirbJ1tHx4a9QX7-bgViREVwP2xycHsJudm390ksq-pVQwsuite_token_urlhttps://qyapi.weixin.qq.com/cgi-bin/service/get_suite_tokensuite_ticketHSG23ryV7cqDzWXP0FsruliewMMAxcCd3TMaQhrVsLPYiJd6WD1qaXMLIh-ktaOgjson suite_access_token{"expires_in":7200,"suite_access_token":"0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH"}suite_access_token:Array
+(
+    [expires_in] => 7200
+    [suite_access_token] => 0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH
+)
+$get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH||||add_auth_corp_info:Array
+(
+    [corp_id] => wxe041af5a55ce7365
+    [corp_name] => 易至信企业服务
+    [permanent_code] => f6gTD5qIegbdAQjFFC9X-Pr6JSmQuAm3ioVFPTNcDy6iDm4PlK1RwqnxYtZAlkMH
+    [corp_type] => verified
+    [corp_round_logo_url] => http://mmbiz.qpic.cn/mmbiz_png/XfsnIbrvSfoxsAEuLnbV6Q8tStUpUluv5zSayUKBzg3t7KxcopVqt1iaN1xicib8yBK67f54Y1V0XyS77MvWdLlUQ/0
+    [corp_square_logo_url] => http://wx.qlogo.cn/mmhead/Q3auHgzwzM5hn3qql6bsyuTqEdSezGOaroTtdYRJKJ4icH4N2eTu2vA/0
+    [corp_user_max] => 400
+    [corp_agent_max] => 30
+    [corp_wxqrcode] => http://shp.qpic.cn/bizmp/x975icsyQQicv8Sn8x6ic9NXA6dBSxiavTRtxL9DTlPFbVWviagIvXfPibHg/
+    [corp_full_name] => 北京易至信科技有限公司
+    [subject_type] => 1
+    [verified_end_time] => 1506413540
+    [email] => 
+    [mobile] => 15254124776
+    [userid] => guozhen
+    [addtime] => 1477556345
+    [edittime] => 1477556345
+)
+||||agent_auth_info:Array
+(
+    [is_new_auth] => 1
+    [agent] => Array
+        (
+            [0] => Array
+                (
+                    [agentid] => 43
+                    [name] => 网易企业邮箱
+                    [square_logo_url] => /cgi-bin/redirect?url=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmocbiz%2Fx975icsyQQictyhbENawK2XrrNUoEonHD5WAaKbUp5sSmSXeuIQowyyw%2F
+                    [round_logo_url] => 
+                    [appid] => 1
+                    [api_group] => Array
+                        (
+                        )
+
+                    [privilege] => Array
+                        (
+                            [level] => 2
+                            [allow_party] => Array
+                                (
+                                    [0] => 1
+                                    [1] => 2
+                                    [2] => 3
+                                )
+
+                            [allow_user] => Array
+                                (
+                                )
+
+                            [allow_tag] => Array
+                                (
+                                )
+
+                            [extra_party] => Array
+                                (
+                                )
+
+                            [extra_user] => Array
+                                (
+                                )
+
+                            [extra_tag] => Array
+                                (
+                                )
+
+                        )
+
+                )
+
+        )
+
+    [department] => Array
+        (
+        )
+
+)
+||||per_agent_info:Array
+(
+    [agentid] => 43
+    [name] => 网易企业邮箱
+    [square_logo_url] => /cgi-bin/redirect?url=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmocbiz%2Fx975icsyQQictyhbENawK2XrrNUoEonHD5WAaKbUp5sSmSXeuIQowyyw%2F
+    [round_logo_url] => 
+    [appid] => 1
+    [api_group] => Array
+        (
+        )
+
+    [privilege] => Array
+        (
+            [level] => 2
+            [allow_party] => Array
+                (
+                    [0] => 1
+                    [1] => 2
+                    [2] => 3
+                )
+
+            [allow_user] => Array
+                (
+                )
+
+            [allow_tag] => Array
+                (
+                )
+
+            [extra_party] => Array
+                (
+                )
+
+            [extra_user] => Array
+                (
+                )
+
+            [extra_tag] => Array
+                (
+                )
+
+        )
+
+)
+||||add_auth_agent_info:Array
+(
+    [0] => Array
+        (
+            [corp_id] => 3
+            [agentid] => 43
+            [appid] => 1
+            [name] => 网易企业邮箱
+            [square_logo_url] => /cgi-bin/redirect?url=http%3A%2F%2Fmmbiz.qpic.cn%2Fmmocbiz%2Fx975icsyQQictyhbENawK2XrrNUoEonHD5WAaKbUp5sSmSXeuIQowyyw%2F
+            [round_logo_url] => 
+            [level] => 2
+            [allow_party] => ,1,2,3,
+            [allow_tag] => ,,
+            [allow_user] => ,,
+            [extra_party] => ,,
+            [extra_user] => ,,
+            [extra_tag] => ,,
+        )
+
+)

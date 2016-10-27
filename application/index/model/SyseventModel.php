@@ -26,7 +26,6 @@ class SyseventModel
      */
     public static function verify_url()
     {
-        exit();
         $encodingAesKey = Config::get('EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('EMAILSEND_TOKEN');
@@ -114,6 +113,9 @@ class SyseventModel
                     //永久授权码，并换取授权信息、企业access_token
                     $json_auth_info = common::send_curl_request($get_permanent_code_url, json_encode($post), 'post');
                     $auth_info = json_decode($json_auth_info, true);
+                    if (!auth::analyse_corp_auth($auth_info)) {
+                        return;
+                    }
                     file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     break;
                 //还有好多的事件需要处理

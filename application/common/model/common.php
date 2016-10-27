@@ -9,6 +9,7 @@
 namespace app\common\model;
 
 use think\Config;
+use think\Db;
 use think\image\Exception;
 use think\Loader;
 
@@ -57,8 +58,19 @@ class common
         }
         curl_close($ch);
         return $temp;
-
     }
 
+    /**
+     * log 日志 触发相关操作
+     * @access public
+     * @param $type 错误的类型
+     * @param $info 状态
+     * @return int|string
+     */
+    public static function add_log($type, $info)
+    {
+        //系统日志表
+        return Db::name('sm_log')->insertGetId(['type' => $type, 'info' => $info, 'addtime' => time()]);
+    }
 
 }

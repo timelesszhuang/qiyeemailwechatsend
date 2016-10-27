@@ -92,3 +92,32 @@ $get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanen
         )
 
 )
+create_authxml:<xml>
+  <SuiteId><![CDATA[tjc6c18d9276c5e886]]></SuiteId>
+  <AuthCode><![CDATA[GLJHYjP8iUzPzPzWOX54Q0mc4m9fB2D0wwltwlZm7M6FtdlhrlW-ZzYQYve4GhNJ5FIPAYm6QRNxy5TD7TsUzg]]></AuthCode>
+  <InfoType><![CDATA[create_auth]]></InfoType>
+  <TimeStamp>1477552128</TimeStamp>
+</xml>
+authcode:GLJHYjP8iUzPzPzWOX54Q0mc4m9fB2D0wwltwlZm7M6FtdlhrlW-ZzYQYve4GhNJ5FIPAYm6QRNxy5TD7TsUzgsuite_token_urlhttps://qyapi.weixin.qq.com/cgi-bin/service/get_suite_tokensuite_ticketHSG23ryV7cqDzWXP0Fsruj3Noq4JKSTsRXHRC52md4ZaZimAadQlfo-2h5Y1qg4ujson suite_access_token{"expires_in":7200,"suite_access_token":"0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH"}suite_access_token:Array
+(
+    [expires_in] => 7200
+    [suite_access_token] => 0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH
+)
+$get_permanent_code_url:https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=0fGqWCWD0KTtA8vg0WM1pk3hJhGcjM3s07dltR4PlVhQpUNpi0vlA8fevFK1GwdH||||add_auth_corp_info:Array
+(
+    [corp_id] => wxe041af5a55ce7365
+    [corp_name] => 易至信企业服务
+    [permanent_code] => HarTWd-Le9R_PQsRi_GmkZAdLF_eA86wkVyLLTeaMigwMlkheBhdSBnWUTEFOOqX
+    [corp_type] => verified
+    [corp_round_logo_url] => http://mmbiz.qpic.cn/mmbiz_png/XfsnIbrvSfoxsAEuLnbV6Q8tStUpUluv5zSayUKBzg3t7KxcopVqt1iaN1xicib8yBK67f54Y1V0XyS77MvWdLlUQ/0
+    [corp_square_logo_url] => http://wx.qlogo.cn/mmhead/Q3auHgzwzM5hn3qql6bsyuTqEdSezGOaroTtdYRJKJ4icH4N2eTu2vA/0
+    [corp_user_max] => 400
+    [corp_agent_max] => 30
+    [corp_wxqrcode] => http://shp.qpic.cn/bizmp/x975icsyQQicv8Sn8x6ic9NXA6dBSxiavTRtxL9DTlPFbVWviagIvXfPibHg/
+    [corp_full_name] => 北京易至信科技有限公司
+    [subject_type] => 1
+    [verified_end_time] => 1506413540
+    [email] => 
+    [mobile] => 15254124776
+    [userid] => guozhen
+)

@@ -58,10 +58,11 @@ class auth
             return false;
         }
         $agent_auth_info = $auth_info['auth_info'];
+        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         $add_auth_agent_info = [];
         foreach ($agent_auth_info['agent'] as $k => $v) {
-            if (array_key_exists('privilege', $v)) {
-                $privilege = $v['privilege'];
+            file_put_contents('a.txt', '||||per_agent_info:' . print_r($v, true), FILE_APPEND);
+            $privilege = array_key_exists('privilege', $v) ? $v['privilege'] : [];
 //                "privilege":{
 //                          "level":1,
 //                          "allow_party":[1,2,3],           应用可见范围（部门）
@@ -71,21 +72,20 @@ class auth
 //                          "extra_user":["wangwu"],         额外通讯录（成员）
 //                          "extra_tag":[4,5,6]              额外通讯录（标签）
 //                     }
-            }
             $per_agent_info = [
                 'corp_id' => $corp_id,
-                'agent_id' => $v['agent_id'], //授权方应用id
+                'agentid' => $v['agentid'], //授权方应用id
                 'appid' => $v['appid'], //服务商套件中的对应应用id
                 'name' => $v['name'],   //授权方应用名字
                 'square_logo_url' => $v['square_logo_url'],        //授权方应用方形头像
                 'round_logo_url' => $v['round_logo_url'],          //授权方应用圆形头像
                 'level' => $privilege['level'] ?: '',              //权限等级, 1: 标识信息只读, 2:信息只读, 3：信息读写
-                'allow_party' => $privilege['allow_party'] ?: '',  //应用可见范围（部门）
-                'allow_tag' => $privilege['allow_tag'] ?: '',      //应用可见范围（标签）
-                'allow_user' => $privilege['allow_user'] ?: '',    //应用可见范围（成员）
-                'extra_party' => $privilege['extra_party'] ?: '',  //额外通讯录（部门）
-                'extra_user' => $privilege['extra_user'] ?: '',    //额外通讯录（成员）
-                'extra_tag' => $privilege['extra_tag'] ?: '',      //额外通讯录（标签）
+                'allow_party' => array_key_exists('allow_party', $privilege) ? ',' . implode(',', $privilege['allow_party']) . ',' : '',  //应用可见范围（部门）
+                'allow_tag' => array_key_exists('allow_tag', $privilege) ? ',' . implode(',', $privilege['allow_tag']) . ',' : '',      //应用可见范围（标签）
+                'allow_user' => array_key_exists('allow_user', $privilege) ? ',' . implode(',', $privilege['allow_user']) . ',' : '',    //应用可见范围（成员）
+                'extra_party' => array_key_exists('extra_party', $privilege) ? ',' . implode(',', $privilege['extra_party']) . ',' : '',  //额外通讯录（部门）
+                'extra_user' => array_key_exists('extra_user', $privilege) ? ',' . implode(',', $privilege['extra_user']) . ',' : '',    //额外通讯录（成员）
+                'extra_tag' => array_key_exists('extra_tag', $privilege) ? ',' . implode(',', $privilege['extra_tag']) . ',' : '',      //额外通讯录（标签）
             ];
             $add_auth_agent_info[] = $per_agent_info;
         }

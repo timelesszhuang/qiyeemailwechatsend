@@ -116,7 +116,7 @@ class SyseventModel
                     if (!auth::analyse_init_corp_auth($auth_info)) {
                         return;
                     }
-//                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+                    //file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     break;
                 case 'change_auth':
                     $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;

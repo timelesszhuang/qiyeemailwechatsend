@@ -153,8 +153,9 @@ class auth
      * @param $corp_id
      * @return array
      */
-    public function analyse_agent_info($agent_info, $corp_id)
+    public static function analyse_agent_info($agent_info, $corp_id)
     {
+        file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         $add_auth_agent_info = [];
         foreach ($agent_info as $k => $v) {
             file_put_contents('a.txt', '||||per_agent_info:' . print_r($v, true), FILE_APPEND);

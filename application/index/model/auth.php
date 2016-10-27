@@ -118,7 +118,7 @@ class auth
      */
     public static function add_auth_agent_info($d)
     {
-        return Db::name('auth_corp_info')->insertAll($d);
+        return Db::name('agent_auth_info')->insertAll($d);
     }
 
 

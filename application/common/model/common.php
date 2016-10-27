@@ -70,7 +70,7 @@ class common
     public static function add_log($type, $info)
     {
         //系统日志表
-        return Db::name('sm_log')->insertGetId(['type' => $type, 'info' => $info, 'addtime' => time()]);
+        return Db::name('log')->insertGetId(['type' => $type, 'info' => $info, 'addtime' => time()]);
     }
 
 }

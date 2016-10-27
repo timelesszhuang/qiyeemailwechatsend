@@ -46,6 +46,8 @@ class auth
             'email' => array_key_exists('email', $auth_user_info) ? $auth_user_info['email'] : '',
             'mobile' => array_key_exists('mobile', $auth_user_info) ? $auth_user_info['mobile'] : '',
             'userid' => array_key_exists('userid', $auth_user_info) ? $auth_user_info['userid'] : '',
+            'addtime' => time(),
+            'edittime' => time(),
         ];
         file_put_contents('a.txt', '||||add_auth_corp_info:' . print_r($add_auth_corp_info, true), FILE_APPEND);
         //首先先添加 授权的公司信息 然后返回id
@@ -104,7 +106,7 @@ class auth
      */
     public static function add_auth_corp_info($d)
     {
-        return Db::name('sm_auth_corp_info')->insertGetId($d);
+        return Db::name('auth_corp_info')->insertGetId($d);
     }
 
 
@@ -116,7 +118,7 @@ class auth
      */
     public static function add_auth_agent_info($d)
     {
-        return Db::name('sm_auth_corp_info')->insertAll($d);
+        return Db::name('auth_corp_info')->insertAll($d);
     }
 
 

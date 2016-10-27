@@ -3,6 +3,7 @@
  * 微信相关 工具操作
  * User: timeless
  * Date: 16-10-25
+ * Date: 16-10-25
  * Time: 下午5:40
  */
 
@@ -27,7 +28,7 @@ class wechattool
         if ($suite_ticket) {
             return $suite_ticket;
         } else {
-            $info = Db::table('SuiteTicket')->where('id', 1)->find();
+            $info = Db::name('suite_ticket')->where('id', 1)->find();
             $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $info['suite_ticket']);
             return $info['suite_ticket'];
         }

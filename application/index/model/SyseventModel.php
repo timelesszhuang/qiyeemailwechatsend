@@ -66,7 +66,7 @@ class SyseventModel
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
         $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
-//        $corp_id = Config::get('wechatsuite.CORPID');
+//      $corp_id = Config::get('wechatsuite.CORPID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -95,7 +95,7 @@ class SyseventModel
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
 //                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
-                    Db::table('sm_suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
+                    Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1]);
                     break;
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
@@ -132,7 +132,8 @@ class SyseventModel
     public static function test_xml()
     {
         //测试获取 suite ticket
-        /*        $suite_xml = <<<suite
+        /*
+        $suite_xml = <<<suite
         <xml><SuiteId ><![CDATA[tjc6c18d9276c5e886]]></SuiteId >
         <SuiteTicket ><![CDATA[HSG23ryV7cqDzWXP0FsruvXFOgWEkqcgjD - XMdDlvcierAKeKe4TPrj7KOF4k9yB]]></SuiteTicket >
         <InfoType ><![CDATA[suite_ticket]]></InfoType >

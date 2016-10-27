@@ -1,6 +1,7 @@
 <?php
 namespace app\index\controller;
 
+use app\index\model\auth;
 use think\Controller;
 
 use app\common\model\common;

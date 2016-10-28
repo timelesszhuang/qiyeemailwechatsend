@@ -18,10 +18,37 @@ class Login extends Controller
      */
     public function index()
     {
+        //获取登陆这的相关信息
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
-        $post = json_encode(['auth_code' => Request::instance()->param('auth_code')]);
+        $auth_code = Request::instance()->param('auth_code');
+        if (!$auth_code) {
+            exit('请求异常');
+        }
+        $post = json_encode(['auth_code' => $auth_code]);
         $json_login_info = common::send_curl_request($url, $post, 'post');
-        print_r($json_login_info);
+        $info = json_decode($json_login_info, true);
+        $user_type = $info['usertype'];
+        if ($user_type == 5) {
+            exit('您没有权限访问');
+        }
+        $email = $info['email'];
+        $corpid = $info['corp_info']['corpid'];
+        $login_ticket = $info['redirect_login_info']['login_ticket'];
+
+
+        //获取的登陆的 url
+        $get_login_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_url?access_token=' . wechattool::get_provider_token();
+        $post = json_encode([
+            'login_ticket' => $login_ticket,
+            'target' => 'agent_setting',
+            'agentid' => 49,
+        ]);
+        $json_login_url_info = common::send_curl_request($url, $post, 'post');
+        $login_url_info = json_decode($json_login_info, true);
+        if ($login_url_info['errcode'] != 0) {
+            exit('参数异常，请重试');
+        }
+        header('Location:' . $login_url_info['login_url']);
     }
 
 }

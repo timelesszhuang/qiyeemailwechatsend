@@ -1,9 +1,10 @@
 <?php
 namespace app\admin\controller;
 
+use app\common\model\common;
 use app\common\model\wechattool;
-use app\index\model\auth;
 use think\Controller;
+use think\Request;
 
 
 /**
@@ -18,7 +19,7 @@ class Login extends Controller
     public function index()
     {
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
-        $post = json_encode(['auth_code' => Config::get('auth_code')]);
+        $post = json_encode(['auth_code' => Request::instance()->param('auth_code')]);
         $json_login_info = common::send_curl_request($url, $post, 'post');
         print_r($json_login_info);
     }

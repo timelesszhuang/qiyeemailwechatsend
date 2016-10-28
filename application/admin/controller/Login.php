@@ -46,7 +46,7 @@ class Login extends Controller
         ]);
         $json_login_url_info = common::send_curl_request($get_login_url, $post, 'post');
         $login_url_info = json_decode($json_login_url_info, true);
-	print_r($login_url_info);
+        //print_r($login_url_info);
         if ($login_url_info['errcode'] != 0) {
             exit('参数异常，请重试');
         }	

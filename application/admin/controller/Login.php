@@ -18,6 +18,7 @@ class Login extends Controller
      */
     public function index()
     {
+	
         //获取登陆这的相关信息
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
         $auth_code = Request::instance()->param('auth_code');
@@ -31,7 +32,7 @@ class Login extends Controller
         if ($user_type == 5) {
             exit('您没有权限访问');
         }
-        $email = $info['email'];
+        $email = $info['user_info']['email'];
         $corpid = $info['corp_info']['corpid'];
         $login_ticket = $info['redirect_login_info']['login_ticket'];
 
@@ -43,11 +44,12 @@ class Login extends Controller
             'target' => 'agent_setting',
             'agentid' => 49,
         ]);
-        $json_login_url_info = common::send_curl_request($url, $post, 'post');
-        $login_url_info = json_decode($json_login_info, true);
+        $json_login_url_info = common::send_curl_request($get_login_url, $post, 'post');
+        $login_url_info = json_decode($json_login_url_info, true);
+	print_r($login_url_info);
         if ($login_url_info['errcode'] != 0) {
             exit('参数异常，请重试');
-        }
+        }	
         header('Location:' . $login_url_info['login_url']);
     }
 

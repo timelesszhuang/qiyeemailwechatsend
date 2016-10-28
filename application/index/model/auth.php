@@ -65,7 +65,7 @@ class auth
         $auth_corp_info_arr = $auth_info['auth_corp_info'];
         // 认证的 公司的信息 要 添加到数据库中的数据  分析为 添加到数据库中的数据
         $edit_auth_corp_info = self::analyse_changeauth_corp_info($auth_corp_info_arr);
-        file_put_contents('a.txt', '||||add_auth_corp_info:' . print_r($edit_auth_corp_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||edit_auth_corp_info:' . print_r($edit_auth_corp_info, true), FILE_APPEND);
         //修改 授权的公司信息
         $corp_id = self::edit_auth_corp_info($edit_auth_corp_info);
         //错误信息更新到 数据库中
@@ -78,7 +78,7 @@ class auth
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
         $edit_auth_agent_info = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
-        file_put_contents('a.txt', '||||add_auth_agent_info:' . print_r($edit_auth_agent_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||edit_auth_agent_info:' . print_r($edit_auth_agent_info, true), FILE_APPEND);
         //修改授权的应用相关信息 数据库
         if (!self::edit_auth_agent_info($edit_auth_agent_info)) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));
@@ -241,6 +241,20 @@ class auth
             $v['id'] = Db::table('agent_auth_info')->where($map)->find()['id'];
             Db::name('agent_auth_info')->update($v);
         }
+        return true;
+    }
+
+    /**
+     * 取消授权信息
+     * @access public
+     * @param $corp_id  微信的corp_id
+     * @return bool
+     */
+    public static function cancel_auth($corp_id)
+    {
+        $map['corp_id'] = $corp_id;
+        // 把查询条件传入查询方法
+        Db::name('agent_auth_info')->where($map)->update(['status' => '20', 'edittime' => time()]);
         return true;
     }
 

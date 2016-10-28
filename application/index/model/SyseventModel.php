@@ -90,7 +90,7 @@ class SyseventModel
                 case "suite_ticket":
                     //获取　suite_ticket
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-//                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+//                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
 //                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
@@ -121,7 +121,8 @@ class SyseventModel
                 case 'change_auth':
                     $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;
                     //根据corp_id 查询永久授权码
-                    $permanent_code = DB::name('auth_corp_info')->where('corp_id', $corp_id)->find()['$permanent_code'];
+                    $permanent_code = DB::name('auth_corp_info')->where('corp_id', $corp_id)->find()['permanent_code'];
+                    file_put_contents('a.txt', '|||||permanent' . $permanent_code, FILE_APPEND);
                     $get_changed_auth_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info?suite_access_token=' . wechattool::get_suite_access_token();
                     $post = json_encode([
                         'suite_id' => $suite_id,
@@ -129,10 +130,15 @@ class SyseventModel
                         'permanent_code' => $permanent_code,
                     ]);
                     $json_auth_info = common::send_curl_request($get_changed_auth_url, $post, 'post');
+                    file_put_contents('a.txt', '|||||json_auth_info' . $json_auth_info, FILE_APPEND);
                     $auth_info = json_decode($json_auth_info, true);
                     if (!auth::analyse_changeauth_corp_auth($auth_info)) {
                         return;
                     }
+                    break;
+                case 'cancel_auth':
+                    //取消授权信息
+                    auth::cancel_auth($xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue);
                     break;
                 //还有好多的事件需要处理
             }

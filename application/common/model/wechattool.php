@@ -45,16 +45,36 @@ class wechattool
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token';
         file_put_contents('a.txt', 'suite_token_url' . $url, FILE_APPEND);
         //令牌套件
-        $post = [
+        $post = json_encode([
             'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
             'suite_secret' => Config::get('wechatsuite.EMAILSEND_SECRET'),
             'suite_ticket' => wechattool::get_suite_ticket(),
-        ];
-        $json_info = common::send_curl_request($url, json_encode($post), 'post');
+        ]);
+        $json_info = common::send_curl_request($url, $post, 'post');
         file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
-        $info = json_decode($json_info,true);
+        $info = json_decode($json_info, true);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }
+
+
+    /**
+     * 获取服务提供商的 凭证
+     * @access public
+     */
+    public static function get_provider_token()
+    {
+        $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token';
+        $post = json_encode([
+            'corp_id' => Config::get('wechatsuite.CORPID'),
+            'provider_secret' => Config::get('wechatsuite.6QjcE3f4nt9VBcbsgLYRmDzA6uOaQf4BLn3IsqnXUMJ8Yefkt1wNvBRPRz_j9Urk'),
+        ]);
+        $json_info = common::send_curl_request($url, $post, 'post');
+        file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
+        $info = json_decode($json_info, true);
+        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
+        return $info['provider_access_token'];
+    }
+
 
 }

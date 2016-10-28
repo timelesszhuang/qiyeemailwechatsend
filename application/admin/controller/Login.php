@@ -34,9 +34,9 @@ class Login extends Controller
         }
         $email = $info['user_info']['email'];
         $corpid = $info['corp_info']['corpid'];
+        //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
-
-
+        
         //获取的登陆的 url
         $get_login_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_url?access_token=' . wechattool::get_provider_token();
         $post = json_encode([

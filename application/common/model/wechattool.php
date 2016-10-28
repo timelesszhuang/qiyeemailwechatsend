@@ -69,7 +69,6 @@ class wechattool
             'corpid' => Config::get('wechatsuite.CORPID'),
             'provider_secret' => Config::get('wechatsuite.PROVIDERSECRET'),
         ]);
-        print_r($post);
         $json_info = common::send_curl_request($url, $post, 'post');
         file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);

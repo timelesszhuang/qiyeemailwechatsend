@@ -66,14 +66,13 @@ class wechattool
     {
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token';
         $post = json_encode([
-            'corp_id' => Config::get('wechatsuite.CORPID'),
+            'corpid' => Config::get('wechatsuite.CORPID'),
             'provider_secret' => Config::get('wechatsuite.PROVIDERSECRET'),
         ]);
         print_r($post);
         $json_info = common::send_curl_request($url, $post, 'post');
         file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['provider_access_token'];
     }

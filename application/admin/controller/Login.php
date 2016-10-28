@@ -18,7 +18,7 @@ class Login extends Controller
      */
     public function index()
     {
-	
+
         //获取登陆这的相关信息
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
         $auth_code = Request::instance()->param('auth_code');
@@ -36,7 +36,7 @@ class Login extends Controller
         $corpid = $info['corp_info']['corpid'];
         //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
-        
+
         //获取的登陆的 url
         $get_login_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_url?access_token=' . wechattool::get_provider_token();
         $post = json_encode([
@@ -49,7 +49,8 @@ class Login extends Controller
         //print_r($login_url_info);
         if ($login_url_info['errcode'] != 0) {
             exit('参数异常，请重试');
-        }	
+        }
+        echo $login_url_info['login_url'];
         header('Location:' . $login_url_info['login_url']);
     }
 

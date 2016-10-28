@@ -23,4 +23,5 @@ class Login extends Controller
         $json_login_info = common::send_curl_request($url, $post, 'post');
         print_r($json_login_info);
     }
+
 }

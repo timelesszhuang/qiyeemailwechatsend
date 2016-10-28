@@ -36,22 +36,31 @@ class Login extends Controller
         $corpid = $info['corp_info']['corpid'];
         //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
+        //然后根据 login——icket
+    }
 
+
+    /**
+     * 从 我们的 管理后台跳转到 微信管理后台的页面
+     * @param $login_ticket 登陆的相关信息
+     * @param $agentid 客户 授权方的 应用id 比如我的是 49
+     */
+    public function login_wechat($login_ticket, $agentid)
+    {
         //获取的登陆的 url
         $get_login_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_url?access_token=' . wechattool::get_provider_token();
         $post = json_encode([
             'login_ticket' => $login_ticket,
             'target' => 'agent_setting',
-            'agentid' => 49,
+            'agentid' => $agentid,
         ]);
         $json_login_url_info = common::send_curl_request($get_login_url, $post, 'post');
         $login_url_info = json_decode($json_login_url_info, true);
-        //print_r($login_url_info);
         if ($login_url_info['errcode'] != 0) {
             exit('参数异常，请重试');
         }
-        echo $login_url_info['login_url'];
         header('Location:' . $login_url_info['login_url']);
     }
+
 
 }

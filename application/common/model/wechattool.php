@@ -11,6 +11,7 @@ namespace app\common\model;
 
 
 use think\Config;
+use think\console\Command;
 use think\Db;
 
 class wechattool
@@ -85,7 +86,7 @@ class wechattool
      */
     public static function get_corp_access_token($auth_corpid, $permanent_code)
     {
-        $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token?suite_access_token=SUITE_ACCESS_TOKEN';
+        $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token?suite_access_token=' . self::get_suite_access_token();
         $post = json_encode([
             'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
             'auth_corpid' => $auth_corpid,

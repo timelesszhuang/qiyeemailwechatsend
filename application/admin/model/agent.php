@@ -156,7 +156,7 @@ class agent
             "text" => [
                 "content" => '赵兴壮 历尽千辛万苦 终于成功了，真是心累呀。'
             ],
-        ]);
+        ], JSON_UNESCAPED_UNICODE);
         $info = common::send_curl_request($send_msg_url, $post, 'post');
         file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
     }

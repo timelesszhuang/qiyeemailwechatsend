@@ -35,7 +35,7 @@ class Usercallback
                 } catch (Exception $e) {
                     //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
                 }*/
-
+	file_put_contents('a.txt','1',FILE_APPEND);
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
@@ -52,10 +52,12 @@ class Usercallback
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
+        file_put_contents('a.txt','init_data'.$sPostData,FILE_APPEND);
+	$wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
-        if ($errCode == 0) {
+        file_put_contents('a.txt','errorcode'.$errcode,FILE_APPEND);
+	if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
             $reqToUserName = $xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;

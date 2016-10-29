@@ -43,7 +43,6 @@ class Usercallback
 </xml>
          */
 
-
         file_put_contents('a.txt', '1', FILE_APPEND);
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
@@ -61,11 +60,11 @@ class Usercallback
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
         file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
-/*        $p_xml = new \DOMDocument();
+        $p_xml = new \DOMDocument();
         $p_xml->loadXML($sPostData);
-        $reqToUserName = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;*/
-        
-        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
+        $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
+        $agent_id= $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
+        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
         file_put_contents('a.txt', 'errorcode' . $errCode, FILE_APPEND);

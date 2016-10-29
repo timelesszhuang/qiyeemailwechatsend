@@ -21,6 +21,7 @@ class agent
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
+        $corp_id = Config::get('wechatsuite.CORPID');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -30,12 +31,6 @@ class agent
         $nonce = urldecode(Request::instance()->param('nonce'));
         $echostr = urldecode(Request::instance()->param('echostr'));
         //实例化加解密类
-        $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
-        $p_xml = new \DOMDocument();
-        $p_xml->loadXML($sPostData);
-        $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
-        $agent_id = $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
         file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
         try {
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
@@ -50,6 +45,8 @@ class agent
         } catch (Exception $e) {
             //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
         }
+
+
     }
 
 

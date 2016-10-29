@@ -9,6 +9,8 @@
 namespace app\admin\model;
 
 
+use app\common\model\common;
+use app\common\model\wechattool;
 use think\Config;
 use think\Loader;
 use think\Request;
@@ -45,8 +47,6 @@ class agent
         } catch (Exception $e) {
             //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
         }
-
-
     }
 
 
@@ -56,7 +56,6 @@ class agent
      */
     public static function event()
     {
-
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
@@ -93,7 +92,7 @@ class agent
                     switch ($reqEvent) {
                         //进入事件
                         case "enter_agent":
-//                            $this->enter_agent();
+                            self::enter_agent($corp_id, $agent_id, $reqFromUserName);
                             break;
                     }
                     break;
@@ -135,6 +134,31 @@ class agent
 
         }
 
+    }
+
+
+    /**
+     * 进入应用之后的相关操作
+     * @access public
+     * @param $corp_id  进入应用的公司的 corp_id
+     * @param $agent_id  进入的应用的 id 这个是 授权者 授权之后的应用位置
+     * @param $reqFromUserName  请求来自哪个 微信id
+     */
+    public static function enter_agent($corp_id, $agent_id, $reqFromUserName)
+    {
+        $permanent_code = cachetool::get_permanent_code_by_corpid($corp_id);
+        //根据 corp_id 获取永久授权码
+        $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corp_id, $permanent_code);
+        $post = json_encode([
+            "touser" => $reqFromUserName,
+            "msgtype" => "text",
+            "agentid" => $agent_id,
+            "text" => [
+                "content" => '赵兴壮 历尽千辛万苦 终于成功了，真是心累呀。'
+            ],
+        ]);
+        $info = common::send_curl_request($send_msg_url, $post, 'post');
+        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
     }
 
 

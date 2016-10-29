@@ -1,54 +1,68 @@
 <?php
-namespace app\admin\controller;
+/**
+ * Created by PhpStorm.
+ * User: timeless
+ * Date: 16-10-29
+ * Time: 下午1:02
+ */
+
+namespace app\admin\model;
+
 
 use think\Config;
 use think\Loader;
 use think\Request;
 
-class Usercallback
+class agent
 {
-    public function index()
+    public static function verify_url()
     {
-        /*        //企业号后台随机填写的encodingAesKey
-                $encodingAesKey = "63zypb8isLdXy4hWEwYAhcqjBnoTYAt69YGD62VHzrY";
-                //企业号后台随机填写的token
-                $token = "xyLp3wkwVj8GomtUaIlqa";
-                //引入放在Thinkphp下的wechat 下的微信加解密包
-                Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
-                //安装官方要求接收4个get参数 并urldecode处理
-                // 获取当前请求的name变量
-                $msg_signature = urldecode(Request::instance()->param('msg_signature'));
-                $timestamp = urldecode(Request::instance()->param('timestamp'));
-                $nonce = urldecode(Request::instance()->param('nonce'));
-                $echostr = urldecode(Request::instance()->param('echostr'));
-                //实例化加解密类
-                //file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
-                try {
-                    $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, 'wxe041af5a55ce7365');
-                    //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echos
-                    $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echostr, $reecho);
-                    //file_put_contents('a.txt', 'errorcode:' . $errCode, FILE_APPEND);
-                    if ($errCode == 0) {
-                        echo $reecho;
-                    } else {
-                        print $errCode;
-                    }
-                } catch (Exception $e) {
-                    //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
-                }*/
-        /*
-        <xml><ToUserName><![CDATA[wxe041af5a55ce7365]]></ToUserName>
-<Encrypt><![CDATA[SbtdS1oV79cL1dUuLJVAIdX3O6h68N7IW1JSflz/TExYjdCGXIHQBG0l8cLlN64kSZWZLOQornuMJBV/Ypqzmaxi5eH9E8XMPbRQ+/TwfTmPKSEM3tFy/EvzSk+YAN9Wk0DXnlDbFRgDW6hIs/aMyIc+h+qotrxQ3n+7txt2mO7EbZF3T9IxZqlChUe/YjnC/hObd3yKu6cNmFaJIy6JBvNB7F1lWpxNQkALiowMG4eG//esRGUIacObocZIeeFs4Cf+2tL4dnkX2M5o1SvMEgeZXBwdnhpJBVnAF0oYGz/luJ2lXdQ27f/uW905Lc3i4frs9SFkEsEy6Ynwl1hceNPllr+crqSmNqLhNS7ca5tym+wGMglABoKAGXyJoeqhs4GNZKOdpraIPhcAaGC8N0i2ltLatlpBAhOGEUZmfs0/wS9GxdgyZIX3RT16+Yuo/nB2RZ1f4mOu7iMnmI99VQ==]]></Encrypt>
-<AgentID><![CDATA[49]]></AgentID>
-</xml>
-         */
 
-        file_put_contents('a.txt', '1', FILE_APPEND);
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
-        $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
-//      $corp_id = Config::get('wechatsuite.CORPID');
+        //引入放在Thinkphp下的wechat 下的微信加解密包
+        Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
+        //安装官方要求接收4个get参数 并urldecode处理
+        // 获取当前请求的name变量
+        $msg_signature = urldecode(Request::instance()->param('msg_signature'));
+        $timestamp = urldecode(Request::instance()->param('timestamp'));
+        $nonce = urldecode(Request::instance()->param('nonce'));
+        $echostr = urldecode(Request::instance()->param('echostr'));
+        //实例化加解密类
+        $sPostData = file_get_contents("php://input");
+        file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
+        $p_xml = new \DOMDocument();
+        $p_xml->loadXML($sPostData);
+        $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
+        $agent_id = $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
+        file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
+        try {
+            $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
+            //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echos
+            $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echostr, $reecho);
+            file_put_contents('a.txt', 'errorcode:' . $errCode, FILE_APPEND);
+            if ($errCode == 0) {
+                echo $reecho;
+            } else {
+                print $errCode;
+            }
+        } catch (Exception $e) {
+            //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
+        }
+    }
+
+
+    /**
+     * 事件相关操作
+     * @access public
+     */
+    public static function event()
+    {
+
+        $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
+        //企业号后台随机填写的token
+        $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
         //引入放在Thinkphp下的wechat 下的微信加解密包
         Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
         //安装官方要求接收4个get参数 并urldecode处理
@@ -63,7 +77,7 @@ class Usercallback
         $p_xml = new \DOMDocument();
         $p_xml->loadXML($sPostData);
         $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
-        $agent_id= $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
+        $agent_id = $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
@@ -71,11 +85,10 @@ class Usercallback
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-            $reqToUserName = $xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
             $reqFromUserName = $xml->getElementsByTagName('FromUserName')->item(0)->nodeValue;
             $reqCreateTime = $xml->getElementsByTagName('CreateTime')->item(0)->nodeValue;
             $reqMsgType = $xml->getElementsByTagName('MsgType')->item(0)->nodeValue;
-            file_put_contents('a.txt', $reqToUserName . $reqFromUserName . $reqCreateTime, FILE_APPEND);
+            file_put_contents('a.txt', $reqFromUserName . $reqCreateTime, FILE_APPEND);
             //匹配类型
             switch ($reqMsgType) {
                 case "event":
@@ -84,7 +97,6 @@ class Usercallback
                         //进入事件
                         case "enter_agent":
 //                            $this->enter_agent();
-                            file_put_contents('a.txt', 'xml:' . print_r($xml, true), FILE_APPEND);
                             break;
                     }
                     break;
@@ -122,8 +134,11 @@ class Usercallback
                                     $this->sendImage($user_str, $media_id, C('AGENTID'));
                                     break;*/
             }
+
+
         }
 
-
     }
+
+
 }

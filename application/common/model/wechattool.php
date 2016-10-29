@@ -51,7 +51,7 @@ class wechattool
             'suite_ticket' => wechattool::get_suite_ticket(),
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-        file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
+//        file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
@@ -70,10 +70,32 @@ class wechattool
             'provider_secret' => Config::get('wechatsuite.PROVIDERSECRET'),
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-        file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
+//        file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
         file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['provider_access_token'];
+    }
+
+
+    /**
+     *获取企业号 每个公司的 access_token 相关套件
+     * @access public
+     * @param $auth_corpid
+     * @param $permanent_code
+     */
+    public static function get_corp_access_token($auth_corpid, $permanent_code)
+    {
+        $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token?suite_access_token=SUITE_ACCESS_TOKEN';
+        $post = json_encode([
+            'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
+            'auth_corpid' => $auth_corpid,
+            'permanent_code' => $permanent_code,
+        ]);
+        $json_info = common::send_curl_request($url, $post, 'post');
+        file_put_contents('a.txt', 'json corp_access_token' . $json_info, FILE_APPEND);
+        $info = json_decode($json_info, true);
+        file_put_contents('a.txt', 'corp_access_token:' . print_r($info, true), FILE_APPEND);
+        return $info['access_token'];
     }
 
 

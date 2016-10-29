@@ -35,7 +35,8 @@ class Usercallback
                 } catch (Exception $e) {
                     //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
                 }*/
-	file_put_contents('a.txt','1',FILE_APPEND);
+
+	    file_put_contents('a.txt','1',FILE_APPEND);
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');

@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 
+use think\console\command\optimize\Config;
 use think\Loader;
 use think\Request;
 

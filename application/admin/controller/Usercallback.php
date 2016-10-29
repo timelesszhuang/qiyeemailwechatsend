@@ -36,6 +36,14 @@ class Usercallback
                 } catch (Exception $e) {
                     //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
                 }*/
+        /*
+        <xml><ToUserName><![CDATA[wxe041af5a55ce7365]]></ToUserName>
+<Encrypt><![CDATA[SbtdS1oV79cL1dUuLJVAIdX3O6h68N7IW1JSflz/TExYjdCGXIHQBG0l8cLlN64kSZWZLOQornuMJBV/Ypqzmaxi5eH9E8XMPbRQ+/TwfTmPKSEM3tFy/EvzSk+YAN9Wk0DXnlDbFRgDW6hIs/aMyIc+h+qotrxQ3n+7txt2mO7EbZF3T9IxZqlChUe/YjnC/hObd3yKu6cNmFaJIy6JBvNB7F1lWpxNQkALiowMG4eG//esRGUIacObocZIeeFs4Cf+2tL4dnkX2M5o1SvMEgeZXBwdnhpJBVnAF0oYGz/luJ2lXdQ27f/uW905Lc3i4frs9SFkEsEy6Ynwl1hceNPllr+crqSmNqLhNS7ca5tym+wGMglABoKAGXyJoeqhs4GNZKOdpraIPhcAaGC8N0i2ltLatlpBAhOGEUZmfs0/wS9GxdgyZIX3RT16+Yuo/nB2RZ1f4mOu7iMnmI99VQ==]]></Encrypt>
+<AgentID><![CDATA[49]]></AgentID>
+</xml>
+         */
+
+
         file_put_contents('a.txt', '1', FILE_APPEND);
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
@@ -49,11 +57,14 @@ class Usercallback
         $msg_signature = urldecode(Request::instance()->param('msg_signature'));
         $timestamp = urldecode(Request::instance()->param('timestamp'));
         $nonce = urldecode(Request::instance()->param('nonce'));
-//      file_put_contents('auth.txt', '授权', FILE_APPEND);
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
         file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
+/*        $p_xml = new \DOMDocument();
+        $p_xml->loadXML($sPostData);
+        $reqToUserName = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;*/
+        
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过

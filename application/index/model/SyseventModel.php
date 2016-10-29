@@ -78,7 +78,7 @@ class SyseventModel
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', $sPostData, FILE_APPEND);
+//        file_put_contents('a.txt', $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过

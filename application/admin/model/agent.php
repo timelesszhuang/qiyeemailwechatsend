@@ -69,7 +69,7 @@ class agent
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
+//        file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
         $p_xml = new \DOMDocument();
         $p_xml->loadXML($sPostData);
         $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
@@ -77,7 +77,7 @@ class agent
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
-        file_put_contents('a.txt', 'errorcode' . $errCode, FILE_APPEND);
+//        file_put_contents('a.txt', 'errorcode' . $errCode, FILE_APPEND);
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
@@ -95,6 +95,7 @@ class agent
                             self::enter_agent($corp_id, $agent_id, $reqFromUserName);
                             break;
                         case "view":
+                            file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
                             $flag = Request::instance()->param('flag');
                             self::click_menu_view($flag, $corp_id, $reqFromUserName, $agent_id);
                             break;

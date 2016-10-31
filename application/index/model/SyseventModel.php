@@ -139,6 +139,7 @@ class SyseventModel
                     break;
                 case 'cancel_auth':
                     //取消授权信息
+                    //取消授权的话 需要更新，相关memcache 信息。  比如邮件推送的话  要修改信息
                     auth::cancel_auth($xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue);
                     break;
                 //还有好多的事件需要处理

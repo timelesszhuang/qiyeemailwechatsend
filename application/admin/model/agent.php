@@ -84,7 +84,7 @@ class agent
             $reqFromUserName = $xml->getElementsByTagName('FromUserName')->item(0)->nodeValue;
             $reqCreateTime = $xml->getElementsByTagName('CreateTime')->item(0)->nodeValue;
             $reqMsgType = $xml->getElementsByTagName('MsgType')->item(0)->nodeValue;
-            file_put_contents('a.txt', $reqFromUserName . $reqCreateTime, FILE_APPEND);
+//          file_put_contents('a.txt', $reqFromUserName . $reqCreateTime, FILE_APPEND);
             //匹配类型
             switch ($reqMsgType) {
                 case "event":
@@ -158,8 +158,8 @@ class agent
             ],
         ], JSON_UNESCAPED_UNICODE);
         $info = common::send_curl_request($send_msg_url, $post, 'post');
-        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
+//        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
     }
-    
+
 
 }

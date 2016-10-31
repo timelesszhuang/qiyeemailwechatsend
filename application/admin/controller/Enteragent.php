@@ -22,15 +22,10 @@ class Enteragent
      */
     public function index()
     {
-        $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
-        $p_xml = new \DOMDocument();
-        $p_xml->loadXML($sPostData);
-        $corp_id = $p_xml->getElementsByTagName('ToUserName')->item(0)->nodeValue;
-        $agent_id = $p_xml->getElementsByTagName('AgentID')->item(0)->nodeValue;
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/index/enteragent/entry_menu_mail');
+        echo Request::instance()->param('corpid');
         exit;
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corp_id}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$agent_id}#wechat_redirect";
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/index/enteragent/entry_menu_mail');
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corp_id}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
         header("Location: {$url}");
     }
 

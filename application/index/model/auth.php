@@ -238,7 +238,7 @@ class auth
             $map['corp_id'] = $v['corp_id'];
             $map['agentid'] = $v['agentid'];
             // 把查询条件传入查询方法
-            $v['id'] = Db::table('agent_auth_info')->where($map)->find()['id'];
+            $v['id'] = Db::name('agent_auth_info')->where($map)->find()['id'];
             Db::name('agent_auth_info')->update($v);
         }
         return true;

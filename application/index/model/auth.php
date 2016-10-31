@@ -254,7 +254,7 @@ class auth
     {
         $map['corp_id'] = $corp_id;
         // 把查询条件传入查询方法
-        Db::name('agent_auth_info')->where($map)->update(['status' => '20', 'edittime' => time()]);
+        Db::name('auth_corp_info')->where($map)->update(['status' => '20', 'edittime' => time()]);
         return true;
     }
 

@@ -20,11 +20,15 @@ class cachetool
      * 根据 永久授权码 获取 corpid
      * @access public
      * @param $corpid  各个用户公司的corpid
+     * @param string $flag
      * @return string
      */
-    public static function get_permanent_code_by_corpid($corpid)
+    public static function get_permanent_code_by_corpid($corpid, $flag = 'get')
     {
         $mem = common::phpmemcache();
+        if ($flag != 'get') {
+            return self::get_init_corp_info($mem, $corpid);
+        }
         $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
         if ($info) {
             $p_code = array_key_exists($corpid, $info) ? $info[$corpid] : '';
@@ -32,6 +36,18 @@ class cachetool
                 return $p_code;
             }
         }
+        return self::get_permanent_code_by_corpid($mem, $corpid);
+
+    }
+
+    /**
+     * 更新memcache信息
+     * @param $mem
+     * @param $corpid
+     * @return mixed
+     */
+    public static function get_init_corp_info($mem, $corpid)
+    {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
         $info = Db::name('auth_corp_info')->field('corp_id,permanent_code')->select();
         foreach ($info as $k => $v) {

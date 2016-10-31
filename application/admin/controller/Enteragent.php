@@ -24,8 +24,8 @@ class Enteragent
     public function index()
     {
         $corp_id = Request::instance()->param('corpid');
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/index/enteragent/entry_menu_mail?corp_id=' . $corp_id);
-        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corp_id}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/index/enteragent/entry_menu_mail');
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corp_id}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corp_id}#wechat_redirect";
         header("Location: {$url}");
     }
 
@@ -37,7 +37,7 @@ class Enteragent
     public function entry_menu_mail()
     {
         $code = Request::instance()->param('code');
-        $corp_id = Request::instance()->param('corp_id');
+        $corp_id = Request::instance()->param('state');
         echo $corp_id;
         $access_token = wechattool::get_corp_access_token($corp_id, cachetool::get_permanent_code_by_corpid($corp_id));
         echo $access_token;

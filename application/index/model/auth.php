@@ -9,6 +9,7 @@
 namespace app\index\model;
 
 
+use app\admin\model\cachetool;
 use app\common\model\common;
 use think\Db;
 
@@ -273,6 +274,7 @@ class auth
             Db::name('agent_auth_info')->where($where)->delete();
             // 提交事务
             Db::commit();
+            cachetool::get_permanent_code_by_corpid($corp_id, 'init');
         } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();

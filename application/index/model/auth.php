@@ -254,7 +254,29 @@ class auth
     {
         $map['corp_id'] = $corp_id;
         // 把查询条件传入查询方法
-        Db::name('auth_corp_info')->where($map)->update(['status' => '20', 'edittime' => time()]);
+        $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
+        $id = $pre_corpinfo['id'];
+        $a = [
+            'corp_name' => $pre_corpinfo['corp_full_name'],
+            'email' => $pre_corpinfo['email'],
+            'mobile' => $pre_corpinfo['mobile'],
+            'canceltime' => time()
+        ];
+        Db::startTrans();
+        try {
+            //把已经取消授权的人的信息删除
+            Db::name('cancel_corp_info')->insert($a);
+            //删除 组织的信息
+            Db::name('auth_corp_info')->where($map)->delete();
+            $where['corp_id'] = $id;
+            //删除组织下的应用相关信息
+            Db::name('agent_auth_info')->where($where)->delete();
+            // 提交事务
+            Db::commit();
+        } catch (\Exception $e) {
+            // 回滚事务
+            Db::rollback();
+        }
         return true;
     }
 

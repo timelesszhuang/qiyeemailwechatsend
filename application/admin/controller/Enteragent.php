@@ -36,9 +36,10 @@ class Enteragent
      */
     public function entry_menu_mail()
     {
-
         $code = Request::instance()->param('code');
         $corp_id = Request::instance()->param('state');
+        echo $corp_id;
+        exit;
         $access_token = wechattool::get_corp_access_token($corp_id, cachetool::get_permanent_code_by_corpid($corp_id));
         $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
         $user_info = common::send_curl_request($get_userid_url, [], 'get');

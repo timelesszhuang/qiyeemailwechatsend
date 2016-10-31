@@ -94,11 +94,6 @@ class agent
                         case "enter_agent":
                             self::enter_agent($corp_id, $agent_id, $reqFromUserName);
                             break;
-                        case "view":
-                            file_put_contents('a.txt', 'init_data' . $sPostData, FILE_APPEND);
-                            $flag = Request::instance()->param('flag');
-                            self::click_menu_view($flag, $corp_id, $reqFromUserName, $agent_id);
-                            break;
                     }
                     break;
                 //发送文本
@@ -165,23 +160,6 @@ class agent
         $info = common::send_curl_request($send_msg_url, $post, 'post');
         file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
     }
-
-
-    /**
-     * 点击菜单测试
-     * @access public
-     * @param $flag
-     * @param $corp_id  组织的 corp_id
-     * @param $reqFromUserName 用户的name
-     * @param $agent_id 授权放的 agent_id
-     */
-    public function click_menu_view($flag, $corp_id, $reqFromUserName, $agent_id)
-    {
-        switch ($flag) {
-            case 'entry_mail':
-                echo "$flag $corp_id $reqFromUserName $agent_id";
-                break;
-        }
-    }
+    
 
 }

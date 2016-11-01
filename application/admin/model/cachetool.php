@@ -31,9 +31,10 @@ class cachetool
             self::get_init_corp_info($mem);
         }
         $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
-        if (!$info) {
+        if (empty($info)) {
             self::get_init_corp_info($mem);
         }
+        $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
         self::get_pcode_bycorpid($corpid, $info);
     }
 

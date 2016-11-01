@@ -27,26 +27,39 @@ class cachetool
     {
         $mem = common::phpmemcache();
         if ($flag != 'get') {
-            return self::get_init_corp_info($mem, $corpid);
+            //不是获取数据
+            self::get_init_corp_info($mem);
         }
         $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
         if ($info) {
+            self::get_pcode_bycorpid($corpid, $info);
+        }
+        //memcache 中数据是空的
+    }
+
+    /**
+     * 实际上获取数据的操作
+     * @param $corpid
+     * @param $info
+     * @return string
+     */
+    public static function get_pcode_bycorpid($corpid, $info)
+    {
+        if ($corpid) {
             $p_code = array_key_exists($corpid, $info) ? $info[$corpid] : '';
             if ($p_code) {
                 return $p_code;
             }
         }
-        return self::get_permanent_code_by_corpid($mem, $corpid);
-
+        //corpid 为 空值 表示不获取数据只是更新
     }
 
     /**
      * 更新memcache信息
      * @param $mem
-     * @param $corpid
      * @return mixed
      */
-    public static function get_init_corp_info($mem, $corpid)
+    public static function get_init_corp_info($mem)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
         $info = Db::name('auth_corp_info')->field('corp_id,permanent_code')->select();
@@ -54,7 +67,6 @@ class cachetool
             $corpid_permanentcode_arr[$v['corp_id']] = $v['permanent_code'];
         }
         $mem->set(Config::get('memcache.CORPID_PERMANENTCODE'), $corpid_permanentcode_arr);
-        return $corpid_permanentcode_arr[$corpid];
     }
 
 }

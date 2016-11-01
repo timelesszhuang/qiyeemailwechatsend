@@ -59,6 +59,8 @@ class Login extends Controller
         if ($login_url_info['errcode'] != 0) {
             exit('参数异常，请重试');
         }
+        ob_start();
+        ob_end_flush();
         header('Location:' . $login_url_info['login_url']);
     }
 

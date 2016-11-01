@@ -50,6 +50,8 @@ class auth
             common::add_log('添加预授权信息公司信息失败。授权应用信息为：', print_r($add_auth_agent_info, true));
             return false;
         }
+        //更新memcache 中 相关数据
+        cachetool::get_permanent_code_by_corpid('', 'init');
         return true;
     }
 
@@ -274,7 +276,7 @@ class auth
             Db::name('agent_auth_info')->where($where)->delete();
             // 提交事务
             Db::commit();
-            cachetool::get_permanent_code_by_corpid($corp_id, 'init');
+            cachetool::get_permanent_code_by_corpid('', 'init');
         } catch (\Exception $e) {
             // 回滚事务
             Db::rollback();

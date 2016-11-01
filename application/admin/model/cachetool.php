@@ -31,10 +31,10 @@ class cachetool
             self::get_init_corp_info($mem);
         }
         $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
-        if ($info) {
-            self::get_pcode_bycorpid($corpid, $info);
+        if (!$info) {
+            self::get_init_corp_info($mem);
         }
-        //memcache 中数据是空的
+        self::get_pcode_bycorpid($corpid, $info);
     }
 
     /**

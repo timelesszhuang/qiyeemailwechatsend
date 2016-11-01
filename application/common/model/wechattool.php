@@ -99,5 +99,8 @@ class wechattool
         return $info['access_token'];
     }
 
+    
+
+
 
 }

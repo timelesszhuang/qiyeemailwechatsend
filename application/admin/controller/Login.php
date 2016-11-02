@@ -8,7 +8,7 @@ use think\Request;
 
 
 /**
- *   授权成功之后会跳转到 该后台
+ *授权成功之后会跳转到 该后台  这个是用户的操作 后台只能是系统管理员才能进行操作
  */
 class Login extends Controller
 {
@@ -18,7 +18,6 @@ class Login extends Controller
      */
     public function index()
     {
-
         //获取登陆这的相关信息
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
         $auth_code = Request::instance()->param('auth_code');
@@ -36,7 +35,7 @@ class Login extends Controller
         $corpid = $info['corp_info']['corpid'];
         //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
-        //然后根据 login——icket
+        //然后根据 login_ticket
     }
 
 

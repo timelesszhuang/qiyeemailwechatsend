@@ -1,0 +1,41 @@
+{include file="public:header"/}
+<link rel="stylesheet" type="text/css" href="__PUBLIC__/Home/style/index.css">
+</head>
+<body>
+{include file="index:navbar"/}
+<div style="clear: both"></div>
+<div class='width-container container' id='show_div'>
+    {include file='index:load_index'/}
+</div>
+
+<!--modal 模态框-->
+<div style="display: none;" id="index_menulist_modal" data-backdrop="static" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id='index_menulist_content'>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+<!--modal 小的模态框-->
+<div style="display: none;" id="index_menulist_sm_modal" data-backdrop="static" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-sm" role="document">
+        <div class="modal-content" id='index_menulist_sm_content'>
+
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--备用的选项-->
+<div style="display: none;" id="index2_menulist_modal" data-backdrop="static" class="modal fade" tabindex="-1"
+     role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id='index2_menulist_content'>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+
+<!--点赞-->
+<div id="sm_dialog"></div>
+{include file="public:footer"/}
+

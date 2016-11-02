@@ -1,0 +1,138 @@
+<div class="index-navbar-div">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display  手机客户端显示的位置  防止文件变小之后的实现-->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                        data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">切换菜单</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <img alt="乐销易SALESMEN.CN" src="/static/sys/image/smalllogo.png" style="height:49px;">
+            </div>
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class='dropdown menulist'>
+                        <a href="javascript:void(0);" r_href="<?php echo url('Mailuser/index'); ?>" title="邮箱账号管理"><span
+                                class="glyphicon glyphicon-user"> 邮箱账号管理</span></a>
+                    </li>
+                    <li class='dropdown menulist'>
+                        <a href="javascript:void(0);" r_href="<?php echo url('Maildep/index'); ?>" title="邮箱部门管理"><span
+                                class="glyphicon glyphicon-th"> 邮箱部门管理</span></a>
+                    </li>
+                    <li class='dropdown menulist'>
+                        <a href="javascript:void(0);" r_href="<?php echo url('Mailinfo/get_domain_info'); ?>"
+                           title="邮箱信息"><span class="glyphicon glyphicon-info-sign"> 邮箱信息</span></a>
+                    </li>
+                    <li class='dropdown menulist'>
+                        <a href="javascript:void(0);" r_href="<?php echo url('WechatMailcheck/index'); ?>"
+                           title="微信绑定邮箱审核"><span class="glyphicon glyphicon-th"> 微信绑定邮箱审核</span></a>
+                    </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right ">
+                    <li>
+                        <a href="javascript:void(0);" title="admin账号未读邮件" id="mailunread">
+                            <span class="glyphicon glyphicon-envelope"></span>
+                            <span style="color: #ff0033" id="mailunreadcount"></span>
+                        </a>
+                        <input type="hidden" id="singlesignin_url">
+                    </li>
+                    <li><a href="<?php echo url('Home/Index/index');?>"><span class="glyphicon glyphicon-home"></span>主页</a>
+                    </li>
+                    <li class="menulist"><a href="javascript:void(0);" r_href="<?php echo url('Home/User/reset_pwd');?>"
+                                            type='modal'
+                                            title="密码修改"><span class="glyphicon glyphicon-edit"> 密码修改</span></a></li>
+                    <li><a href="<?php echo url('Home/Login/login_out')?>">退出&nbsp;<span
+                            class="glyphicon glyphicon-log-out"></span></a>
+                    </li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<!--首先引入js 文件-->
+<script>
+    $(function () {
+        //菜单选项 控制要跳转到的位置
+        $('.menulist a').click(function () {
+            var href = $(this).attr('r_href');
+            var type = $(this).attr('type');
+            if (!type) {
+                page_menu(href);
+            } else {
+                open_modal('index_menulist', href);
+            }
+        })
+        get_unreadmail('<?php echo url("Unreadmailcount/get_unreadmail_count");?>');
+        $("body").undelegate('#mailunread', 'click');
+        $("body").delegate("#mailunread", "click", function () {
+            //获取 单点登录的路径  这个需要动态获取路径  有效期只有5分钟
+            $.ajax({
+                url: '<?php echo url("Singlesignon/get_entry_url"); ?>',
+                type: 'post',
+                async: false,
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 'success') {
+                        //打开新的窗口
+                        $('#singlesignin_url').val(data.url);
+                    } else {
+                        $.messager.alert(data.msg, data.information, 'error');
+                    }
+                }
+            });
+            //这样做是为了防止浏览器拦截   所以放在ajax 之外
+            open_mail_window($('#singlesignin_url').val());
+        });
+    })
+
+    /**
+     * 展现到指定的位置
+     * @param string href  获取文件的url
+     */
+    function page_menu(href) {
+        var show_div_id = 'show_div';
+        get_html_byajax(href, show_div_id, '');
+    }
+
+    /**
+     * 弹出窗体
+     * @param {string} hre弹出窗体的路径
+     */
+    function dialog_menu(href, pre_modal_id) {
+        var modal_id = pre_modal_id + '_modal';
+        var modal_content_id = pre_modal_id + '_content';
+        //要把datagrid 数据存储处在页面的隐藏字段中
+        var data = new Array();
+        data['modal_id'] = modal_id;
+        var datastring = form_ajax_data_byarray(data);
+        var status = get_html_byajax(href, modal_content_id, datastring);
+        if (status) {
+            $('#' + modal_id).modal('show');
+        } else {
+            alert('打开模态框失败。');
+        }
+    }
+
+    /**
+     * 获取未读邮件数量
+     */
+    function get_unreadmail(link) {
+        $.ajax({
+            url: link,
+            type: 'post',
+            dataType: 'json',
+            success: function (data) {
+                var count = data.unread_count;
+                $('#mailunreadcount').html(count + ' 未读');
+                if (data.status != 'success') {
+                    $.messager.alert(data.msg, data.information, 'error');
+                }
+            }
+        });
+    }
+</script>
+

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网易企业邮箱登录后台</title>
+    {load href="/static/sys/js/jquery-3.1.1.min.js" /}
+    {load href="/static/bootstrap3/css/bootstrap.min.css" /}
+    {load href="/static/bootstrap3/css/bootstrap-theme.css" /}
+    {load href="/static/bootstrap3/js/bootstrap.min.js" /}
+    {load href="/static/sys/css/sysadmin-login.css" /}
+
+</head>
+<body>
+<div class="mynavbar">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container-fluid" style="width: 90%">
+            <div class="navbar-header">
+                <img alt="网易企业邮箱 微信推送" src="/static/sys/image/smalllogo.png" style="height:49px;">
+            </div>
+        </div><!-- /.container-fluid -->
+    </nav>
+</div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-3"></div>
+        <div class="col-md-6">
+            <div class="login-form-container">
+                <form action="<?php echo url('sysadmin/login/do_login'); ?>" method="post"
+                      class="form-signin">
+                    <fieldset>
+                        <legend>
+                            <h3>
+                                管理员后台登录
+                                <small>网易企业邮</small>
+                            </h3>
+                        </legend>
+                        <div class="alert alert-info alert-dismissible" role="alert">
+                            <button type="button" class="close" data-dismiss="alert">&times;</button>
+                            {$msg}
+                        </div>
+                        <label for="user_name" class="sr-only">用户名</label>
+                        <input type="text" id="user_name" name="user_name" class="form-control" placeholder="用户名"
+                               value="" required autofocus>
+                        <label for="inputPassword" class="sr-only">密码</label>
+                        <input type="password" name='user_password' id="inputPassword" class="form-control"
+                               placeholder="密码" value="" required>
+                        <br/>
+                        <!--分成两个左右部分-->
+                        <div class="row">
+                            <div class="col-md-6 col-xs-6">
+                                <input type="text" name="vd_code" id="vd_code" class="form-control" placeholder="验证码"
+                                       required/>
+                            </div>
+                            <div class="col-md-6 col-xs-6">
+                                <img src="{:captcha_src()}" alt="captcha" title="看不清？点击更换验证码" id="vd_code_img"
+                                     style="width:100px;"/>
+                            </div>
+                        </div>
+                        <div class="row remember">
+                            <div class="col-md-6 col-xs-6">
+                                <button type="submit" class="btn btn-primary" aria-label="Left Align">
+                                            <span class="glyphicon glyphicon-user" aria-hidden="true">&nbsp;登录
+                                            </span>
+                                </button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+        <div class="col-md-3"></div>
+    </div>
+    <div class="row ">
+        <div class="col-md-12">
+            <div class="login-bottom">
+                <p><a href="www.4006360163.com">© 山东强比信息技术有限公司</a>
+                    <span class="muted">·</span>
+                    <a href="" target="_blank">技术支持</a>
+                    <span class="muted">·</span>
+                    <a href="" target="_blank">联系我们</a>
+                    <span class="muted">·</span>
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--modal 模态框-->
+<div style="display: none;" id="login_modal" data-backdrop="static" class="modal fade" tabindex="-1" role="dialog"
+     aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content" id='login_content'>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div>
+</body>
+</html>
+<script>
+    $(function () {
+        $('#vd_code_img').click(function () {
+            var url = "/index.php/captcha.html?tm=" + Math.random();
+            $('#vd_code_img').attr('src', url);
+        });
+
+        var newsnoticeurl = "__MODULE__/Login/notice";
+        try {
+            load_notice(newsnoticeurl);
+        } catch (ex) {
+            $.messager.alert('首页数据加载失败', '外部系统公告加载失败', 'error');
+        }
+    });
+    function load_notice(url) {
+        $.ajax({
+            type: "post",
+            url: url,
+            dataType: "html",
+            success: function (data) {
+                $('#notice_body').html(data);
+            }
+        });
+    }
+    //防止重复绑定 之后 触发多次
+    $("body").undelegate('.notice_item', 'click');
+    $("body").delegate(".notice_item", "click", function () {
+        var id = $(this).attr('id');
+        var modal_id = 'login';
+        var href = '__MODULE__/Login/notice_item_view';
+        open_modal(modal_id, href, id);
+    });
+
+    /**
+     *   打开模态窗体  操作完成之后没有更新之类的操作
+     *   @param {string} pre_modal_id 要打开的modal_id
+     *   @param {string} link 链接
+     *   @param {int} id 形参的形式
+     */
+    function open_modal(pre_modal_id, link) {
+        var modal_id = pre_modal_id + '_modal';
+        var id = arguments[2] ? arguments[2] : '';
+        //ajax 获取的页面之后
+        var modal_content_id = pre_modal_id + '_content';
+        //把modal_id存储处在页面的隐藏字段中 以后
+        var data = new Array();
+        data['modal_id'] = modal_id;
+        if (id !== '') {
+            data['id'] = id;
+        }
+        var datastring = form_ajax_data_byarray(data)
+        var status = get_html_byajax(link, modal_content_id, datastring);
+        if (status) {
+            $('#' + modal_id).modal('show');
+        } else {
+            alert('打开模态框失败。');
+        }
+    }
+
+    /**
+     *根据关联的数组生成ajax 提交的数据
+     *@param {array} data 一维关联数组
+     */
+    function form_ajax_data_byarray(data) {
+        var datastring = '';
+        for (key in data) {
+            val = data[key];
+            if (datastring == '') {
+                datastring = key + '=' + val;
+            } else {
+                datastring = datastring + '&' + key + '=' + val;
+            }
+        }
+        return datastring;
+    }
+
+    /**
+     *执行ajax 操作 获取 html
+     *@param {string}  href  获取html 的链接
+     *@param {string}  show_div_id获取道德html 展现到的地方
+     *@param {array}   data 要传递的数据
+     */
+    function get_html_byajax(href, show_div_id, data) {
+        var status = false;
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
+            async: false,
+            url: href,
+            data: data,
+            success: function (data) {
+                var selecter = '#' + show_div_id;
+                $(selecter).html(data);
+                status = true;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                parse_ajax_errortype(jqXHR, textStatus, errorThrown);
+            }
+        });
+        return status;
+    }
+</script>

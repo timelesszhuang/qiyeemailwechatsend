@@ -12,6 +12,7 @@ use think\Config;
 use think\Db;
 use think\image\Exception;
 use think\Loader;
+use think\Request;
 
 class common
 {
@@ -71,6 +72,22 @@ class common
     {
         //系统日志表
         return Db::name('log')->insertGetId(['type' => $type, 'info' => $info, 'addtime' => time()]);
+    }
+
+    /**
+     * 修改页面信息  #分页实现
+     * @access public
+     */
+    public static function get_page_info()
+    {
+        $pageNumber = intval(Request::instance()->param('page'));
+        $pageRows = intval(Request::instance()->param('rows'));
+        #没有请求的话实现当前的页面是第一页
+        $pageNumber = (($pageNumber == null || $pageNumber == 0) ? 1 : $pageNumber);
+        #每一页显示的数量  默认是 10
+        $pageRows = (($pageRows == FALSE) ? 10 : $pageRows);
+        $firstRow = ($pageNumber - 1) * $pageRows;
+        return array($firstRow, $pageRows);
     }
 
 }

@@ -1,0 +1,60 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        密码修改
+    </h4>
+</div>
+<div class="modal-body">
+    <div style="width:80%; margin: 0px auto;">
+        <form class="form-horizontal" id="reset_pwdform">
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">原密码</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control col-sm-5" name="pre_pwd" placeholder="原密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">新密码</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control col-sm-5" name="new_pwd1" placeholder="新密码">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">重复新密码</label>
+                <div class="col-sm-5">
+                    <input type="password" class="form-control col-sm-5" name="new_pwd2" placeholder="重复原密码">
+                </div>
+            </div>
+        </form>
+        <input type="hidden" value="{$datagrid_id}" name="edit_menulist_datagrid_id">
+        <input type="hidden" value="{$modal_id}" name='edit_menulist_modal_id'>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" id='reset_pwd_btn'>更新密码</button>
+</div>
+<script>
+    //点击更新之后
+    $('#reset_pwd_btn').click(function () {
+        var form_id = 'reset_pwdform';
+        var action = '<?php echo url("sysadmin/exec_reset_pwd");?>';
+        var new_pwd1 = $('input[name="new_pwd1"]').val();
+        var new_pwd2 = $('input[name="new_pwd2"]').val();
+        var pre_pwd = $('input[name="pre_pwd"]').val();
+        if (is_null_or_empty(pre_pwd)) {
+            $.messager.alert('数据异常', '原密码不为空。', 'error');
+            return;
+        }
+        if (is_null_or_empty(new_pwd1) || is_null_or_empty(new_pwd2)) {
+            $.messager.alert('数据异常', '两次密码都不能为空。', 'error');
+            return;
+        }
+        var datagrid_id = $('input[name="edit_menulist_datagrid_id"]').val();
+        var modal_id = $('input[name="edit_menulist_modal_id"]').val();
+        var serialize_form = $('#' + form_id).serialize();
+        submit_form(action, serialize_form, modal_id, datagrid_id);
+    });
+</script>

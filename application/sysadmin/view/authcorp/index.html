@@ -1,0 +1,191 @@
+<div class="page-header page-header-title">
+    <h4>绑定企业信息查看</h4>
+</div>
+<div class="opendialog">
+    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add'>
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        企业绑定信息
+    </button>
+    <button type="button" class="btn btn-danger btn-sm" rel='cancel' tag='cancel'>
+        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+        批量删除
+    </button>
+    <!--编辑模态框-->
+    <div style="display: none;" id="dayword_modal" data-backdrop="static" class="modal fade" tabindex="-1"
+         authcorp="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog modal-lg" authcorp="document">
+            <div class="modal-content" id='dayword_content'>
+            </div><!-- /.modal-content -->
+        </div><!-- /.modal-dialog -->
+    </div>
+    <ul class="nav query-ul">
+        <li class="pull-left">
+            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp; 查询：
+        </li>
+        <li class="pull-left">
+            <input type="text" class="form-control input-sm" name="customer_query_com_name" id='customer_query_com_name'
+                   placeholder="客户名称/客户简称" style="width: 150px">
+        </li>
+        <li class="pull-left">
+            <input type="text" class="form-control input-sm" name="customer_query_domain" id='customer_query_domain'
+                   placeholder="域名" style="width: 100px">
+        </li>
+
+        <li class="pull-left">
+            <input name="customer_query_industry" id="customer_query_industry" class="form-control input-sm"
+                   style="width:130px;height: 30px;"/>
+        </li>
+        <li class="pull-left">
+            <button type="button" class="btn btn-primary btn-sm " id="quick_query" rel='refresh_datagrid' tag='query'
+                    datagrid_id="customer_datagrid">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                查询
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="clearfix"></div>
+<div class="bottom-data-div">
+    <table id="dayword_datagrid" width="100%">
+    </table>
+</div>
+<script>
+    $(function () {
+        var classid = 'dayword';
+        var edit_modal = classid;
+        var datagrid_id = classid + '_datagrid';
+        var add_modal = classid;
+        var urljson = '<?php echo Url("authcorp/index_json")?>';
+        var hrefadd = '<?php echo Url("authcorp/add_dayword")?>';
+        var hrefedit = '<?php echo Url("authcorp/edit_dayword")?>';
+        var hrefcancel = '<?php echo Url("authcorp/delete_dayword")?>';
+        load_authcorp_datagrid(datagrid_id, urljson, hrefedit, hrefcancel, edit_modal);
+        //按钮点击事件完成之后
+        $('.opendialog button').click(function () {
+            var tag = $(this).attr('tag');
+            var rel = $(this).attr('rel');
+            var link = '';
+            switch (tag) {
+                case'add':
+                    link = hrefadd;
+                    break;
+                case'edit':
+                    link = hrefedit;
+                    break;
+                case'cancel':
+                    link = hrefcancel;
+                    break;
+            }
+            switch (rel) {
+                case'modal':
+                    //打开窗体 操作完成之后更新 datagrid
+                    add_record_modal(datagrid_id, link, add_modal);
+                    break;
+                case 'cancel':
+                    $.messager.confirm("操作提示", "您确定要执行删除操作吗？", function (data) {
+                        if (data) {
+                            var ids = [];
+                            var rows = $('#' + datagrid_id).datagrid('getSelections');
+                            for (var i = 0; i < rows.length; i++) {
+                                ids.push(rows[i].id);
+                            }
+                            delete_record(ids, link, datagrid_id);
+                        }
+                    })
+                    break;
+            }
+        });
+    });
+
+    /**
+     * 加载datagrid 信息
+     */
+    function load_authcorp_datagrid(datagrid_id, urljson, hrefedit, hrefcancel, edit_modal) {
+        $('#' + datagrid_id).datagrid({
+            url: urljson,
+            idField: 'id',
+            pagination: true,
+            pageSize: 10,
+            rownumbers: true,
+            fitColumns: true,
+            frozenColumns: [[
+                {
+                    field: 'ck',
+                    checkbox: true
+                }
+            ]],
+            columns: [[
+                {field: 'id', title: 'ID', width: 5, align: 'center', hidden: true},
+                {field: 'user_id', title: '发布者', width: 10},
+                {field: 'author', title: '作者', width: 10},
+                {field: 'content', title: '内容', width: 50},
+                {field: 'showtime', title: '显示时间', width: 10},
+                {field: 'addtime', title: '添加时间', align: 'center', width: 10},
+                {
+                    field: 'action',
+                    title: '操作',
+                    width: 10,
+                    formatter: function (value, row, index) {
+                        return '<img class="btn_do" src="__PUBLIC__/Easyui/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')"  title="编辑"/>&nbsp;&nbsp;\n\
+                                    <img class="btn_do" src="__PUBLIC__/Easyui/themes/icons/cancel.png" onclick="delete_single_record(\'' + row.id + '\',\'' + hrefcancel + '\',\'' + datagrid_id + '\')" title=" 删除"/>&nbsp;&nbsp;\n\ ';
+                    }, align: 'center',
+                }
+            ]],
+        });
+    }
+</script>
+<script>
+    $(function () {
+        //显示部门和个人
+        $('#show_person').combotree({
+            url: '__MODULE__/Orgstructure/json_noauthority_tree',
+            panelWidth: 250
+        });
+        $("#select_public_private").combotree({
+            url:"__MODULE__/Customer/get_public_info",
+            width:120
+        });
+        //客户来源
+        $("#customer_come_form").combotree({
+            url: "__MODULE__/Customer/get_come_form",
+            width: 120
+        });
+        //表单的初始化
+        $('input[name="customer_query_hotspot"]').combotree({
+            url: '__MODULE__/Customerhotspot/json_tree',
+            require: true,
+            lines: true,
+            panelWidth: 220,
+        });
+
+        $('#quick_query').click(function () {
+            var com_name = $('#customer_query_com_name').val();
+            var domain = $('#customer_query_domain').val();
+            var hotspot = $('#customer_query_hotspot').combotree('getValue');
+            var industry = $('#customer_query_industry').combotree('getValue');
+            var num = $('#customer_query_num').combotree('getValue');
+            var type = $('#customer_query_type').combotree('getValue');
+            var period = $('#customer_query_period').combotree('getValue');
+            var come_from = $("#customer_come_form").combotree("getValue");
+            var flag = $("#select_public_private").combotree("getValue");
+            //获取部门/个人
+            var person = $('#show_person').combotree('getValue');
+            var datagrid_id = $(this).attr('datagrid_id');
+            $('#' + datagrid_id).datagrid('load', {
+                com_name: com_name,
+                domain: domain,
+                hotspot: hotspot,
+                industry: industry,
+                num: num,
+                type: type,
+                period: period,
+                account_id: person,
+                come_from: come_from,
+                flag: flag,
+                //表示是查询操作
+                tag: 'quick_query',
+            });
+        });
+    })
+
+</script>

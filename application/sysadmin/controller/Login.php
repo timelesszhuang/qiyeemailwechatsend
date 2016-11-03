@@ -46,6 +46,7 @@ class Login extends Controller
             if ($info = Db::name('sys_admin')->where(['pwd' => common::form_pwd_info($login_name, $pwd), 'login_name' => $login_name])->find()) {
                 Session::set('id', $info['id']);
                 Session::set('name', $info['name']);
+                Session::set('login_name', $info['login_name']);
                 $this->redirect('index/index', ['msg' => '登录成功。']);
             }
             $this->redirect_login('账号或密码错误！');

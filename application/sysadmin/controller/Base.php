@@ -11,6 +11,7 @@ namespace app\sysadmin\controller;
 
 use think\Controller;
 use think\Hook;
+use think\Request;
 
 /**
  * 基本操作 公共类库 比如 判断是不是已经登陆了
@@ -44,10 +45,10 @@ class Base extends Controller
      * 前台分配数据   modal_id  datagrid_id 数据
      * @access public
      */
-    public function getassign_common_data()
+    public function get_assign()
     {
-        $this->assign('modal_id', I('post.modal_id'));
-        $this->assign('datagrid_id', I('post.datagrid_id'));
+        $this->assign('modal_id', Request::instance()->param('modal_id'));
+        $this->assign('datagrid_id', Request::instance()->param('datagrid_id'));
     }
 
     /**

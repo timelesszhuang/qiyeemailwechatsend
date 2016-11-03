@@ -11,6 +11,11 @@ namespace app\sysadmin\model;
 
 class common
 {
+
+    const error = 'failed';
+    const success = 'success';
+
+
     /**
      * 生成密码加密信息
      * @access public
@@ -21,6 +26,20 @@ class common
     public static function form_pwd_info($login_name, $pwd)
     {
         return md5(md5($login_name) . sha1($pwd));
+    }
+
+
+    /**
+     * 生成要返回到前台的数据
+     * @access public
+     * @param $msg  提示
+     * @param $title 提示标题
+     * @param $status 状态
+     * @return array
+     */
+    public static function form_ajaxreturn_json($title, $msg, $status)
+    {
+        return ['msg' => $msg, 'title' => $title, 'status' => $status];
     }
 
 }

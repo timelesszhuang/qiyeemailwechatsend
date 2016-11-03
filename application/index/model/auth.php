@@ -21,6 +21,7 @@ class auth
      * @access public
      * @param $auth_info
      * @return bool
+     * @todo 授权的时候需要把 应用的数量 以及 id 信息存储起来
      */
     public static function analyse_init_corp_auth($auth_info)
     {
@@ -42,7 +43,9 @@ class auth
         $agent_auth_info = $auth_info['auth_info'];
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
-        $add_auth_agent_info = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        list($add_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        //更新 公司授权表的 auth_corp_info 表的 agent 相关信息
+        self::update_corp_agentinfo($agent_info, $corp_id);
         file_put_contents('a.txt', '||||add_auth_agent_info:' . print_r($add_auth_agent_info, true), FILE_APPEND);
         //保存错误 数据到数据库中
         if (!self::add_auth_agent_info($add_auth_agent_info)) {
@@ -80,7 +83,8 @@ class auth
         $agent_auth_info = $auth_info['auth_info'];
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
-        $edit_auth_agent_info = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        list($edit_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        self::update_corp_agentinfo($agent_info, $corp_id);
         file_put_contents('a.txt', '||||edit_auth_agent_info:' . print_r($edit_auth_agent_info, true), FILE_APPEND);
         //修改授权的应用相关信息 数据库
         if (!self::edit_auth_agent_info($edit_auth_agent_info)) {
@@ -160,6 +164,8 @@ class auth
     {
         file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         $add_auth_agent_info = [];
+        //授权的应用信息
+        $agent_info = [];
         foreach ($agent_info as $k => $v) {
             file_put_contents('a.txt', '||||per_agent_info:' . print_r($v, true), FILE_APPEND);
             $privilege = array_key_exists('privilege', $v) ? $v['privilege'] : [];
@@ -188,8 +194,9 @@ class auth
                 'extra_tag' => array_key_exists('extra_tag', $privilege) ? ',' . implode(',', $privilege['extra_tag']) . ',' : '',      //额外通讯录（标签）
             ];
             $add_auth_agent_info[] = $per_agent_info;
+            $agent_info[$v['appid']] = $v['name'];
         }
-        return $add_auth_agent_info;
+        return [$add_auth_agent_info, $agent_info];
     }
 
 
@@ -214,6 +221,19 @@ class auth
     public static function add_auth_agent_info($d)
     {
         return Db::name('agent_auth_info')->insertAll($d);
+    }
+
+    /**
+     * 更新 每一个 微信企业号中的相关信息
+     * @access public
+     * @param $agent_info 应用的信息
+     * @param $id
+     * @return int|string
+     * @throws \think\Exception
+     */
+    public static function update_corp_agentinfo($agent_info, $id)
+    {
+        return Db::name('auth_corp_info')->where(['id' => $id])->update(['agent_count' => count($agent_info), 'agent_serialize' => serialize($agent_info)]);
     }
 
     /**

@@ -17,7 +17,7 @@ class Index extends Base
      */
     public function index()
     {
-        return $this->fetch('index',['msg'=>'登录成功。']);
+        return $this->fetch('index', ['msg' => '登录成功。']);
     }
 
 

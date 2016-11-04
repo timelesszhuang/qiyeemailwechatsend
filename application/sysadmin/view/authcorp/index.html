@@ -57,9 +57,9 @@
         var add_modal = classid;
         var urljson = '<?php echo Url("authcorp/index_json")?>';
         var hrefadd = '<?php echo Url("authcorp/add_dayword")?>';
-        var hrefedit = '<?php echo Url("authcorp/edit_dayword")?>';
+        var hrefaddapi = '<?php echo Url("authcorp/editadd_netease_apiinfo")?>';
         var hrefcancel = '<?php echo Url("authcorp/delete_dayword")?>';
-        load_authcorp_datagrid(datagrid_id, urljson, hrefedit, hrefcancel, edit_modal);
+        load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefcancel, edit_modal);
         //按钮点击事件完成之后
         $('.opendialog button').click(function () {
             var tag = $(this).attr('tag');
@@ -100,7 +100,7 @@
     /**
      * 加载datagrid 信息
      */
-    function load_authcorp_datagrid(datagrid_id, urljson, hrefedit, hrefcancel, edit_modal) {
+    function load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefcancel, edit_modal) {
         $('#' + datagrid_id).datagrid({
             url: urljson,
             idField: 'id',
@@ -116,18 +116,19 @@
             ]],
             columns: [[
                 {field: 'id', title: 'ID', width: 5, align: 'center', hidden: true},
-                {field: 'user_id', title: '发布者', width: 10},
-                {field: 'author', title: '作者', width: 10},
-                {field: 'content', title: '内容', width: 50},
-                {field: 'showtime', title: '显示时间', width: 10},
+                {field: 'corp_full_name', title: '发布者', width: 10},
+                {field: 'subject_type', title: '企业类型', width: 10},
+                {field: 'corp_type', title: '企业号类型', width: 10},
+                {field: 'agent_count', title: '数量', width: 10},
+                {field: 'agent', title: '应用', width: 10},
                 {field: 'addtime', title: '添加时间', align: 'center', width: 10},
                 {
                     field: 'action',
                     title: '操作',
                     width: 10,
                     formatter: function (value, row, index) {
-                        return '<img class="btn_do" src="__PUBLIC__/Easyui/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')"  title="编辑"/>&nbsp;&nbsp;\n\
-                                    <img class="btn_do" src="__PUBLIC__/Easyui/themes/icons/cancel.png" onclick="delete_single_record(\'' + row.id + '\',\'' + hrefcancel + '\',\'' + datagrid_id + '\')" title=" 删除"/>&nbsp;&nbsp;\n\ ';
+                        return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefaddapi + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')"  title="修改添加网易邮箱API绑定信息"/>&nbsp;&nbsp;\n\
+                                    <img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/cancel.png" onclick="delete_single_record(\'' + row.id + '\',\'' + hrefcancel + '\',\'' + datagrid_id + '\')" title=" 删除"/>&nbsp;&nbsp;\n\ ';
                     }, align: 'center',
                 }
             ]],
@@ -142,8 +143,8 @@
             panelWidth: 250
         });
         $("#select_public_private").combotree({
-            url:"__MODULE__/Customer/get_public_info",
-            width:120
+            url: "__MODULE__/Customer/get_public_info",
+            width: 120
         });
         //客户来源
         $("#customer_come_form").combotree({

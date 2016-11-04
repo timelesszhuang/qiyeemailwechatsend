@@ -34,6 +34,8 @@ class auth
         file_put_contents('a.txt', '||||add_auth_corp_info:' . print_r($add_auth_corp_info, true), FILE_APPEND);
         //首先先添加 授权的公司信息 然后返回id
         $corp_id = self::add_auth_corp_info($add_auth_corp_info);
+        //微信的企业 corpid
+        $corpid = $add_auth_corp_info['corpid'];
         //错误信息更新到 数据库中
         if (!$corp_id) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));
@@ -43,7 +45,7 @@ class auth
         $agent_auth_info = $auth_info['auth_info'];
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
-        list($add_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        list($add_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id, $corpid);
         //更新 公司授权表的 auth_corp_info 表的 agent 相关信息
         file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         self::update_corp_agentinfo($agent_info, $corp_id);
@@ -75,6 +77,7 @@ class auth
         file_put_contents('a.txt', '||||edit_auth_corp_info:' . print_r($edit_auth_corp_info, true), FILE_APPEND);
         //修改 授权的公司信息
         $corp_id = self::edit_auth_corp_info($edit_auth_corp_info);
+        $corpid = $edit_auth_corp_info['corpid'];
         //错误信息更新到 数据库中
         if (!$corp_id) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));
@@ -84,7 +87,7 @@ class auth
         $agent_auth_info = $auth_info['auth_info'];
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
-        list($edit_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id);
+        list($edit_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id, $corpid);
         self::update_corp_agentinfo($agent_info, $corp_id);
         file_put_contents('a.txt', '||||edit_auth_agent_info:' . print_r($edit_auth_agent_info, true), FILE_APPEND);
         //修改授权的应用相关信息 数据库
@@ -108,7 +111,7 @@ class auth
     public static function analyse_init_corp_info($auth_corp_info_arr, $auth_user_info, $permanent_code)
     {
         return [
-            'corp_id' => $auth_corp_info_arr['corpid'],  //	授权方企业号id
+            'corpid' => $auth_corp_info_arr['corpid'],  //	授权方企业号id
             'corp_name' => $auth_corp_info_arr['corp_name'], //授权方企业号名称
             'permanent_code' => $permanent_code, //企业永久授权码
             'corp_type' => $auth_corp_info_arr['corp_type'],  //授权方企业号类型，认证号：verified, 注册号：unverified，体验号：test
@@ -139,7 +142,7 @@ class auth
     public static function analyse_changeauth_corp_info($auth_corp_info_arr)
     {
         return [
-            'corp_id' => $auth_corp_info_arr['corpid'],  //	授权方企业号id
+            'corpid' => $auth_corp_info_arr['corpid'],  //	授权方企业号id
             'corp_name' => $auth_corp_info_arr['corp_name'], //授权方企业号名称
             'corp_type' => $auth_corp_info_arr['corp_type'],  //授权方企业号类型，认证号：verified, 注册号：unverified，体验号：test
             'corp_round_logo_url' => $auth_corp_info_arr['corp_round_logo_url'], //授权方企业号圆形头像
@@ -158,10 +161,11 @@ class auth
     /**
      * 分析 要添加到数据库中的 应用的相关信息
      * @param $agent_info
-     * @param $corp_id
+     * @param $corp_id 组织的id
+     * @param $corpid 部门的id
      * @return array
      */
-    public static function analyse_agent_info($agent_info, $corp_id)
+    public static function analyse_agent_info($agent_info, $corp_id, $corpid)
     {
         file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         $add_auth_agent_info = [];
@@ -180,6 +184,7 @@ class auth
 //                     }
             $per_agent_info = [
                 'corp_id' => $corp_id,
+                'corpid' => $corpid,
                 'agentid' => $v['agentid'], //授权方应用id
                 'appid' => $v['appid'], //服务商套件中的对应应用id
                 'name' => $v['name'],   //授权方应用名字
@@ -243,8 +248,8 @@ class auth
      */
     private static function edit_auth_corp_info($e)
     {
-        $corp_id = $e['corp_id'];
-        $id = Db::name('auth_corp_info')->where('corp_id', $corp_id)->find()['id'];
+        $corpid = $e['corpid'];
+        $id = Db::name('auth_corp_info')->where('corpid', $corpid)->find()['id'];
         $e['id'] = $id;
         Db::name('auth_corp_info')->update($e);
         return $id;
@@ -270,12 +275,12 @@ class auth
     /**
      * 取消授权信息
      * @access public
-     * @param $corp_id  微信的corp_id
+     * @param $corpid  微信的corp_id
      * @return bool
      */
-    public static function cancel_auth($corp_id)
+    public static function cancel_auth($corpid)
     {
-        $map['corp_id'] = $corp_id;
+        $map['corpid'] = $corpid;
         // 把查询条件传入查询方法
         $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
         $id = $pre_corpinfo['id'];

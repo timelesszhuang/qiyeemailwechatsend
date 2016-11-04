@@ -63,9 +63,9 @@ class cachetool
     public static function get_init_corp_info($mem)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
-        $info = Db::name('auth_corp_info')->field('corp_id,permanent_code')->select();
+        $info = Db::name('auth_corp_info')->field('corpid,permanent_code')->select();
         foreach ($info as $k => $v) {
-            $corpid_permanentcode_arr[$v['corp_id']] = $v['permanent_code'];
+            $corpid_permanentcode_arr[$v['corpid']] = $v['permanent_code'];
         }
         $mem->set(Config::get('memcache.CORPID_PERMANENTCODE'), $corpid_permanentcode_arr);
     }

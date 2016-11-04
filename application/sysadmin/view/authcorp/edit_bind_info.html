@@ -1,0 +1,71 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        添加微信企业号绑定信息
+    </h4>
+</div>
+<div class="modal-body">
+    <div style="width:80%; margin: 0px auto;">
+        <form class="form-horizontal" id="bind_info_form">
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">秘钥</label>
+                <div class="col-sm-7">
+                    <textarea name="secret" rows="3" cols="40"></textarea>
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">product</label>
+                <div class="col-sm-5">
+                    <input type="TEXT" class="form-control col-sm-5" name="product" placeholder="PRODUCT">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">域名</label>
+                <div class="col-sm-5">
+                    <input type="TEXT" class="form-control col-sm-5" name="domain" placeholder="DOMAIN">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">公司名</label>
+                <div class="col-sm-5">
+                    <input type="TEXT" class="form-control col-sm-5" name="corp_name" placeholder="公司名">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">用户数量</label>
+                <div class="col-sm-5">
+                    <input type="number" class="form-control col-sm-5" name="user_num" placeholder="数量">
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">状态</label>
+                <div class="col-sm-5">
+                    <input type="radio" name="status" value="on" checked>开启
+                    <input type="radio" name="status" value="off">关闭
+                </div>
+            </div>
+            <input type="hidden" value="{$corpid}" name="corpid">
+            <input type="hidden" value="{$corp_id}" name="corp_id">
+        </form>
+        <div class="alert alert-success" role="alert">关闭之后 不会给系统推送消息</div>
+        <input type="hidden" value="{$datagrid_id}" name="edit_bindinfo_datagrid_id">
+        <input type="hidden" value="{$modal_id}" name='edit_bindinfo_modal_id'>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-primary" id='reset_pwd_btn'>保存</button>
+</div>
+<script>
+    //点击更新之后
+    $('#reset_pwd_btn').click(function () {
+        var form_id = 'bind_info_form';
+        var action = '<?php echo url("authcorp/exec_edit_bind_info");?>';
+        var datagrid_id = $('input[name="edit_bindinfo_datagrid_id"]').val();
+        var modal_id = $('input[name="edit_bindinfo_modal_id"]').val();
+        var serialize_form = $('#' + form_id).serialize();
+        submit_form(action, serialize_form, modal_id, datagrid_id);
+    });
+</script>

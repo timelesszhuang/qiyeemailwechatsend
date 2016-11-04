@@ -28,7 +28,7 @@ class mailinfo
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
-            $response_json = common::send_curl_request($url, $src . '&sign=' . $sign);
+            $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
             if ($response_json['suc']) {
                 return [$response_json['con'], true];
             }

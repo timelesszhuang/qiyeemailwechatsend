@@ -1,0 +1,38 @@
+/** 
+    Created on : 2015-10-9, 16:43:30
+    Author     : timeless
+    登录页面的css 文件
+*/
+body {
+    padding-top: 60px;
+    padding-bottom: 40px;
+    background-color: #F5F5F5;
+}
+
+.container {
+    font-size: 12px;
+    padding: 20px;
+    background: #FFF none repeat scroll 0% 0%;
+}
+
+.hero-unit {
+    background: #F3F7F7 none repeat scroll 0% 0%;
+    border-radius: 0px;
+    margin-left: 10px;
+    font-size: 12px;
+}
+
+.login-form-container {
+    padding: 20px;
+}
+
+.remember {
+    padding: 5px;
+}
+
+.login-bottom {
+    width: 70%;
+    padding-top: 20px;
+    margin: 0px auto;
+    border-top: 1px solid #E5E5E5;
+}

@@ -1,0 +1,170 @@
+/**
+    Created on : 2015-10-10, 10:06:19
+    Author     : timeless
+    首页的css样式
+*/
+body{
+    padding-top: 60px;
+    padding-bottom:65px; 
+    margin: 0px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-size: 14px;
+    line-height: 20px;
+    color: #000;
+    background: #EFEFEF none repeat scroll 0% 0%;
+}
+
+
+.fixed_query_div_hidden{
+    display: none;
+}
+
+
+/*********************************/
+
+.index-navbar-div{
+    margin-bottom: 5px;
+}
+
+.container{
+    font-size: 12px;
+    padding: 15px;
+    background: #FFF none repeat scroll 0% 0%;
+}
+
+/**
+主要的显示区域自适应  注意顺序 navbar 还有主要区域显示的位置
+*/
+
+@media (min-width: 0px){
+    .width-container{
+        width:100%;
+    }
+    .fixed_query_div{
+        top:85px;
+        width: 240px;
+    }
+    #clock{
+        display: none;
+    }
+}
+
+@media (min-width: 310px){
+    .width-container{
+        width:100%;
+    }
+    .fixed_query_div{
+        top:65px;
+        width: 240px;
+    }
+    #clock{
+        display: none;
+    }
+}
+
+@media(min-width:992px){
+    .width-container{
+        width:96%;
+    }
+    .fixed_query_div{
+        top:65px;
+        width: 280px;
+    }
+    #clock{
+        display: none;
+    }
+}
+
+
+@media(min-width:1024px){
+    .width-container{
+        width:96%;
+    }
+    .fixed_query_div{
+        top:65px;
+        width: 300px;
+    }
+    /*钟表不显示*/
+    #clock{
+        display:none;
+    }
+}
+
+
+@media(min-width:1300px){
+    .width-container{
+        width:90%;
+    }
+    .fixed_query_div{
+        top:65px;
+        width: 320px;
+    }
+    #clock{
+        display:block;
+    }
+}
+
+@media(min-width:1400px){
+    .width-container{
+        width:85%;
+    }
+    .fixed_query_div{
+        top:65px;
+        width: 340px;
+    }
+    #clock{
+        display:block;
+    }
+}
+
+.headthumbnail{
+    width: 37px;
+    height:45px;
+    border: 2px solid #FFF;
+    border-radius: 0px;
+    padding-top: 0px;
+}
+
+.head-a{
+    padding-top: 9px !important;
+}
+
+.user-name{
+    padding-top: 6px;
+}
+
+.bottom-icon{
+    padding-top: 5px;
+    padding-left: 20px;
+    width:5%;
+}
+
+.bottom-msg{
+    margin-top: 7px;
+    width:95%;
+}
+
+.row{
+    padding-top: 5px !important;
+}
+
+.col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-xs-1, .col-xs-10, .col-xs-11, .col-xs-12, .col-xs-2, .col-xs-3, .col-xs-4, .col-xs-5, .col-xs-6, .col-xs-7, .col-xs-8, .col-xs-9 {
+    padding-right: 5px !important;
+    padding-left: 5px !important;
+}
+
+.table{
+    margin-bottom: 0px !important;
+}
+
+/**客户热点*/
+
+.low_hot{
+    color: #4c4545;
+}
+.meddle_hot{
+    color:#900909;
+}
+.high_hot{
+    color: #ef0303;
+}

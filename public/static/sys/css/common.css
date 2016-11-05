@@ -1,0 +1,297 @@
+/** 
+* menu 样式
+*/
+.page-header-title{
+    margin-top: 0px;
+    padding-bottom: 3px;
+    margin-bottom: 0px;
+}
+
+.top-menu-div{
+    /*background: #EFEFEF none repeat scroll 0% 0%;*/
+    /*border-bottom: 1px solid #EEE;*/
+    margin:  0px auto 5px auto;
+    padding-bottom: 5px;
+}
+
+.bottom-data-div{
+    /*margin-top: 5px;*/
+}
+
+.opendialog{
+    padding: 8px;
+    background: #DBE1EA none repeat scroll 0% 0% !important;
+    border-radius:  3px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+}
+
+.border-left{
+    border-left: 1px solid #DDD;
+}
+
+.border-bottom{
+    border-bottom: 1px solid #DDD;
+}
+
+.border-roght{
+    border-right: 1px solid #DDD;
+}
+
+.border-top{
+    border-top: 1px solid #DDD;
+}
+
+.menu-left{
+    padding-top: 3px;
+}
+
+/**查询列表边距*/
+.query-ul{
+    margin-top: 10px ;
+    padding-left: 10px;
+}
+
+.query-ul li{
+    padding-left: 5px;
+    line-height: 30px;
+}
+
+.query-ul li a{
+    padding: 0px !important;
+    margin-left: 30px;
+    color: red;
+}
+/**
+修改表格菜单选项样式
+*/
+.table th, .table td {
+    padding-left: 5px !important;
+    line-height: 30px !important;
+    border-top: 1px solid #DDD;
+    vertical-align: middle !important; 
+}
+.t-left{
+    text-align: right;
+    background: #F5F5F5 none repeat scroll 0% 0%;
+}
+
+/**
+修改 easyui 不兼容的样式
+*/
+.tree-node{
+    height: 18px;   
+    padding: 0px;
+}
+.datagrid-row{
+    height: 30px;
+}
+
+
+/**
+*瀑布流的样式  日报的样式
+*/
+@media(min-width:200px){
+    .tab-container{
+        padding: 10px auto;
+        padding-left: 0px !important;
+    }
+}
+
+@media(min-width:768px){
+    .tab-container{
+        padding: 10px auto;
+        padding-left: 5px !important;
+    }
+}
+
+@media(min-width:992px){
+    .tab-container{
+        padding: 10px auto;
+        padding-left: 10px !important;
+    }
+}
+
+.daily-thumbnail{
+    height: 80px;
+    width: 80px;
+}
+
+.waterfall-li-content{
+    padding:8px;
+}
+
+.waterfall-li-content-header{
+    margin-top:5px; 
+    margin-bottom: 10px;
+}
+
+/***
+日报内容
+*/
+.daily-content{
+    padding: 7px;
+    font-size: 14px;
+    width:95%;
+}
+
+
+/**
+日报查看根据日期实现
+*/
+
+.daily-e-calendar{
+    height: 450px !important;
+}
+
+
+.daily-text{
+    padding: 5px;
+    white-space: normal !important;
+}
+
+/**
+添加日报的模态框内容区域
+*/
+.add-daily-content{
+    border: 1px solid #DDD;
+}
+
+.add-daily-header{
+    font-size: 16px;
+    color: #CC5522;
+    line-height: 30px;
+    background-color:  #DDDDDD;
+}
+
+.clear-margin{
+    margin-left: 5px !important;
+    margin-right: 5px !important;
+    margin-top: 5px !important;
+}
+/**
+长句断句
+*/
+.word-wrap{
+    word-wrap: normal;
+}
+
+.add-daily-predaycontent{
+    background-color: #F1F4F5;
+    font-size: 14px;
+    color:#0942E7;
+}
+
+/**
+工作报告模块 回复
+*/
+.reply{
+    float: right;
+    height: 30px;
+    padding: 0px 5px;
+    line-height: 36px;
+}
+
+.reply a{
+    color: #df7a5b !important;
+}
+
+.daily_reply{
+    border: 1px solid #DDD;
+    margin-top: 15px;
+    padding: 5px;
+}
+
+
+.reply-container{
+    padding: 5px;
+}
+
+.daily-reply-headphoto{
+    height: 64px;
+}
+
+.daily-reply-listcontent{
+    padding-left: 20px;
+}
+
+.media-body{
+    padding:7px;
+}
+
+.daily-reply-content{
+    font-size:  16px;
+}
+
+.daily-reply-contentrow{
+    padding: 5px;
+    background-color: #e0e2ec;
+}
+
+/**日报统计**/
+.gridtable {
+    font-family: verdana,arial,sans-serif;
+    font-size: 11px;
+    color: #333;
+    border-width: 1px;
+    border-color: #666;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.gridtable th {
+    border-width: 1px;
+    padding: 4px;
+    border-style: solid;
+    border-color: #666;
+    background-color: #DEDEDE;
+}
+
+.gridtable td {
+    border-width: 1px;
+    padding: 4px;
+    border-style: solid;
+    border-color: #666;
+}
+.gridtable .name {
+    background-color: #CCC;
+}
+
+.gridtable .write {
+    background-color: #FFBB42;
+}
+
+.gridtable .never {
+    background-color: #ECECEC;
+}
+
+/**客户模块*******************/
+.customer-query-info{
+    padding: 8px;
+    border-radius: 3px;
+    margin-top: 5px;
+    margin-bottom: 3px;
+    background: none repeat scroll 0% 0% #ECEAEA !important;
+}
+
+.customer-query-info li a{
+    padding-right: 5px;
+    padding-top: 0px;
+    padding-right: 0px;
+}
+
+.btn-menu{
+    line-height: 1 !important;
+}
+
+/**客户热点*/
+
+.low_hot{
+    color: #4c4545 !important;
+}
+.meddle_hot{
+    color:#900909 !important;
+}
+.high_hot{
+    color: #ef0303 !important;
+}

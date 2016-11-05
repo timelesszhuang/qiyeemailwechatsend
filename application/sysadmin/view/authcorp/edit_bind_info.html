@@ -12,42 +12,57 @@
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">秘钥</label>
                 <div class="col-sm-7">
-                    <textarea name="secret" rows="3" cols="40"></textarea>
+                    <textarea name="secret" rows="3" cols="40">{$info.privatesecret}</textarea>
                 </div>
             </div>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">product</label>
                 <div class="col-sm-5">
-                    <input type="TEXT" class="form-control col-sm-5" name="product" placeholder="PRODUCT">
+                    <input type="TEXT" class="form-control col-sm-5" name="product" value="{$info.product}"
+                           placeholder="PRODUCT">
                 </div>
             </div>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">域名</label>
                 <div class="col-sm-5">
-                    <input type="TEXT" class="form-control col-sm-5" name="domain" placeholder="DOMAIN">
+                    <input type="TEXT" class="form-control col-sm-5" name="domain" value="{$info.domain}"
+                           placeholder="DOMAIN">
                 </div>
             </div>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">公司名</label>
                 <div class="col-sm-5">
-                    <input type="TEXT" class="form-control col-sm-5" name="corp_name" placeholder="公司名">
+                    <input type="TEXT" class="form-control col-sm-5" name="corp_name" value="{$info.corp_name}"
+                           placeholder="公司名">
                 </div>
             </div>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">用户数量</label>
                 <div class="col-sm-5">
-                    <input type="number" class="form-control col-sm-5" name="user_num" placeholder="数量">
+                    <input type="number" class="form-control col-sm-5" name="user_num" value="{$info.user_num}"
+                           placeholder="数量">
                 </div>
             </div>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">状态</label>
                 <div class="col-sm-5">
-                    <input type="radio" name="status" value="on" checked>开启
-                    <input type="radio" name="status" value="off">关闭
+
+                    <input type="radio" name="status" value="on" <?php if($info['status']=='on') echo "checked"; ?>>开启
+                    <input type="radio" name="status" value="off" <?php if($info['status']=='off') echo "checked"; ?>>关闭
                 </div>
             </div>
-            <input type="hidden" value="{$corpid}" name="corpid">
-            <input type="hidden" value="{$corp_id}" name="corp_id">
+            <?php if($info['api_status']=='on'){?>
+            <div class="form-group">
+                <label for="name" class="col-sm-2 control-label">邮箱信息</label>
+                <div class="col-sm-12">
+                    <img src="{$info.mail_logo}"/>
+                    <p>{$info.mail_org_name}{$info.mail_exp_time}</p>
+                </div>
+            </div>
+            <?php }?>
+            <input type="hidden" value="{$info.corpid}" name="corpid">
+            <input type="hidden" value="{$info.corp_id}" name="corp_id">
+            <input type="hidden" value="{$info.id}" name="id">
         </form>
         <div class="alert alert-success" role="alert">关闭之后 不会给系统推送消息</div>
         <input type="hidden" value="{$datagrid_id}" name="edit_bindinfo_datagrid_id">

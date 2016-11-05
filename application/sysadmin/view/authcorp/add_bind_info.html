@@ -50,8 +50,8 @@
             <input type="hidden" value="{$corp_id}" name="corp_id">
         </form>
         <div class="alert alert-success" role="alert">关闭之后 不会给系统推送消息</div>
-        <input type="hidden" value="{$datagrid_id}" name="edit_bindinfo_datagrid_id">
-        <input type="hidden" value="{$modal_id}" name='edit_bindinfo_modal_id'>
+        <input type="hidden" value="{$datagrid_id}" name="add_bindinfo_datagrid_id">
+        <input type="hidden" value="{$modal_id}" name='add_bindinfo_modal_id'>
     </div>
 </div>
 <div class="modal-footer">
@@ -63,8 +63,8 @@
     $('#reset_pwd_btn').click(function () {
         var form_id = 'bind_info_form';
         var action = '<?php echo url("authcorp/exec_add_bind_info");?>';
-        var datagrid_id = $('input[name="edit_bindinfo_datagrid_id"]').val();
-        var modal_id = $('input[name="edit_bindinfo_modal_id"]').val();
+        var datagrid_id = $('input[name="add_bindinfo_datagrid_id"]').val();
+        var modal_id = $('input[name="add_bindinfo_modal_id"]').val();
         var serialize_form = $('#' + form_id).serialize();
         submit_form(action, serialize_form, modal_id, datagrid_id);
     });

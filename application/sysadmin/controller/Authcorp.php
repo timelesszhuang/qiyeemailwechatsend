@@ -65,7 +65,7 @@ class Authcorp extends Base
         //获取corp_id
         $corpid = Db::name('auth_corp_info')->where('id', $id)->find()['corpid'];
         // 从数据库中获取 corp_id
-        $info = Db::name('corp_bind_api')->where('corp_id', $corpid)->find();
+        $info = Db::name('corp_bind_api')->where('corpid', $corpid)->find();
         // 获取包含域名的完整URL地址
         // 判断下是不是已经绑定  如果没有绑定的话 添加绑定 绑定的话修改绑定
         $this->assign('corpid', $corpid);
@@ -86,6 +86,43 @@ class Authcorp extends Base
      */
     public function exec_add_bind_info()
     {
+        $d = $this->get_auth_post();
+        $d['addtime'] = time();
+        $d['updatetime'] = time();
+        //调用网易邮箱接口获取 邮箱信息
+        list($d, $msg) = $this->get_email_info($d);
+        if (!Db::name('corp_bind_api')->insertGetId($d)) {
+            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '数据保存失败。', self::error));
+        }
+        return json(\app\sysadmin\model\common::form_ajaxreturn_json('数据保存成功', '数据保存成功,' . $msg, self::success));
+    }
+
+
+    /**
+     * 修改绑定信息
+     * @access public
+     */
+    public function exec_edit_bind_info()
+    {
+        $d = $this->get_auth_post();
+        $d['updatetime'] = time();
+        list($d, $msg) = $this->get_email_info($d);
+        if (!Db::name('corp_bind_api')->update($d)) {
+            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '数据保存失败。', self::error));
+        }
+        return json(\app\sysadmin\model\common::form_ajaxreturn_json('数据保存成功', '数据保存成功,' . $msg, self::success));
+    }
+
+
+    /**
+     * 获取添加修改网易接口时候的post
+     * @access private
+     */
+    private function get_auth_post()
+    {
+        if ($id = Request::instance()->param('id')) {
+            $d['id'] = $id;
+        }
         $d['privatesecret'] = Request::instance()->param('secret');
         $d['product'] = Request::instance()->param('product');
         $d['domain'] = Request::instance()->param('domain');
@@ -95,11 +132,18 @@ class Authcorp extends Base
         $d['corpid'] = Request::instance()->param('corpid');
         $d['corp_id'] = Request::instance()->param('corp_id');
         if (!$d['product'] || !$d['domain'] || !$d['corp_name'] || !$d['user_num']) {
-            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '每一项内容都不能为空。', self::error));
+            exit(json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '每一项内容都不能为空。', self::error)));
         }
-        $d['addtime'] = time();
-        $d['updatetime'] = time();
-        //调用网易邮箱接口获取 邮箱信息
+        return $d;
+    }
+
+    /**
+     * edit_info 修改基本信息
+     * @param $d
+     * @return array
+     */
+    private function get_email_info($d)
+    {
         list($corp_info, $get_api_status) = mailinfo::get_domain_info($d['privatesecret'], $d['domain'], $d['product']);
         if ($get_api_status) {
             $d['mail_logo'] = $corp_info['logo'];
@@ -108,10 +152,7 @@ class Authcorp extends Base
             $d['api_status'] = '10';
         }
         $msg = $get_api_status ? '网易接口信息有效。' : '网易接口信息无效。';
-        if (!Db::name('corp_bind_api')->insertGetId($d)) {
-            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '数据保存失败。', self::error));
-        }
-        return json(\app\sysadmin\model\common::form_ajaxreturn_json('数据保存成功', '数据保存成功,' . $msg, self::success));
+        return [$d, $msg];
     }
 
 }

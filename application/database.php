@@ -15,11 +15,11 @@ return [
     // 服务器地址
     'hostname' => '59.111.92.203',
     // 数据库名
-    'database' => 'mailsend',
+    'database' => '',
     // 用户名
     'username' => 'root',
     // 密码
-    'password' => 'qiangbi123',
+    'password' => '',
     // 端口
     'hostport' => '3306',
     // 连接dsn

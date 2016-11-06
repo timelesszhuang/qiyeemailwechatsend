@@ -51,12 +51,12 @@
                     <input type="radio" name="status" value="off" <?php if($info['status']=='off') echo "checked"; ?>>关闭
                 </div>
             </div>
-            <?php if($info['api_status']=='on'){?>
+            <?php if($info['api_status']=='10'){?>
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">邮箱信息</label>
-                <div class="col-sm-12">
+                <div class="col-sm-10">
                     <img src="{$info.mail_logo}"/>
-                    <p>{$info.mail_org_name}{$info.mail_exp_time}</p>
+                    <p>{$info.mail_org_name} 截止到：<?php echo date('Y-m-d H:i',$info['mail_exp_time'])?></p>
                 </div>
             </div>
             <?php }?>

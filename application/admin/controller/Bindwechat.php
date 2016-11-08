@@ -30,14 +30,15 @@ class Bindwechat extends Controller
             return $this->fetch('condition_oath', ['data' => [], 'status' => '10', 'msg' => '请求信息有错误 请重新进入应用后重试。']);
         }
         //status 10 表示 请求有问题 20表示 已经提交等待审核  30 表示 信息有误 审核未通过 40 表示 审核通过 50 表示第一次进入
-
         //判断已经绑定的信息
-        /*        if ($all_checked_user[$user_id]) {
-                    $this->assign(array(
-                        "status" => '20',
-                        "msg" => '您已经绑定,邮箱账号，可以正常收到邮件推送!!。'
-                    ));
-                }*/
+        //获取该 corp_id 中已经绑定的信息
+        //根据 corpid 跟 wechat_userid 获取绑定状态
+        if ($all_checked_user[$user_id]) {
+            $this->assign(array(
+                "status" => '20',
+                "msg" => '您已经绑定,邮箱账号，可以正常收到邮件推送!!。'
+            ));
+        }
 
         //判断已经提交绑定信息但是还没有审批通过的
         //其他的时候需要判断是不是已经提交信息
@@ -99,6 +100,7 @@ class Bindwechat extends Controller
         //需要根据 corpid 获取邮箱后缀
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
         $corp_id = $bind_info['corp_id'];
+        $corp_name = $bind_info['corp_name'];
         $domain = '@' . $bind_info['domain'];
         if (substr($email, strpos($email, '@')) != $domain) {
             $arr = ['status' => '30', 'name' => $name, 'msg' => "邮箱账号后缀不正确，应该为：" . $domain];
@@ -111,6 +113,7 @@ class Bindwechat extends Controller
         $a_data = [
             'corp_id' => $corp_id,
             'corpid' => $corpid,
+            'corp_name' => $corp_name,
             'name' => $wechat_name,
             'check_name' => $name,
             'wechat_userid' => $wechat_userid,
@@ -122,7 +125,7 @@ class Bindwechat extends Controller
             'checktime' => 0,
             'addtime' => time(),
         ];
-        $user = Db::name();
+        $user = Db::name('wechat_user');
         if ($id) {
             //更新
             $a_data['id'] = $id;

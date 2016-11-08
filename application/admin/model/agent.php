@@ -12,6 +12,7 @@ namespace app\admin\model;
 use app\common\model\common;
 use app\common\model\wechattool;
 use think\Config;
+use think\Db;
 use think\Loader;
 use think\Request;
 
@@ -84,7 +85,6 @@ class agent
             $reqFromUserName = $xml->getElementsByTagName('FromUserName')->item(0)->nodeValue;
             $reqCreateTime = $xml->getElementsByTagName('CreateTime')->item(0)->nodeValue;
             $reqMsgType = $xml->getElementsByTagName('MsgType')->item(0)->nodeValue;
-//          file_put_contents('a.txt', $reqFromUserName . $reqCreateTime, FILE_APPEND);
             //匹配类型
             switch ($reqMsgType) {
                 case "event":
@@ -96,6 +96,7 @@ class agent
                             break;
                     }
                     break;
+
                 //发送文本
                 /*                case "text":
                                     $reqMsgContent = $xml->getElementsByTagName('Content')->item(0)->nodeValue;
@@ -130,9 +131,7 @@ class agent
                                     $this->sendImage($user_str, $media_id, C('AGENTID'));
                                     break;*/
             }
-
         }
-
     }
 
 
@@ -144,19 +143,66 @@ class agent
      * @param $reqFromUserName  请求来自哪个 微信id
      * @todo 1、验证是不是已经绑定 邮箱账号 然后由后台审核。
      *       2、需要获取下该应用的进入次数也就是访问量。
+     *       3、如果账号超过账号的数量限制怎么处理
      */
     public static function enter_agent($corpid, $agent_id, $reqFromUserName)
     {
+        //从数据库中获取 状态 更新下有多少访问量 更新到 数据库中
+        list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $reqFromUserName);
+        $bind_url = "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&wechat_userid={$reqFromUserName}";
+        if ($status) {
+            //表示已经完成或者其他的审核没有通过 或者是其他的操作
+            $check_status = $info['status'];
+            switch ($check_status) {
+                case '10':
+                    $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_pcode_bycorpid($corpid));
+                    list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
+                    Db::name('entermail_log')->insert([
+                        'corp_id' => $info['corp_id'],
+                        'corp_name' => $info['corp_name'],
+                        'corpid' => $corpid,
+                        'wechat_userid' => $reqFromUserName,
+                        'user_name' => $wechat_name,
+                        'entry_time' => time(),
+                    ]);
+                    break;
+                case '20':
+                    $content = '您的账号绑定信息正在审核中，请耐心等待审核通过。';
+                    break;
+                case '30':
+                    $content = '您的账号绑定信息有错误，审核没有通过，请点击以下链接重新填写绑定信息。' . $bind_url;
+                    break;
+            }
+        } else {
+            $content = '您还没有绑定企业邮箱，请点击一下链接绑定：' . $bind_url;
+        }
+        //表示没有填写绑定信息的情况
+        if ($content) {
+            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
+        }
+    }
 
+
+    /**
+     * 发送给进入应用者相关的数据
+     * @access public
+     * @param $corpid 微信中组织架构的id
+     * @param $wechat_userid  微信中的 userid
+     * @param $agent_id 授权方的应用id
+     * @param $content
+     */
+    public static function send_bind_info($corpid, $wechat_userid, $agent_id, $content)
+    {
+        //表示没有
         $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
         //根据 corp_id 获取永久授权码
         $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, $permanent_code);
         $post = json_encode([
-            "touser" => $reqFromUserName,
+            "touser" => $wechat_userid,
             "msgtype" => "text",
             "agentid" => $agent_id,
             "text" => [
-                "content" => '您还没有绑定企业邮箱，请点击一下链接绑定：' . "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&wechat_userid={$reqFromUserName}",
+                "content" => $content,
             ],
         ], JSON_UNESCAPED_UNICODE);
         $info = common::send_curl_request($send_msg_url, $post, 'post');

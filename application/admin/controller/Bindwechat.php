@@ -6,6 +6,7 @@ use app\admin\model\cachetool;
 use app\common\model\common;
 use app\common\model\wechattool;
 use think\Controller;
+use think\Db;
 use think\Request;
 
 
@@ -26,7 +27,7 @@ class Bindwechat extends Controller
         $wechat_userid = Request::instance()->param('wechat_userid');
         if (agent::get_bind_url_token($corpid, $wechat_userid) != $token) {
             //请求信息有误请重新绑定
-            return $this->fetch('condition_oath', ['status' => '10', 'msg' => '请求信息有错误 请重新进入应用后重试。']);
+            return $this->fetch('condition_oath', ['data' => [], 'status' => '10', 'msg' => '请求信息有错误 请重新进入应用后重试。']);
         }
         //status 10 表示 请求有问题 20表示 已经提交等待审核  30 表示 信息有误 审核未通过 40 表示 审核通过 50 表示第一次进入
 
@@ -88,27 +89,28 @@ class Bindwechat extends Controller
         if (empty($email)) {
             $arr = ['status' => 30, 'name' => $name, 'msg' => "请输入网易企业邮箱账号。"];
             return $this->fetch($display_url, ['data' => $arr, 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
-        } else {
-            //判断邮箱格式正确与否
-            if (!common::check_email($email)) {
-                $arr = ['status' => '30', 'msg' => '邮箱账号格式不正确。', 'name' => $name];
-                return $this->fetch($display_url, ['data' => $arr, 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
-            }
-            //判断邮箱后缀是不是正确
-            //需要根据 corpid 获取邮箱后缀
-            $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
-            $domain = '@' . $bind_info['domain'];
-            if (substr($email, strpos($email, '@')) != $domain) {
-                $arr = ['status' => '30', 'name' => $name, 'msg' => "邮箱账号后缀不正确，应该为：" . $domain];
-                return $this->fetch($display_url, ['data' => $arr, 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
-            }
         }
-        $user = M("WechatUser");
+        //判断邮箱格式正确与否
+        if (!common::check_email($email)) {
+            $arr = ['status' => '30', 'msg' => '邮箱账号格式不正确。', 'name' => $name];
+            return $this->fetch($display_url, ['data' => $arr, 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+        }
+        //判断邮箱后缀是不是正确
+        //需要根据 corpid 获取邮箱后缀
+        $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
+        $corp_id = $bind_info['corp_id'];
+        $domain = '@' . $bind_info['domain'];
+        if (substr($email, strpos($email, '@')) != $domain) {
+            $arr = ['status' => '30', 'name' => $name, 'msg' => "邮箱账号后缀不正确，应该为：" . $domain];
+            return $this->fetch($display_url, ['data' => $arr, 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+        }
         //获取信息 然后提示正在审核 请耐心等待
         //从后台获取  职员的微信账号等数据
         $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_pcode_bycorpid($corpid));
-        list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid,$corp_access_token);
+        list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid, $corp_access_token);
         $a_data = [
+            'corp_id' => $corp_id,
+            'corpid' => $corpid,
             'name' => $wechat_name,
             'check_name' => $name,
             'wechat_userid' => $wechat_userid,
@@ -120,6 +122,7 @@ class Bindwechat extends Controller
             'checktime' => 0,
             'addtime' => time(),
         ];
+        $user = Db::name();
         if ($id) {
             //更新
             $a_data['id'] = $id;

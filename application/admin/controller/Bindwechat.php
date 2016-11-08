@@ -3,6 +3,7 @@ namespace app\admin\controller;
 
 use app\admin\model\agent;
 use app\admin\model\cachetool;
+use app\admin\model\wechatuser;
 use app\common\model\common;
 use app\common\model\wechattool;
 use think\Controller;

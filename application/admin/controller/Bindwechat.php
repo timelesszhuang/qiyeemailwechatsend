@@ -36,7 +36,7 @@ class Bindwechat extends Controller
         //根据 corpid 跟 wechat_userid 获取绑定状态
         list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $wechat_userid);
         if (!$status) {
-            return $this->fetch('bind', ['status' => '50', 'corpid' => $corpid, 'wechat_userid' => $wechat_userid]);
+            return $this->fetch('bind', ['status' => '50', 'corpid' => $corpid, 'data' => ['name' => '', 'email' => ''], 'wechat_userid' => $wechat_userid]);
         }
         $check_status = $info['status'];
         switch ($check_status) {

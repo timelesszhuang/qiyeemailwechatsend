@@ -176,6 +176,7 @@ class agent
         } else {
             $content = '您还没有绑定企业邮箱，请点击一下链接绑定：' . $bind_url;
         }
+
         //表示没有填写绑定信息的情况
         if ($content) {
             self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
@@ -193,6 +194,7 @@ class agent
      */
     public static function send_bind_info($corpid, $wechat_userid, $agent_id, $content)
     {
+        file_put_contents('err.log', $content, FILE_APPEND);
         //表示没有
         $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
         //根据 corp_id 获取永久授权码
@@ -205,6 +207,7 @@ class agent
                 "content" => $content,
             ],
         ], JSON_UNESCAPED_UNICODE);
+        file_put_contents('err.log', print_r($post, true), FILE_APPEND);
         $info = common::send_curl_request($send_msg_url, $post, 'post');
     }
 

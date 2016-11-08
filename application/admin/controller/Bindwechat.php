@@ -33,35 +33,25 @@ class Bindwechat extends Controller
         //判断已经绑定的信息
         //获取该 corp_id 中已经绑定的信息
         //根据 corpid 跟 wechat_userid 获取绑定状态
-        if ($all_checked_user[$user_id]) {
-            $this->assign(array(
-                "status" => '20',
-                "msg" => '您已经绑定,邮箱账号，可以正常收到邮件推送!!。'
-            ));
+        list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $wechat_userid);
+        if (!$status) {
+            return $this->fetch('bind', ['status' => '50', 'corpid' => $corpid, 'wechat_userid' => $wechat_userid]);
         }
+        $check_status = $info['status'];
+        switch ($check_status) {
+            case '10':
+                $assign_data = ["status" => '10', "msg" => '您已经绑定,邮箱账号，可以正常收到邮件推送!!。'];
+                break;
+            case '20':
+                $assign_data = ["status" => '20', "msg" => '您已经提交网易企业邮箱绑定信息，请等待管理员审核。'];
+                break;
+            case '30':
+                $info['msg'] = '您提交的信息有误，管理员未通过，请重新填写之后等待管理员审核。';
+                $assign_data = ["status" => '30', 'data' => $info];
+                break;
+        }
+        return $this->fetch('bind', $assign_data);
 
-        //判断已经提交绑定信息但是还没有审批通过的
-        //其他的时候需要判断是不是已经提交信息
-        //$userid_status_arr = D('WechatUser')->get_failcheck_userid_status();
-        /*if (array_key_exists($user_id, $userid_status_arr)) {
-            $status = $userid_status_arr[$user_id];
-            if ($status == '20') {
-                //正在审核
-                $this->assign([
-                    'status' => '30',
-                    'msg' => '您已经提交网易企业邮箱绑定信息，请等待管理员审核。'
-                ]);
-            } else if ($status == '30') {
-                //审核失败 重新提交
-                $data = M('WechatUser')->where(['wechat_user_id' => ['eq', $user_id]])->field('id,check_name as name,check_email as email')->find();
-                $data['msg'] = '您提交的信息有误，管理员未通过，请重新填写之后等待管理员审核。';
-                $this->assign([
-                    'data' => $data,
-                    'status' => '40',
-                ]);
-            }
-        }*/
-        return $this->fetch('bind', ['status' => '50', 'corpid' => $corpid, 'wechat_userid' => $wechat_userid]);
     }
 
     /**

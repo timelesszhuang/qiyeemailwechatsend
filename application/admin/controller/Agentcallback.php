@@ -11,9 +11,8 @@ class Agentcallback
     {
 //        cachetool::get_permanent_code_by_corpid('');
 //        exit;
-//        agent::event();
+        agent::event();
         //验证回调接口
-        agent::enter_agent(1,1,1);
     }
 
 

@@ -197,8 +197,11 @@ class agent
         file_put_contents('err.log', $content, FILE_APPEND);
         //表示没有
         $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
+        file_put_contents('err.log', 'percentant_code' . $permanent_code, FILE_APPEND);
+
         //根据 corp_id 获取永久授权码
         $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, $permanent_code);
+        file_put_contents('err.log', 'percentant_code' . $send_msg_url, FILE_APPEND);
         $post = json_encode([
             "touser" => $wechat_userid,
             "msgtype" => "text",

@@ -12,5 +12,8 @@ return [
     //套件的 suite_token  先存储在 suite_token 中  如果没有的话  可以到调用接口到 微信的服务器获取
     //比如 更新相关的公司信息之后 需要重新 更新缓存中的字段
     'SUITE_TICKET' => 'suite_ticket',
-    'CORPID_PERMANENTCODE'=>'corpidpermanentcode',
+    //corpid  获取 永久码
+    'CORPID_PERMANENTCODE' => 'corpidpermanentcode',
+    //corpid 获取邮箱的绑定信息
+    'CORPID_BINDINFO' => 'corpid_bindinfo',
 ];

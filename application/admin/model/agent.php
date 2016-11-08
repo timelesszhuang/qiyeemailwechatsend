@@ -131,7 +131,6 @@ class agent
                                     break;*/
             }
 
-
         }
 
     }
@@ -140,25 +139,38 @@ class agent
     /**
      * 进入应用之后的相关操作
      * @access public
-     * @param $corp_id  进入应用的公司的 corp_id
+     * @param $corpid  进入应用的公司的 corp_id
      * @param $agent_id  进入的应用的 id 这个是 授权者 授权之后的应用位置
      * @param $reqFromUserName  请求来自哪个 微信id
+     * @todo 1、验证是不是已经绑定 邮箱账号 然后由后台审核。
+     *       2、需要获取下该应用的进入次数也就是访问量。
      */
-    public static function enter_agent($corp_id, $agent_id, $reqFromUserName)
+    public static function enter_agent($corpid, $agent_id, $reqFromUserName)
     {
-        $permanent_code = cachetool::get_permanent_code_by_corpid($corp_id);
+
+        $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
         //根据 corp_id 获取永久授权码
-        $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corp_id, $permanent_code);
+        $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, $permanent_code);
         $post = json_encode([
             "touser" => $reqFromUserName,
             "msgtype" => "text",
             "agentid" => $agent_id,
             "text" => [
-                "content" => '赵兴壮 历尽千辛万苦 终于成功了，真是心累呀。'
+                "content" => '您还没有绑定企业邮箱，请点击一下链接绑定：' . "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&wechat_userid={$reqFromUserName}",
             ],
         ], JSON_UNESCAPED_UNICODE);
         $info = common::send_curl_request($send_msg_url, $post, 'post');
-//        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
+    }
+
+    /**
+     * get_bind_url_token
+     * 获取绑定token信息
+     * @param $corpid 组织的 corpid
+     * @param $wechat_userid  微信的userid
+     */
+    public static function get_bind_url_token($corpid, $wechat_userid)
+    {
+        return md5($corpid . md5(sha1('emailsend')) . $wechat_userid);
     }
 
 

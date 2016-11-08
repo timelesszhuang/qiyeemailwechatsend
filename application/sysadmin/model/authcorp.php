@@ -47,6 +47,8 @@ class authcorp
                 $v['corp_type'] = '体验号';
                 break;
         }
+        $v['status_title'] = $v['status'] == 'on' ? '开启' : '禁用';
+        $v['api_status_title'] = $v['api_status'] == '10' ? '正常' : '异常';
         $info = unserialize($v['agent_serialize']);
         $v['agent'] = implode(',', $info);
         $v['addtime'] = date('Y-m-d H:i', $v['addtime']);

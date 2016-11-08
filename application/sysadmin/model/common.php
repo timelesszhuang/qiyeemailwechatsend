@@ -37,7 +37,7 @@ class common
      * @param $status 状态
      * @return array
      */
-    public static function form_ajaxreturn_json($title, $msg, $status)
+    public static function form_ajaxreturn_arr($title, $msg, $status)
     {
         return ['msg' => $msg, 'title' => $title, 'status' => $status];
     }

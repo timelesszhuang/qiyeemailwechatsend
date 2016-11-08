@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>网易企业邮箱绑定认证</title>
+    <include file="Index/head"/>
+    <style>
+        .input-sm {
+            height: 40px;
+        !important;
+        }
+    </style>
+</head>
+<body>
+<?php if($status!='30'||$status!='20'){?>
+<div class="page-header" style="text-align:center;">
+    <h4>请输入姓名和网易企业邮箱</h4>
+</div>
+<form class="form-horizontal" id="form_user" action="<?php echo url('Bindwechat/exec_bind_wechat');?>" method="post">
+    <input type="hidden" name="wechat_userid" value="<?php echo $wechat_userid; ?>">
+    <input type="hidden" name="corpid" value="<?php echo $corpid; ?>">
+    <input type="hidden" name="id" value="<?php echo $data['id']; ?>">
+    <div class="form-group" style="width:90%;margin:10px auto;">
+        <div class="col-sm-12">
+            <input type="text" class="form-control input-sm" name="name" value='{$data.name}' placeholder="请输入您的姓名"
+                   autofocus>
+        </div>
+    </div>
+    <div class="form-group" style="width:90%;margin:10px auto;">
+        <div class="col-sm-12">
+            <input type="text" class="form-control input-sm" name="email" value="{$data.email}" placeholder="请输入网易企业邮箱">
+        </div>
+    </div>
+    <?php if(!empty($data)){?>
+    <div class="form-group">
+        <div class="alert alert-info" style="width:80%;margin:0 auto;"><?php echo $data["msg"] ?></div>
+    </div>
+    <?php }?>
+    <div class="form-group">
+        <div class="col-sm-12" style="text-align:center;">
+            <button type="submit" class="btn btn-info" id="check_form">提交</button>
+        </div>
+    </div>
+</form>
+<?php }else{ ?>
+<div class="alert alert-info" style="margin-top:10em;"><h1><?php echo $msg;?></h1></div>
+<?php }?>
+</body>
+</html>

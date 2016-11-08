@@ -35,11 +35,29 @@ class Authcorp extends Base
     {
         //分页信息获取
         list($firstRow, $pageRows) = common::get_page_info();
+        $corp_name = Request::instance()->param('corp_name', '');
+        $domain = Request::instance()->param('domain', '');
+        $api_status = Request::instance()->param('api_status', '');
+        $status = Request::instance()->param('status', '');
+        $map = '';
+        if ($corp_name) {
+            $map .= "corp_full_name like '%{$corp_name}%' ";
+        }
+        if ($domain) {
+            $map .= $map ? ' and ' : '';
+            $map .= " api.domain='{$domain}' ";
+        }
+        if ($api_status) {
+            $map .= $map ? ' and ' : '';
+            $map .= " api.api_status='{$api_status}' ";
+        }
+        if ($status) {
+            $map .= " and api.status='{$status}' ";
+        }
         $db = Db::name('auth_corp_info');
-        $where = [];
-        $count = $db->where($where)->count('id');
-        $info = $db->where($where)->limit($firstRow, $pageRows)
-            ->field('id,corpid,corp_type,corp_agent_max,corp_full_name,subject_type,agent_count,agent_serialize,addtime')
+        $count = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->count('auth.id');
+        $info = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->limit($firstRow, $pageRows)
+            ->field('auth.*,api.api_status,api.status')
             ->select();
         $auth_model = new \app\sysadmin\model\authcorp();
         array_walk($info, array($auth_model, 'formatter_corp_info'));
@@ -92,9 +110,9 @@ class Authcorp extends Base
         //调用网易邮箱接口获取 邮箱信息
         list($d, $msg) = $this->get_email_info($d);
         if (!Db::name('corp_bind_api')->insertGetId($d)) {
-            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '数据保存失败。', self::error));
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
-        return json(\app\sysadmin\model\common::form_ajaxreturn_json('数据保存成功', '数据保存成功,' . $msg, self::success));
+        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
     }
 
 
@@ -108,9 +126,9 @@ class Authcorp extends Base
         $d['updatetime'] = time();
         list($d, $msg) = $this->get_email_info($d);
         if (!Db::name('corp_bind_api')->update($d)) {
-            return json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '数据保存失败。', self::error));
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
-        return json(\app\sysadmin\model\common::form_ajaxreturn_json('数据保存成功', '数据保存成功,' . $msg, self::success));
+        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
     }
 
 
@@ -132,7 +150,7 @@ class Authcorp extends Base
         $d['corpid'] = Request::instance()->param('corpid');
         $d['corp_id'] = Request::instance()->param('corp_id');
         if (!$d['product'] || !$d['domain'] || !$d['corp_name'] || !$d['user_num']) {
-            exit(json(\app\sysadmin\model\common::form_ajaxreturn_json('保存失败', '每一项内容都不能为空。', self::error)));
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '每一项内容都不能为空。', self::error));
         }
         return $d;
     }
@@ -154,5 +172,21 @@ class Authcorp extends Base
         $msg = $get_api_status ? '网易接口信息有效。' : '网易接口信息无效。';
         return [$d, $msg];
     }
+
+    /**
+     * 开启或者禁用邮件推送操作
+     * @access public
+     */
+    public function cancelorok_sendmail()
+    {
+        $id = Request::instance()->param('id');
+        $status = Request::instance()->param('status');
+        if (Db::name('corp_bind_api')->where('corp_id', $id)->update(['status' => $status])) {
+            //需要更新memcache 中相关键值对 然后取消邮件推送
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('操作状态', '修改成功', self::success));
+        }
+        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('操作失败', '修改失败', self::error));
+    }
+
 
 }

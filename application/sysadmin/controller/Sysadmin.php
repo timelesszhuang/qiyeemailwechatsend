@@ -43,11 +43,11 @@ class Sysadmin extends Base
         $new_pwd1 = Request::instance()->param('new_pwd1');
         $new_pwd2 = Request::instance()->param('new_pwd1');
         if (!$pre_pwd) {
-            return json(common::form_ajaxreturn_json('更改失败', '原密码不能为空', self::error));
+            return json(common::form_ajaxreturn_arr('更改失败', '原密码不能为空', self::error));
         }
         // 验证下是不是有问题不能正常访问
         if (!$new_pwd1 || !$new_pwd2 || ($new_pwd1 != $new_pwd2)) {
-            return json(common::form_ajaxreturn_json('更改失败', '两次密码不为空，且要保持一致。', self::error));
+            return json(common::form_ajaxreturn_arr('更改失败', '两次密码不为空，且要保持一致。', self::error));
         }
         $login_name = Session::get('login_name');
         //首先验证下原来的密码是不是正确
@@ -56,12 +56,12 @@ class Sysadmin extends Base
         $map = ['login_name' => $login_name];
         $db = Db::name('sys_admin');
         if ($db->where($map)->find()['pwd'] != $input_encode_pwd) {
-            return json(common::form_ajaxreturn_json('更改失败', '原密码输入不正确。', self::error));
+            return json(common::form_ajaxreturn_arr('更改失败', '原密码输入不正确。', self::error));
         }
         if (!$db->where($map)->update(['pwd' => common::form_pwd_info($login_name, $new_pwd1),'updatetime'=>time()])) {
-            return json(common::form_ajaxreturn_json('更改失败', '请联系管理员。', self::error));
+            return json(common::form_ajaxreturn_arr('更改失败', '请联系管理员。', self::error));
         }
-        return json(common::form_ajaxreturn_json('更改成功', '密码更改成功。', self::success));
+        return json(common::form_ajaxreturn_arr('更改成功', '密码更改成功。', self::success));
     }
 
     /**

@@ -200,6 +200,38 @@ function delete_record(ids, link, datagrid_id) {
 }
 
 /**
+ * 取消或者开启邮件推送
+ * @param {int} id 要删除的数值  数组的形式或者是单个的id
+ * @param {string} link 要执行删除操作的链接地址
+ * @param {string} datagr_id 选择要删除的datagrid
+ */
+function cancelorok_sendmail(id, link, datagrid_id, status) {
+    if (is_null_or_empty(id)) {
+        $.messager.alert('信息提示', '请选择要操作的项', 'error');
+        return false;
+    }
+    $.messager.confirm("操作提示", "您确定要执行该操作吗？", function (data) {
+        if (data) {
+            $.ajax({
+                url: link,
+                type: 'post',
+                data: {
+                    id: id,
+                    status: status
+                },
+                dataType: 'json',
+                success: function (data) {
+                    exec_complete(data, datagrid_id);
+                }
+            });
+        } else {
+            return;
+        }
+    })
+
+}
+
+/**
  * 编辑记录信息根据id
  * @param {int} id 要编辑的记录的id
  * @param {string} link 要编辑的菜单的地址
@@ -304,8 +336,6 @@ function open_mail_window(location) {
     }
     win.focus();
 }
-
-
 
 
 /**

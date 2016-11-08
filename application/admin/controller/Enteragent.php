@@ -14,6 +14,9 @@ use app\common\model\common;
 use app\common\model\wechattool;
 use think\Request;
 
+/**
+ * 点击菜单进入应用相关操作
+ */
 class Enteragent
 {
 

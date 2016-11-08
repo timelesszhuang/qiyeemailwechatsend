@@ -90,4 +90,20 @@ class common
         return array($firstRow, $pageRows);
     }
 
+
+    /**
+     * 验证邮箱账号
+     * @access public
+     * @param $email 邮箱账号信息
+     * @return bool
+     */
+    public static function check_email($email)
+    {
+        if (ereg('^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+', $email)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
 }

@@ -54,7 +54,7 @@ class wechattool
         $json_info = common::send_curl_request($url, $post, 'post');
 //        file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
+//        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }
 
@@ -99,8 +99,20 @@ class wechattool
         return $info['access_token'];
     }
 
-    
 
+    /**
+     * 获取微信的相关信息
+     * @access public
+     * @param string $wechat_userid 微信的user_id
+     * @param $corp_access_token
+     * @return array
+     */
+    public static function get_wechat_userid_info($wechat_userid, $corp_access_token)
+    {
+        $get_wechat_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={$corp_access_token}&userid=" . $wechat_userid;
+        $info = json_decode(common::send_curl_request($get_wechat_userid_url), true);
+        return [$info['name'], $info['mobile'], $info['email']];
+    }
 
 
 }

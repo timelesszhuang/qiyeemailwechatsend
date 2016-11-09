@@ -1,6 +1,7 @@
 <?php
 namespace app\admin\controller;
 
+use app\admin\model\cachetool;
 use app\common\model\common;
 use app\common\model\wechattool;
 use think\Controller;
@@ -37,6 +38,11 @@ class Login extends Controller
         //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
         //然后根据 login_ticket
+        //然后根据 corp_id 获取邮箱登录信息
+        //根据corpid 获取 私钥,product,domain 等数据
+        
+        $info = cachetool::get_bindinfo_bycorpid($corpid);
+
     }
 
 

@@ -17,7 +17,6 @@ class wechatuser
     public static function check_wechat_userid_status($corpid, $wechat_userid)
     {
         $info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();
-        file_put_contents('err.log', print_r($info, true), FILE_APPEND);
         if ($info) {
             return [true, $info];
         } else {

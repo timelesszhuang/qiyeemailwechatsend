@@ -78,7 +78,7 @@ class cachetool
      * @param string $flag 标志是获取还是更新
      * @return array ['privatesecret' => **,'product' => **,'domain' => **]
      */
-    public function get_bindinfo_bycorpid($corpid, $flag = 'get')
+    public static function get_bindinfo_bycorpid($corpid, $flag = 'get')
     {
         $mem = common::phpmemcache();
         if ($flag != 'get') {

@@ -27,6 +27,7 @@ class Login extends Controller
         $post = json_encode(['auth_code' => $auth_code]);
         $json_login_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_login_info, true);
+        print_r($info);
         $user_type = $info['usertype'];
         if ($user_type == 5) {
             exit('您没有权限访问');

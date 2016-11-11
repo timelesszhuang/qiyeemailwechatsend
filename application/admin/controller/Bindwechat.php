@@ -54,6 +54,15 @@ class Bindwechat extends Controller
         return $this->fetch('bind', $assign_data);
     }
 
+
+    /**
+     *
+    */
+    public function test_bind()
+    {
+        return $this->fetch('bind', ['status' => '50', 'corpid' => 'wxe041af5a55ce7365', 'data' => ['name' => '', 'email' => '', 'msg' => '请填写绑定信息', 'id' => 0], 'wechat_userid' => 'xingzhuang']);
+    }
+
     /**
      * 执行绑定微信操作
      * @access public

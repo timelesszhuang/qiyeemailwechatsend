@@ -33,10 +33,10 @@ class Mailinfo extends Base
             $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
             $response_json = json_decode(common::send_curl_request($url . '?' . $src . '&sign=' . $sign), true);
             if ($response_json['suc']) {
-                $this->assign('record', $response_json['con']);
+                print_r($response_json['con']);
+//                $this->assign('record', $response_json['con']);
             }
         }
-        $this->display();
     }
 
 }

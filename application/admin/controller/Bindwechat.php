@@ -52,7 +52,6 @@ class Bindwechat extends Controller
                 break;
         }
         return $this->fetch('bind', $assign_data);
-
     }
 
     /**

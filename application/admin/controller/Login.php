@@ -6,6 +6,7 @@ use app\common\model\common;
 use app\common\model\wechattool;
 use think\Controller;
 use think\Request;
+use think\Session;
 
 
 /**
@@ -35,15 +36,24 @@ class Login extends Controller
         if ($user_type == 5) {
             exit('您没有权限访问');
         }
-        $email = $info['user_info']['email'];
+        //$email = $info['user_info']['email'];
         $corpid = $info['corp_info']['corpid'];
         //这个可以保存在 session 中
         $login_ticket = $info['redirect_login_info']['login_ticket'];
+        Session::set('corpid', $corpid);
+        Session::set('login_ticket', $login_ticket);
         //然后根据 login_ticket
         //然后根据 corp_id 获取邮箱登录信息
         //根据corpid 获取 私钥,product,domain 等数据
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
-        print_r($bind_info);
+        Session::set('api_status', $bind_info['api_status']);
+        Session::set('corp_id', $bind_info['corp_id']);
+        Session::set('privatesecret', $bind_info['privatesecret']);
+        Session::set('product', $bind_info['product']);
+        Session::set('domain', $bind_info['domain']);
+        Session::set('corp_name', $bind_info['corp_name']);
+        //管理员登陆信息
+        $this->redirect('Index/index');
     }
 
 

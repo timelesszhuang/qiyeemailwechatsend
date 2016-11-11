@@ -52,9 +52,6 @@ class Login extends Controller
         Session::set('product', $bind_info['product']);
         Session::set('domain', $bind_info['domain']);
         Session::set('corp_name', $bind_info['corp_name']);
-        
-        
-        
         //管理员登陆信息
         $this->redirect('Index/index');
     }

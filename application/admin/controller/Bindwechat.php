@@ -68,7 +68,7 @@ class Bindwechat extends Controller
         $id = Request::instance()->param('id', 0);
         $arr = array();
         //错误时跳回页面
-        $display_url = "Bindwechat/bind";
+        $display_url = "bindwechat/bind";
         if (empty($wechat_userid) || empty($corpid)) {
             $arr = ['status' => '30', 'msg' => '请重新进入页面认证'];
             return $this->fetch($display_url, ['data' => $arr]);

@@ -14,7 +14,7 @@
 <body>
 <?php if($status=='30'||$status=='50'){?>
 <div class="page-header" style="text-align:center;">
-    <h4>请输入姓名和网易企业邮箱</h4>
+    <h4>请输入姓名和网易企业邮箱账号</h4>
 </div>
 <form class="form-horizontal" id="form_user" action="<?php echo url('Bindwechat/exec_bind_wechat');?>" method="post">
     <input type="hidden" name="wechat_userid" value="<?php echo $wechat_userid; ?>">

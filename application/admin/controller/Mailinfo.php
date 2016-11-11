@@ -31,7 +31,7 @@ class Mailinfo extends Base
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
-            $response_json = common::send_curl_request($url . '/' . $src . '&sign=' . $sign);
+            $response_json = common::send_curl_request($url . '?' . $src . '&sign=' . $sign);
             print_r($response_json);
             if ($response_json['suc']) {
                 $this->assign('record', $response_json['con']);

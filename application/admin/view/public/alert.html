@@ -1,0 +1,15 @@
+<foreach name="alert" item="v"  key="k">
+    <foreach name="v" item="vv"  key="kk">
+        <div class="alert alert-{$k} alert-dismissible" role="alert" >
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            {$vv}
+        </div>
+    </foreach>
+</foreach>
+
+<!--
+alert-warning  四类型
+alert-success
+alert-info
+alert-danger
+-->

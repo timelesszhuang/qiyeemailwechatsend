@@ -1,6 +1,6 @@
 <?php
 
-namespace Home\Controller;
+namespace app\admin\controller;
 
 use app\common\model\common;
 use think\Session;

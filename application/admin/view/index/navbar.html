@@ -15,54 +15,42 @@
             <!-- Collect the nav links, forms, and other content for toggling -->
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav">
-                    <li class='dropdown menulist'>
-                        <a href="javascript:void(0);" r_href="<?php echo url('authcorp/index'); ?>" title="企业绑定信息">
-                            <span class="glyphicon glyphicon-user"> 授权企业</span>
-                        </a>
-                    </li>
-                    <li class='dropdown menulist'>
-                        <a href="javascript:void(0);" r_href="<?php echo url('Mailinfo/get_domain_info'); ?>"
-                           title="邮箱信息"><span class="glyphicon glyphicon-info-sign">绑定邮箱API</span>
-                        </a>
-                    </li>
-                    <li class='dropdown menulist'>
-                        <a href="javascript:void(0);" r_href="<?php echo url('WechatMailcheck/index'); ?>"
-                           title="微信绑定邮箱审核">
-                            <span class="glyphicon glyphicon-th"> 微信绑定邮箱审核</span>
-                        </a>
-                    </li>
-                    <li class='dropdown menulist'>
-                        <a href="javascript:void(0);" r_href="<?php echo url('Maildep/index'); ?>" title="取消授权企业信息">
-                            <span class="glyphicon glyphicon-th">取消授权企业</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav navbar-nav navbar-right ">
-                    <li>
-                        <a href="javascript:void(0);" title="admin账号未读邮件" id="mailunread">
-                            <span class="glyphicon glyphicon-envelope"></span>
-                            <span style="color: #ff0033" id="mailunreadcount"></span>
-                        </a>
-                        <input type="hidden" id="singlesignin_url">
-                    </li>
-                    <li>
-                        <a href="<?php echo url('Index/index');?>">
+                    <ul class="nav navbar-nav">
+                        <li class='dropdown menulist'>
+                            <a href="javascript:void(0);" r_href="<?php echo U('Mailinfo/get_domain_info'); ?>"
+                               title="邮箱信息"><span class="glyphicon glyphicon-info-sign"> 邮箱信息</span></a>
+                        </li>
+                        <li class='dropdown menulist'>
+                            <a href="javascript:void(0);" r_href="<?php echo U('WechatMailcheck/index'); ?>"
+                               title="微信绑定邮箱审核"><span class="glyphicon glyphicon-th"> 微信绑定邮箱审核</span></a>
+                        </li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right ">
+                        <li>
+                            <a href="javascript:void(0);" title="admin账号未读邮件" id="mailunread">
+                                <span class="glyphicon glyphicon-envelope"></span>
+                                <span style="color: #ff0033" id="mailunreadcount"></span>
+                            </a>
+                            <input type="hidden" id="singlesignin_url">
+                        </li>
+                        <li>
+                            <a href="<?php echo url('Index/index');?>">
                         <span class="glyphicon glyphicon-home">
                         </span>主页
-                        </a>
-                    </li>
-                    <li class="menulist">
-                        <a href="javascript:void(0);" r_href="<?php echo url('Sysadmin/reset_pwd');?>" type='modal'
-                           title="密码修改">
-                            <span class="glyphicon glyphicon-edit"> 密码修改</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="<?php echo url('Sysadmin/log_out')?>">退出&nbsp;
-                            <span class="glyphicon glyphicon-log-out"></span>
-                        </a>
-                    </li>
-                </ul>
+                            </a>
+                        </li>
+                        <li class="menulist">
+                            <a href="javascript:void(0);" r_href="<?php echo url('Sysadmin/reset_pwd');?>" type='modal'
+                               title="密码修改">
+                                <span class="glyphicon glyphicon-edit"> 密码修改</span>
+                            </a>
+                        </li>
+                        <li>
+                            <a href="<?php echo url('Sysadmin/log_out')?>">退出&nbsp;
+                                <span class="glyphicon glyphicon-log-out"></span>
+                            </a>
+                        </li>
+                    </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>

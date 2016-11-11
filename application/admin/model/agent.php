@@ -20,7 +20,6 @@ class agent
 {
     public static function verify_url()
     {
-
         $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
         //企业号后台随机填写的token
         $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
@@ -155,6 +154,7 @@ class agent
             $check_status = $info['status'];
             switch ($check_status) {
                 case '10':
+                    //绑定之后的
                     $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_pcode_bycorpid($corpid));
                     list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
                     Db::name('entermail_log')->insert([

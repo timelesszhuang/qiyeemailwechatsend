@@ -1,2 +1,11 @@
 
-111
+111suite_token_urlhttps://qyapi.weixin.qq.com/cgi-bin/service/get_suite_tokensuite_ticketHSG23ryV7cqDzWXP0Fsrut0dgVb2cD5c6rsAb2tCAMuo5oY0SGQwvPV-dmXpnizkjson corp_access_token{"access_token":"02LlfFsXwD0kd320TBBiTB1uscwMYnwxLLnG-cjr3uECrNIsmAIh17uXccss3j3w","expires_in":7200}corp_access_token:Array
+(
+    [access_token] => 02LlfFsXwD0kd320TBBiTB1uscwMYnwxLLnG-cjr3uECrNIsmAIh17uXccss3j3w
+    [expires_in] => 7200
+)
+suite_access_token:Array
+(
+    [expires_in] => 7200
+    [provider_access_token] => 5TnWoof3U6XskE3XprqrJm2jrnhoyBO7JtfsPKHIO7z8t3BJMw-wNyEm0_02DDyJ
+)

@@ -46,6 +46,8 @@ class Login extends Controller
         //然后根据 corp_id 获取邮箱登录信息
         //根据corpid 获取 私钥,product,domain 等数据
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
+        print_r($bind_info);
+        exit;
         Session::set('api_status', $bind_info['api_status']);
         Session::set('corp_id', $bind_info['corp_id']);
         Session::set('privatesecret', $bind_info['privatesecret']);

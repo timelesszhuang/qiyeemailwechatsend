@@ -108,7 +108,7 @@ class Bindwechat extends Controller
         }
         //获取信息 然后提示正在审核 请耐心等待
         //从后台获取  职员的微信账号等数据
-        $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_pcode_bycorpid($corpid));
+        $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
         list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid, $corp_access_token);
         $a_data = [
             'corp_id' => $corp_id,

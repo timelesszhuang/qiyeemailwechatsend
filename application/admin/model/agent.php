@@ -154,7 +154,7 @@ class agent
             switch ($check_status) {
                 case '10':
                     //绑定之后的
-                    $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_pcode_bycorpid($corpid));
+                    $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
                     list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
                     Db::name('entermail_log')->insert([
                         'corp_id' => $info['corp_id'],

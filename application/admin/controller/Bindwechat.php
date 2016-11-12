@@ -150,7 +150,7 @@ class Bindwechat extends Controller
         if (!$status) {
             return $this->fetch("bindwechat/failed_oath");
         }
-        $this->fetch("bindwechat/success_oath");
+        return $this->fetch("bindwechat/success_oath");
     }
 
 

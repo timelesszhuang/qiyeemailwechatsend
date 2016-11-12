@@ -155,8 +155,9 @@ class agent
                 case '10':
                     //绑定之后的
                     $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+                    file_put_contents('a.txt', 'a.txt', FILE_APPEND);
                     list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
-                    Db::name('entermail_log')->insert([
+                    Db::name('entermail_log')->insertGetId([
                         'corp_id' => $info['corp_id'],
                         'corp_name' => $info['corp_name'],
                         'corpid' => $corpid,

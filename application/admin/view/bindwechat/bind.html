@@ -17,8 +17,8 @@
     <h4>请输入姓名和网易企业邮箱账号</h4>
 </div>
 <form class="form-horizontal" id="form_user" action="<?php echo url('Bindwechat/exec_bind_wechat');?>" method="post">
-    <input type="hidden" name="wechat_userid" value="<?php echo $wechat_userid; ?>">
-    <input type="hidden" name="corpid" value="<?php echo $corpid; ?>">
+    <input type="hidden" name="wechat_userid" value="<?php echo $data['wechat_userid']; ?>">
+    <input type="hidden" name="corpid" value="<?php echo $data['corpid']; ?>">
     <input type="hidden" name="id" value="<?php echo array_key_exists('id',$data)?$data['id']:''; ?>">
     <div class="form-group" style="width:90%;margin:10px auto;">
         <div class="col-sm-12">

@@ -36,7 +36,7 @@ class Bindwechat extends Controller
         //根据 corpid 跟 wechat_userid 获取绑定状态
         list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $wechat_userid);
         if (!$status) {
-            return $this->fetch('bind', ['status' => '50', 'corpid' => $corpid, 'data' => ['name' => '', 'email' => '', 'msg' => '请填写绑定信息', 'id' => 0], 'wechat_userid' => $wechat_userid]);
+            return $this->fetch('bind', ['status' => '50', 'data' => ['name' => '', 'corpid' => $corpid, 'email' => '', 'wechat_userid' => $wechat_userid, 'msg' => '请填写绑定信息', 'id' => 0]]);
         }
         $check_status = $info['status'];
         switch ($check_status) {
@@ -57,10 +57,10 @@ class Bindwechat extends Controller
 
     /**
      *
-    */
+     */
     public function test_bind()
     {
-        return $this->fetch('bind', ['status' => '50', 'corpid' => 'wxe041af5a55ce7365', 'data' => ['name' => '', 'email' => '', 'msg' => '请填写绑定信息', 'id' => 0], 'wechat_userid' => 'xingzhuang']);
+        return $this->fetch('bind', ['status' => '50', 'data' => ['name' => '', 'email' => '', 'msg' => '请填写绑定信息', 'id' => 0, 'corpid' => 'wxe041af5a55ce7365', 'wechat_userid' => 'xingzhuang']]);
     }
 
     /**
@@ -84,17 +84,31 @@ class Bindwechat extends Controller
             return $this->fetch($display_url, ['data' => $arr, 'status' => '30',]);
         }
         if (empty($name)) {
-            $arr = ['msg' => "请输入您的姓名。"];
-            return $this->fetch($display_url, ['data' => $arr, 'status' => '30', 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+            $arr = [
+                'msg' => "请输入您的姓名。",
+                'wechat_userid' => $wechat_userid,
+                'corpid' => $corpid
+            ];
+            return $this->fetch($display_url, ['data' => $arr, 'status' => '30',]);
         }
         if (empty($email)) {
-            $arr = ['name' => $name, 'msg' => "请输入网易企业邮箱账号。"];
-            return $this->fetch($display_url, ['data' => $arr, 'status' => '30', 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+            $arr = [
+                'name' => $name,
+                'msg' => "请输入网易企业邮箱账号。",
+                'wechat_userid' => $wechat_userid,
+                'corpid' => $corpid
+            ];
+            return $this->fetch($display_url, ['data' => $arr, 'status' => '30']);
         }
         //判断邮箱格式正确与否
         if (!common::check_email($email)) {
-            $arr = ['msg' => '邮箱账号格式不正确。', 'name' => $name];
-            return $this->fetch($display_url, ['data' => $arr, 'status' => '30', 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+            $arr = [
+                'msg' => '邮箱账号格式不正确。',
+                'name' => $name,
+                'wechat_userid' => $wechat_userid,
+                'corpid' => $corpid
+            ];
+            return $this->fetch($display_url, ['data' => $arr, 'status' => '30']);
         }
         //判断邮箱后缀是不是正确
         //需要根据 corpid 获取邮箱后缀
@@ -135,9 +149,9 @@ class Bindwechat extends Controller
             $status = $user->insertGetId($a_data);
         }
         if (!$status) {
-            $this->redirect("bindwechat/failed_oath");
+            return $this->fetch("bindwechat/failed_oath");
         }
-        $this->redirect("bindwechat/success_oath");
+        $this->fetch("bindwechat/success_oath");
     }
 
 

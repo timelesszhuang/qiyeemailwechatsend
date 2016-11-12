@@ -77,7 +77,6 @@ class agent
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
-//        file_put_contents('a.txt', 'errorcode' . $errCode, FILE_APPEND);
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);

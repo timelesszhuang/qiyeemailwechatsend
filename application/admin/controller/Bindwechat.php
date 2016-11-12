@@ -75,7 +75,6 @@ class Bindwechat extends Controller
         $wechat_userid = Request::instance()->param("wechat_userid");
         $corpid = Request::instance()->param('corpid');
         $id = Request::instance()->param('id', 0);
-        print_r($_POST);
         $arr = array();
         //错误时跳回页面
         $display_url = "bindwechat/bind";

@@ -129,10 +129,10 @@ class Bindwechat extends Controller
         if ($id) {
             //更新
             $a_data['id'] = $id;
-            $status = $user->save($a_data);
+            $status = $user->update($a_data);
         } else {
             //添加
-            $status = $user->add($a_data);
+            $status = $user->insertGetId($a_data);
         }
         if (!$status) {
             $this->redirect("bindwechat/failed_oath");

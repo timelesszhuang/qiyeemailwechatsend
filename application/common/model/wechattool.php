@@ -46,7 +46,6 @@ class wechattool
     public static function get_suite_access_token()
     {
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token';
-        file_put_contents('a.txt', 'suite_token_url' . $url, FILE_APPEND);
         //令牌套件
         $post = json_encode([
             'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
@@ -54,9 +53,7 @@ class wechattool
             'suite_ticket' => wechattool::get_suite_ticket(),
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-//        file_put_contents('a.txt', 'json suite_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-//        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['suite_access_token'];
     }
 
@@ -73,9 +70,7 @@ class wechattool
             'provider_secret' => Config::get('wechatsuite.PROVIDERSECRET'),
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-//        file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-//        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['provider_access_token'];
     }
 
@@ -95,9 +90,7 @@ class wechattool
             'permanent_code' => $permanent_code,
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-//        file_put_contents('a.txt', 'json corp_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-//        file_put_contents('a.txt', 'corp_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['access_token'];
     }
 
@@ -173,7 +166,6 @@ class wechattool
                 "articles" => $content
             ]
         ], JSON_UNESCAPED_UNICODE);
-        file_put_contents('error.log', print_r($post, true), FILE_APPEND);
         common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
         return true;
     }

@@ -240,6 +240,8 @@ class Wechatmailsend extends Controller
         if ($accounts_md5 != $this->get_entrykey($accounts, $corpid)) {
             exit("请求异常，加密字段匹配异常");
         }
+        echo $this->get_entry_url($accounts, $corpid);
+        exit;
         ob_start();
         ob_end_flush();
         header("Location:" . $this->get_entry_url($accounts, $corpid));

@@ -91,13 +91,12 @@ class Wechatmailsend extends Controller
         $time = date(time()) . '000';
         $res = openssl_pkey_get_private($this->prikey);
         //必须使用post方法
+//        $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product=" . $this->product . "&start={$start}&time={$time}";
         $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
-        echo $src;
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
-            $json_log = common::send_curl_request($url . $src . '&sign=' . $sign, 'post');
-            $response_json = json_decode($json_log, true);
+            $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
             file_put_contents('error.log', print_r($response_json, true), FILE_APPEND);
             if ($response_json['suc'] == '1') {
                 $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);

@@ -11,6 +11,7 @@ namespace app\common\model;
 
 
 use app\admin\model\agent;
+use app\admin\model\cachetool;
 use think\Config;
 use think\console\Command;
 use think\Db;
@@ -117,29 +118,64 @@ class wechattool
 
 
     /**
+     * 发送消息、imgage的链接地址
+     * @param $corpid 微信的corpid
+     * @return string
+     */
+    public static function get_sendwechat_url($corpid)
+    {
+        //根据 corp_id 获取永久授权码
+        return 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+    }
+
+
+    /**
      * 发送文本信息
      * @access public
      * @param $corpid  微信中组织的id
-     * @param $wechat_userid  微信的user_id
+     * @param $touser  要发送给的人
      * @param $agent_id 授权放的微信id
      * @param $content 详细的内容
+     * @return bool
      */
-    public static function send_text($corpid, $wechat_userid, $agent_id, $content)
+    public static function send_text($corpid, $touser, $agent_id, $content)
     {
         //表示没有
-        $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
-        //根据 corp_id 获取永久授权码
-        $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, $permanent_code);
         $post = json_encode([
-            "touser" => $wechat_userid,
+            "touser" => $touser,
             "msgtype" => "text",
             "agentid" => $agent_id,
             "text" => [
                 "content" => $content,
             ],
         ], JSON_UNESCAPED_UNICODE);
-        $info = common::send_curl_request($send_msg_url, $post, 'post');
+        common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        return true;
+    }
 
+
+    /**
+     * 发送微信news   图文
+     * @access public
+     * @param $corpid 组织的corpid
+     * @param $touser 发送给的人
+     * @param $content 　内容详情
+     * @param $agentid 　应用的id
+     * @return bool
+     */
+    public static function send_news($corpid, $touser, $agentid, $content)
+    {
+        $post = json_encode([
+            "touser" => $touser,
+            "msgtype" => "news",
+            "agentid" => $agentid,
+            "news" => [
+                "articles" => $content
+            ]
+        ], JSON_UNESCAPED_UNICODE);
+        file_put_contents('error.log', print_r($post, true), FILE_APPEND);
+        common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        return true;
     }
 
 

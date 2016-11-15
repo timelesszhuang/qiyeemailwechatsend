@@ -219,7 +219,7 @@ class Wechatmailsend extends Controller
                     ];
                     $articles[] = $perarticle;
                 }
-                $this->sendNews($wechat_userid, $articles, $agent_id);
+                wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
             }
         }
     }

@@ -152,15 +152,15 @@ class wechattool
      * @param $corpid 组织的corpid
      * @param $touser 发送给的人
      * @param $content 　内容详情
-     * @param $agentid 　应用的id
+     * @param $agent_id 　应用的id
      * @return bool
      */
-    public static function send_news($corpid, $touser, $agentid, $content)
+    public static function send_news($corpid, $touser, $agent_id, $content)
     {
         $post = json_encode([
             "touser" => $touser,
             "msgtype" => "news",
-            "agentid" => $agentid,
+            "agentid" => $agent_id,
             "news" => [
                 "articles" => $content
             ]

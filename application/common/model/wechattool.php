@@ -10,6 +10,7 @@
 namespace app\common\model;
 
 
+use app\admin\model\agent;
 use think\Config;
 use think\console\Command;
 use think\Db;
@@ -73,7 +74,7 @@ class wechattool
         $json_info = common::send_curl_request($url, $post, 'post');
 //        file_put_contents('a.txt', 'json provider_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
+//        file_put_contents('a.txt', 'suite_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['provider_access_token'];
     }
 
@@ -93,9 +94,9 @@ class wechattool
             'permanent_code' => $permanent_code,
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
-        file_put_contents('a.txt', 'json corp_access_token' . $json_info, FILE_APPEND);
+//        file_put_contents('a.txt', 'json corp_access_token' . $json_info, FILE_APPEND);
         $info = json_decode($json_info, true);
-        file_put_contents('a.txt', 'corp_access_token:' . print_r($info, true), FILE_APPEND);
+//        file_put_contents('a.txt', 'corp_access_token:' . print_r($info, true), FILE_APPEND);
         return $info['access_token'];
     }
 
@@ -112,6 +113,33 @@ class wechattool
         $get_wechat_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={$corp_access_token}&userid=" . $wechat_userid;
         $info = json_decode(common::send_curl_request($get_wechat_userid_url), true);
         return [$info['name'], $info['mobile'], $info['email']];
+    }
+
+
+    /**
+     * 发送文本信息
+     * @access public
+     * @param $corpid  微信中组织的id
+     * @param $wechat_userid  微信的user_id
+     * @param $agent_id 授权放的微信id
+     * @param $content 详细的内容
+     */
+    public static function send_text($corpid, $wechat_userid, $agent_id, $content)
+    {
+        //表示没有
+        $permanent_code = cachetool::get_permanent_code_by_corpid($corpid);
+        //根据 corp_id 获取永久授权码
+        $send_msg_url = 'https://qyapi.weixin.qq.com/cgi-bin/message/send?access_token=' . wechattool::get_corp_access_token($corpid, $permanent_code);
+        $post = json_encode([
+            "touser" => $wechat_userid,
+            "msgtype" => "text",
+            "agentid" => $agent_id,
+            "text" => [
+                "content" => $content,
+            ],
+        ], JSON_UNESCAPED_UNICODE);
+        $info = common::send_curl_request($send_msg_url, $post, 'post');
+
     }
 
 

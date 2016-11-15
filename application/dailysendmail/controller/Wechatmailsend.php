@@ -91,13 +91,13 @@ class Wechatmailsend extends Controller
         $time = date(time()) . '000';
         $res = openssl_pkey_get_private($this->prikey);
         //必须使用post方法
-        $src = "accounts={$accounts}&domain=" . $this->domain . "&end={$end}&product=" . $this->product . "&start={$start}&time=" . $time;
+        $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
+        echo $src;
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
-            $json_log = common::send_curl_request($url . '?' . $src . '&sign=' . $sign);
+            $json_log = common::send_curl_request($url . $src . '&sign=' . $sign, 'post');
             $response_json = json_decode($json_log, true);
-            file_put_contents('error.log', $json_log, FILE_APPEND);
             file_put_contents('error.log', print_r($response_json, true), FILE_APPEND);
             if ($response_json['suc'] == '1') {
                 $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
@@ -106,6 +106,34 @@ class Wechatmailsend extends Controller
             //失败  返回详细信息
         }
     }
+
+
+    /**
+     * 发送post请求 获取返回信息
+     * @access public
+     * @param $url url账号
+     * @param $data data数据
+     * @return
+     */
+    public function exec_postresponse($url, $data)
+    {
+        $curl = curl_init(); //这是curl的handle
+        //下面是设置curl参数
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_POST, 1);
+        curl_setopt($curl, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);
+        curl_setopt($curl, CURLOPT_HEADER, 0); //don't show header
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1); //相当关键，这句话是让curl_exec($ch)返回的结果可以进行赋值给其他的变量进行，json的数据操作，如果没有这句话，则curl返回的数据不可以进行人为的去操作（如json_decode等格式操作）
+        curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false); //这个是重点。
+        //这个就是超时时间了
+        curl_setopt($curl, CURLOPT_TIMEOUT, 2);
+        curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+        $info = curl_exec($curl);
+        curl_close($curl);
+        return json_decode($info, true);
+    }
+
 
 //返回代码实例
 //Array
@@ -228,7 +256,6 @@ class Wechatmailsend extends Controller
     private function get_entry_url($accounts, $corpid)
     {
         $bindinfo = cachetool::get_bindinfo_bycorpid($corpid);
-
         $prikey = $bindinfo['privatesecret'];
         //域名
         $domain = $bindinfo['domain'];

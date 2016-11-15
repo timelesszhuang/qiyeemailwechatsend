@@ -165,7 +165,8 @@ class wechattool
                 "articles" => $content
             ]
         ], JSON_UNESCAPED_UNICODE);
-        common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        $info=common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        print_r($info);
         return true;
     }
 

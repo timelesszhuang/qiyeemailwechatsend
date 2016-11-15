@@ -94,8 +94,9 @@ class Wechatmailsend extends Controller
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
-            $response_json = json_decode(common::send_curl_request($url . '?' . $src . '&sign=' . $sign), true);
-            file_put_contents('error.log', $src, FILE_APPEND);
+            $json_log = common::send_curl_request($url . '?' . $src . '&sign=' . $sign);
+            $response_json = json_decode($json_log, true);
+            file_put_contents('error.log', $json_log, FILE_APPEND);
             file_put_contents('error.log', print_r($response_json, true), FILE_APPEND);
             if ($response_json['suc'] == '1') {
                 $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);

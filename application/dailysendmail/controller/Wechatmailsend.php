@@ -242,7 +242,8 @@ class Wechatmailsend extends Controller
         }
         ob_start();
         ob_end_flush();
-        header("Location:" . $this->get_entry_url($accounts, $corpid));
+        $url = $this->get_entry_url($accounts, $corpid);
+        header("Location:{$url}");
         exit;
     }
 

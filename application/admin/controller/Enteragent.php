@@ -15,7 +15,7 @@ use app\common\model\wechattool;
 use think\Request;
 
 /**
- * 点击菜单进入应用相关操作
+ * 点击菜单进入邮箱应用相关操作
  */
 class Enteragent
 {
@@ -62,5 +62,44 @@ class Enteragent
                     exit('请先在salesman中填写您的企业邮箱。');
                 }*/
     }
+
+
+    /**
+     * 点击菜单进入的地方
+     * @access public
+     */
+/*    public function entry_mail()
+    {
+        //构造该链接然后请求之后 会调转动  指定的路径
+        $corpid = C('CORPID');
+        $domain = C('DOMAIN');
+        $redirect_url = urlencode($domain . '/index.php/Wechat/Wechatmailsend/entry_menu_mail');
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state=STATE#wechat_redirect";
+        header("Location: {$url}");
+    }*/
+
+    /**
+     * 跳转到邮箱单点登录  菜单点击之后  微信重定向到的地址
+     * @access public
+     */
+/*    public function entry_menu_mail()
+    {
+        $code = I('get.code');
+        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$this->accesstoken}&code={$code}";
+        $user_info = $this->send_curl_request($get_userid_url, [], 'get');
+        $user_info = json_decode($user_info, true);
+        $wechatuser_id = $user_info['UserId'];
+        //然后根据userid 获取 user_id
+        $wechatuserid_email = D('WechatUser')->get_weichatuserid_emailaccount();
+        if (array_key_exists($wechatuser_id, $wechatuserid_email)) {
+            //存在的情况下
+            $accounts = $wechatuserid_email[$wechatuser_id];
+            header("Location:" . $this->get_entry_url($accounts));
+        } else {
+            $this->display('index/wait_oath');
+        }
+    }*/
+
+
 
 }

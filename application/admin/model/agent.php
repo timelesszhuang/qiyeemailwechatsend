@@ -147,7 +147,7 @@ class agent
     {
         //从数据库中获取 状态 更新下有多少访问量 更新到 数据库中
         list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $reqFromUserName);
-        $bind_url = "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&wechat_userid={$reqFromUserName}";
+        $bind_url = "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&agent_id={$agent_id}&wechat_userid={$reqFromUserName}";
         if ($status) {
             //表示已经完成或者其他的审核没有通过 或者是其他的操作
             $check_status = $info['status'];
@@ -155,7 +155,7 @@ class agent
                 case '10':
                     //绑定之后的
                     $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
-                    file_put_contents('a.txt', 'a.txt', FILE_APPEND);
+//                    file_put_contents('a.txt', '', FILE_APPEND);
                     list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
                     Db::name('entermail_log')->insertGetId([
                         'corp_id' => $info['corp_id'],

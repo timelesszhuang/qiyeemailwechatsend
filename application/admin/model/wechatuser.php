@@ -24,4 +24,17 @@ class wechatuser
         }
     }
 
+
+    /**
+     * 更具corp_id 获取 所有的用户的相关信息
+     * @access public
+     * @param $corp_id 系统对公司的唯一标识
+     * @return array
+     */
+    public static function get_wechatuser_arr_bycorp_id($corp_id)
+    {
+        return Db::name('wechat_user')->where(['corp_id' => $corp_id, 'status' => '10'])->field('wechat_userid,account,lastgetmailtime')->select();
+    }
+
+
 }

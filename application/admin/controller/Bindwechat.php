@@ -137,6 +137,7 @@ class Bindwechat extends Controller
             'status' => '20',
             'checktime' => 0,
             'addtime' => time(),
+            'lastgetmailtime' => time(),
         ];
         $user = Db::name('wechat_user');
         if ($id) {

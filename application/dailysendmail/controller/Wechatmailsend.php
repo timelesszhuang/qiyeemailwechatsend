@@ -286,6 +286,58 @@ class Wechatmailsend extends Controller
         return md5(sha1($account . 'qiangbi') . $corpid);
     }
 
+
+    /**
+     * index 点击底部菜单之后跳转到的地方
+     * @access public
+     */
+    public function click_entrymailmenu()
+    {
+        $corpid = Request::instance()->param('corpid');
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/entry_menu_mail?corpid=' . $corpid);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
+        ob_start();
+        ob_end_flush();
+        header("Location:$url");
+        exit;
+    }
+
+
+    /**
+     * entry_menu_mail
+     * 进入菜单应用 微信客户端跳转之后的链接
+     */
+    public function entry_menu_mail()
+    {
+        $code = Request::instance()->param('code');
+        $corpid = Request::instance()->param('corpid');
+        $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
+        $user_info = common::send_curl_request($get_userid_url, [], 'get');
+        $user_info = json_decode($user_info, true);
+        $wechat_userid = $user_info['UserId'];
+        //知道UserId  corpid之后可以获取 网易邮箱账号 也可以获取网易接口数据
+        //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定
+        $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();
+        if ($user_info['status'] == '10') {
+            //存在的情况下
+            //需要更新相关 log 日志
+            ob_start();
+            ob_end_flush();
+            header("Location:" . $this->get_entry_url($user_info['account'], $corpid));
+            exit;
+        }
+        if ($user_info['status'] == '20') {
+            //审核信息 表示正在审核
+            echo '<div class="alert alert-success" style="margin-top:10em;"><h1>您的账号绑定信息正在审核，请耐心等待!</h1></div>';
+        } else {
+            //审核失败
+            echo '<div class="alert alert-success" style="margin-top:10em;"><h1>您的绑定信息有误，管理员审核未通过，请重新填写绑定信息!!</h1></div>';
+        }
+        exit;
+    }
+
+
     /**
      * 判断是不是微信客户端 登陆过来的  需要想一下 防止被盗的策略
      * @access private

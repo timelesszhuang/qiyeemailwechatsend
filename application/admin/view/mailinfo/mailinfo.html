@@ -1,0 +1,40 @@
+<?php
+if(isset($msg)){
+?>
+<div class="tab-container" id="user_tab_container">
+    <table class="table table-bordered" style="width:80%;margin: 10px auto;">
+        <tbody>
+        <tr>
+            <td class="t-left">公司logo</td>
+            <td colspan="7">
+                <img src="{$info.logo}">
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">公司/组织名</td>
+            <td colspan="7">
+                {$info.org_name}
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">到期时间</td>
+            <td colspan="7">
+                <?php echo date('Y-m-d H:i:s',$info['exp_time']);?>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">域名</td>
+            <td colspan="7">
+                {$info.domain}
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<?php
+}else{
+?>
+<div class="alert alert-success" style="margin-top:10em;"><h1>{$msg}</h1></div>
+<?php
+}
+?>

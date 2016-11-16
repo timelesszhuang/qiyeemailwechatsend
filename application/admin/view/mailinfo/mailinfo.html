@@ -19,7 +19,7 @@ if(!isset($msg)){
         <tr>
             <td class="t-left">到期时间</td>
             <td colspan="7">
-                <?php echo date('Y-m-d H:i:s',$info['exp_time']);?>
+                <?php echo date('Y-m-d H:i:s',$info['exp_time']/1000);?>
             </td>
         </tr>
         <tr>

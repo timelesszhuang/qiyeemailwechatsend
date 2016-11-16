@@ -296,8 +296,6 @@ class Wechatmailsend extends Controller
         $corpid = Request::instance()->param('corpid');
         $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/entry_menu_mail?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
-        echo $url;
-        exit;
         ob_start();
         ob_end_flush();
         header("Location:$url");

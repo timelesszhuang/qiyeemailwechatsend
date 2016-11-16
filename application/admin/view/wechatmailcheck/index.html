@@ -1,6 +1,6 @@
-<include file="Public:alert" />
+<include file="Public:alert"/>
 <div class="page-header page-header-title">
-    <h4><img src="__PUBLIC__/Home/image/approval.png">&nbsp;&nbsp;邮箱审核</h4>
+    <h4><img src="/static/sys/image/approval.png">&nbsp;&nbsp;邮箱审核</h4>
 </div>
 <!--企业部门信息设置-->
 <div class="opendialog">
@@ -8,19 +8,20 @@
         <div class="col-lg-12">
             <ul class="nav query-ul">
                 <li class="pull-left">
-                    姓名：<input name="query_name"  type='text'  id='query_name' class="form-control input-sm" value=""  style="width:120px; display: inline-block;"/>
+                    姓名：<input name="query_name" type='text' id='query_name' class="form-control input-sm" value=""
+                              style="width:120px; display: inline-block;"/>
                 </li>
                 <li class="pull-left">
-                    <button type="button" class="btn btn-default btn-sm"   rel='refresh_datagrid' tag='query'>
+                    <button type="button" class="btn btn-default btn-sm" rel='refresh_datagrid' tag='query'>
                         <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
                         查询
                     </button>
                 </li>
                 <li class="pull-left">
-                    <button type="button" class="btn btn-primary btn-sm"   rel='modal' tag='add_wechat_user'>
+                    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add_wechat_user'>
                         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
                         添加账号绑定
-                    </button>                               
+                    </button>
                 </li>
             </ul>
         </div>
@@ -36,11 +37,11 @@
     $(function () {
         var classid = 'wechatuser_mailcheck';
         var datagrid_id = classid + '_datagrid';
-        var urljson = '{:U("WechatMailcheck/index_mailcheck_json")}';
-        var hrefcheck = '{:U("WechatMailcheck/check_wechatmail")}';
-        var hrefnotcheck = '{:U("WechatMailcheck/notcheck_wechatmail")}';
-        var hrefedit = '{:U("WechatMailcheck/edit_wechatmail")}';
-        var hrefadd = '{:U("WechatMailcheck/add_wechatmail")}';
+        var urljson = '<?php echo url("WechatMailcheck/index_mailcheck_json");?>';
+        var hrefcheck = '<?php echo url("WechatMailcheck/check_wechatmail");?>';
+        var hrefnotcheck = '<?php echo url("WechatMailcheck/notcheck_wechatmail");?>';
+        var hrefedit = '<?php echo url("WechatMailcheck/edit_wechatmail");?>';
+        var hrefadd = '<?php echo url("WechatMailcheck/add_wechatmail");?>';
         var modal_id = 'index_menulist';
         load_wechat_user_datagrid(datagrid_id, urljson, hrefcheck, hrefnotcheck, hrefedit, modal_id);
         //按钮点击事件完成之后
@@ -78,37 +79,37 @@
             rownumbers: true,
             fitColumns: true,
             columns: [[
-                    {field: 'id', title: 'ID', align: 'center', hidden: true},
-                    {field: 'check_name', title: '姓名（填写）', align: 'center', width: 8},
-                    //售前跟踪   合同回传——售中  已经付款之后的——售后  服务    动态更改状态
-                    {field: 'name', title: '姓名', align: 'center', width: 8},
-                    //表示是潜在客户 一般客户  vip 客户等
-                    {field: 'check_email', title: '邮箱账号(填写)', width: 8},
-                    //表示是公海还是私海
-                    {field: 'email', title: '邮箱账号', width: 8},
-                    {field: 'mobile', title: '手机号码', width: 8},
-                    {field: 'addtime', title: '提交审核时间', width: 8},
-                    {field: 'status', hidden: true, width: 8},
-                    {field: 'checktime', hidden: true, width: 8},
-                    {
-                        field: 'action',
-                        title: '操作',
-                        align: 'center',
-                        width: 10,
-                        formatter: function (value, row, index) {
-                            var edit_btn = '<button type="button" id="myButton" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" class="btn btn-danger btn-sm btn-menu">修改信息</button>&nbsp;&nbsp;\n\ ';
-                            if (row.status == 20) {
-                                return '<button type="button" id="myButton" onclick="check_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">审核通过</button>&nbsp;&nbsp;\n\
+                {field: 'id', title: 'ID', align: 'center', hidden: true},
+                {field: 'check_name', title: '姓名（填写）', align: 'center', width: 8},
+                //售前跟踪   合同回传——售中  已经付款之后的——售后  服务    动态更改状态
+                {field: 'name', title: '姓名', align: 'center', width: 8},
+                //表示是潜在客户 一般客户  vip 客户等
+                {field: 'check_email', title: '邮箱账号(填写)', width: 8},
+                //表示是公海还是私海
+                {field: 'email', title: '邮箱账号', width: 8},
+                {field: 'mobile', title: '手机号码', width: 8},
+                {field: 'addtime', title: '提交审核时间', width: 8},
+                {field: 'status', hidden: true, width: 8},
+                {field: 'checktime', hidden: true, width: 8},
+                {
+                    field: 'action',
+                    title: '操作',
+                    align: 'center',
+                    width: 10,
+                    formatter: function (value, row, index) {
+                        var edit_btn = '<button type="button" id="myButton" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" class="btn btn-danger btn-sm btn-menu">修改信息</button>&nbsp;&nbsp;\n\ ';
+                        if (row.status == 20) {
+                            return '<button type="button" id="myButton" onclick="check_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">审核通过</button>&nbsp;&nbsp;\n\
                                         <button type="button" id="myButton" onclick="notcheck_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefnotcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">否决</button>&nbsp;&nbsp;\n\ '
-                                        + edit_btn;
-                            } else if (row.status == 10) {
-                                return '已审核,时间：' + row.checktime + edit_btn;
-                            } else {
-                                return '已否决,时间：' + row.checktime + edit_btn;
-                            }
+                                    + edit_btn;
+                        } else if (row.status == 10) {
+                            return '已审核,时间：' + row.checktime + edit_btn;
+                        } else {
+                            return '已否决,时间：' + row.checktime + edit_btn;
                         }
                     }
-                ]],
+                }
+            ]],
         });
     }
 

@@ -37,11 +37,11 @@
     $(function () {
         var classid = 'wechatuser_mailcheck';
         var datagrid_id = classid + '_datagrid';
-        var urljson = '<?php echo url("WechatMailcheck/index_mailcheck_json");?>';
-        var hrefcheck = '<?php echo url("WechatMailcheck/check_wechatmail");?>';
-        var hrefnotcheck = '<?php echo url("WechatMailcheck/notcheck_wechatmail");?>';
-        var hrefedit = '<?php echo url("WechatMailcheck/edit_wechatmail");?>';
-        var hrefadd = '<?php echo url("WechatMailcheck/add_wechatmail");?>';
+        var urljson = '<?php echo url("Wechatmailcheck/index_mailcheck_json");?>';
+        var hrefcheck = '<?php echo url("Wechatmailcheck/check_wechatmail");?>';
+        var hrefnotcheck = '<?php echo url("Wechatmailcheck/notcheck_wechatmail");?>';
+        var hrefedit = '<?php echo url("Wechatmailcheck/edit_wechatmail");?>';
+        var hrefadd = '<?php echo url("Wechatmailcheck/add_wechatmail");?>';
         var modal_id = 'index_menulist';
         load_wechat_user_datagrid(datagrid_id, urljson, hrefcheck, hrefnotcheck, hrefedit, modal_id);
         //按钮点击事件完成之后

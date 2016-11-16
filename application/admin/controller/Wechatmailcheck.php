@@ -69,18 +69,19 @@ class Wechatmailcheck extends Base
      */
     private function format_json_list(&$val)
     {
-//        switch ($val['status']) {
-//            case '10':
-//                $val['status'] = '审核通过';
-//                break;
-//            case '20':
-//                $val['status'] = '<span style="color:green">等待审核</span>';
-//            default:
-//                $val['status'] = '<span style="color:red">审核失败</span>';
-//                break;
-//        }
         $val['addtime'] = date('Y-m-d H:i:s', $val['addtime']);
         $val['checktime'] = $val['checktime'] ? date('Y-m-d H:i:s', $val['checktime']) : '';
+    }
+
+
+    /**
+     * 添加微信 邮件推送
+     * @access public
+     */
+    public function add_wechatmail()
+    {
+        $this->get_assign();
+        $this->fetch('add_wechatmail');
     }
 
 }

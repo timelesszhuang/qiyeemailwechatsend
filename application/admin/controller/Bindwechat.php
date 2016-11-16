@@ -116,8 +116,13 @@ class Bindwechat extends Controller
         $corp_name = $bind_info['corp_name'];
         $domain = '@' . $bind_info['domain'];
         if (substr($check_email, strpos($check_email, '@')) != $domain) {
-            $arr = ['name' => $name, 'msg' => "邮箱账号后缀不正确，应该为：" . $domain];
-            return $this->fetch($display_url, ['data' => $arr, 'status' => '30', 'wechat_userid' => $wechat_userid, 'corpid' => $corpid]);
+            $arr = [
+                'name' => $name,
+                'msg' => "邮箱账号后缀不正确，应该为：" . $domain,
+                'wechat_userid' => $wechat_userid,
+                'corpid' => $corpid
+            ];
+            return $this->fetch($display_url, ['data' => $arr, 'status' => '30']);
         }
         //获取信息 然后提示正在审核 请耐心等待
         //从后台获取  职员的微信账号等数据

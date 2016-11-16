@@ -105,7 +105,7 @@ class wechattool
     {
         $get_wechat_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={$corp_access_token}&userid=" . $wechat_userid;
         $info = json_decode(common::send_curl_request($get_wechat_userid_url), true);
-        return [$info['name'], $info['mobile'], $info['email']];
+        return [$info['name'], isset($info['mobile']) ? $info['mobile'] : '', isset($info['email']) ? $info['email'] : ''];
     }
 
 
@@ -165,7 +165,7 @@ class wechattool
                 "articles" => $content
             ]
         ], JSON_UNESCAPED_UNICODE);
-        $info=common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        $info = common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
         print_r($info);
         return true;
     }

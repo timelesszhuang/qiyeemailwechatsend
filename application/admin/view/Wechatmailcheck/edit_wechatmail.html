@@ -1,0 +1,89 @@
+<!--修改账号绑定信息-->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        修改账号绑定信息
+    </h4>
+</div>
+<div class="modal-body">
+    <table class="table table-bordered" style="width:80%;margin: 0px auto;">
+        <tr>
+            <td class="t-left">姓名</td>
+            <td colspan="7">
+                {$r.name}
+                <span style="color:red">企业号后台获取</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">邮箱</td>
+            <td colspan="7">
+                {$r.email}
+                <span style="color:red">企业号后台获取</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">手机号</td>
+            <td colspan="7">
+                {$r.mobile}
+                <span style="color:red">企业号后台获取</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">微信ID</td>
+            <td colspan="7">
+                {$r.wechat_user_id}
+                <span style="color:red">企业号后台获取</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left">
+                <span class="glyphicon glyphicon-star" style="color:  #8c0101"></span>
+                姓名
+            </td>
+            <td colspan="7">
+                <input type="hidden" value="{$r.id}" name="id" id="id">
+                <input type="text" value="{$r.check_name}" name="check_name" id="check_name">
+                <span style="color:red">用户后台填写</span>
+            </td>
+        </tr>
+        <tr>
+            <td class="t-left"><span class="glyphicon glyphicon-star" style="color:  #8c0101"></span>邮箱账号</td>
+            <td colspan="7">
+                <input name="check_email" id='check_email' class="form-control input-sm" value="{$r.check_email}" style="width:220px;display: inline-block">
+                <span style="color:red;">用户后台填写</span>
+            </td>
+        </tr>
+    </table>
+    <input type="hidden" value="{$datagrid_id}" name="add_{$page_id}_datagrid_id">
+    <input type="hidden" value="{$modal_id}" name='add_{$page_id}_modal_id'>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default btn-sm" data-dismiss="modal">关闭</button>
+    <button type="button" class="btn btn-primary btn-sm"  id="add_{$page_id}_btn">保存</button>
+</div>
+
+<script>
+    $(function () {
+        $('#add_{$page_id}_btn').click(function () {
+            var action = '__MODULE__/WechatMailcheck/exec_edit_wechatmail';
+            var datagrid_id = $('input[name="add_{$page_id}_datagrid_id"]').val();
+            var modal_id = $('input[name="add_{$page_id}_modal_id"]').val();
+            var d = new Object();
+            d.id = $('#id').val();
+            d.check_name = $('#check_name').val();
+            d.check_email = $('#check_email').val();
+            if (!d.check_name) {
+                $.messager.alert('修改账号异常', '请填写姓名', 'info');
+                return;
+            }
+            if (!d.check_email) {
+                $.messager.alert('修改账号异常', '请填写邮箱账号', 'info');
+                return;
+            }
+            submit_form(action, $.param(d), modal_id, datagrid_id);
+        });
+    })
+</script>
+

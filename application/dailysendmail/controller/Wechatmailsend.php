@@ -51,9 +51,9 @@ class Wechatmailsend extends Controller
         $email_agentid = Config::get('common.EMAILAGENT_ID');
         $agent_id = Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $this->corp_id])->find()['agentid'];
         foreach ($wechatuserid_info as $k => $v) {
-            $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
+            $endtime = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
             //更新一下 获取邮件的 上次获取时间
-            //$this->updateMailInfo($end, $wechat_userid, $lastgettime);
+            Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
         }
         //更新下公司的本次的请求信息 log数据库
     }
@@ -79,30 +79,29 @@ class Wechatmailsend extends Controller
     private function get_recmail_log($accounts, $wechat_userid, $agent_id, $lastgettime)
     {
         //$lastgettime 如果为空的话  开始的时间为当前五分钟信息
-        $end = time();
+        $endtime = time();
         $pre_time = time() - 300;
-        $start = $lastgettime ?: $pre_time;
+        $starttime = $lastgettime ?: $pre_time;
         //更新每一个上次执行的数据
-        $start = date('Y-m-d H:i:s', $start);
-        $end = date('Y-m-d H:i:s', $end);
+        $start = date('Y-m-d H:i:s', $starttime);
+        $end = date('Y-m-d H:i:s', $endtime);
         //循环获取数据库中  上次发件的时间  默认从memcache 中取  如果没有的话 更新
         //私钥
         $time = date(time()) . '000';
         $res = openssl_pkey_get_private($this->prikey);
         //必须使用post方法
-//        $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product=" . $this->product . "&start={$start}&time={$time}";
         $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
             $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
-            file_put_contents('error.log', print_r($response_json, true), FILE_APPEND);
             if ($response_json['suc'] == '1') {
                 $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
-                //然后开始发送到微信中
+                //更新数据到数据库中
             }
             //失败  返回详细信息
         }
+        return $endtime;
     }
 
 
@@ -197,7 +196,7 @@ class Wechatmailsend extends Controller
     private function formatWechatSendeMail($con, $accounts, $wechat_userid, $agent_id)
     {
         $url = Config::get('common.ENTRYMAILURL') . "?account={$accounts}&corpid={$this->corpid}&entrykey={$this->get_entrykey($accounts,$this->corpid)}";
-        file_put_contents('error.log', '进去邮箱的url：' . $url, FILE_APPEND);
+//        file_put_contents('error.log', '进去邮箱的url：' . $url, FILE_APPEND);
         $total = $con['total'];
         $list = $con['list'];
         $loop = 1;

@@ -329,12 +329,11 @@ class Wechatmailsend extends Controller
         }
         if ($user_info['status'] == '20') {
             //审核信息 表示正在审核
-            echo '<div class="alert alert-success" style="margin-top:10em;"><h1>您的账号绑定信息正在审核，请耐心等待!</h1></div>';
+            return $this->fetch('oath_msg', ['msg' => '您的账号绑定信息正在审核，请耐心等待!']);
         } else {
             //审核失败
-            echo '<div class="alert alert-success" style="margin-top:10em;"><h1>您的绑定信息有误，管理员审核未通过，请重新填写绑定信息!!</h1></div>';
+            return $this->fetch('oath_msg', ['msg' => '您的绑定信息有误，管理员审核未通过，请重新填写绑定信息!!']);
         }
-        exit;
     }
 
 

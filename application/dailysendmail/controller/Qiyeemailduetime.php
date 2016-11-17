@@ -51,6 +51,7 @@ class Qiyeemailduetime extends Controller
      */
     private function analyse_bindinfo($info)
     {
+        print_r($info);
         foreach ($info as $k => $v) {
             //邮箱到期时间
             $exp_time = $v['mail_exp_time'];
@@ -61,12 +62,14 @@ class Qiyeemailduetime extends Controller
             }
             //距离过期事件只有一个月的情况下 从数据库中获取之后需要给出提醒
             $dueday = ($exp_time - time()) / 86400;
-            if ($dueday > 30) {
+            echo $dueday;
+            if ($dueday > 50) {
                 continue;
             }
             //表示快到期期限
             //检测一下是不是已经续费了  重新获取下 过期时间
             list($corp_info, $get_api_status) = mailinfo::get_domain_info($v['privatesecret'], $v['domain'], $v['product']);
+            print_r($corp_info);
             if ($get_api_status) {
                 $mail_exp_time = substr($corp_info['exp_time'], 0, -3);
                 if ($mail_exp_time != $v['mail_exp_time']) {

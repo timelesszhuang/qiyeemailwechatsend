@@ -50,12 +50,19 @@ class Wechatmailsend extends Controller
         //公司套件中的数据
         $email_agentid = Config::get('common.EMAILAGENT_ID');
         $agent_id = Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $this->corp_id])->find()['agentid'];
+        //全部这次请求的公司 推送的数量
+        $all_sendcount = 0;
+        $access_time = time();
         foreach ($wechatuserid_info as $k => $v) {
-            $endtime = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
+            list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
+            $all_sendcount += $total;
             //更新一下 获取邮件的 上次获取时间
             Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
+            //更新log 数据 精确到详细的每个人
+            Db::name('wechat_user_sendlog')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'account' => $v['account'], 'name' => $v['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
         }
         //更新下公司的本次的请求信息 log数据库
+        Db::name('crontab_log')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'mailsendcount' => $all_sendcount, 'accesstime' => $access_time]);
     }
 
     //https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs?
@@ -75,6 +82,7 @@ class Wechatmailsend extends Controller
      * @param string $wechat_userid 邮箱的user_id
      * @param $agent_id 应用的 id
      * @param string $lastgettime 上次访问的时间
+     * @return array
      */
     private function get_recmail_log($accounts, $wechat_userid, $agent_id, $lastgettime)
     {
@@ -96,12 +104,12 @@ class Wechatmailsend extends Controller
             $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
             $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
             if ($response_json['suc'] == '1') {
-                $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
+                $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
                 //更新数据到数据库中
             }
             //失败  返回详细信息
         }
-        return $endtime;
+        return [$endtime, $total];
     }
 
 
@@ -220,6 +228,7 @@ class Wechatmailsend extends Controller
                 wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
             }
         }
+        return $total;
     }
 
     /**

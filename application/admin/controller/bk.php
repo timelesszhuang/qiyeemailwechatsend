@@ -31,14 +31,7 @@
         format_json_ajaxreturn('用户否决失败', '用户否决失败', 'failed');
     }
 
-    /**
-     * 添加微信 邮件推送
-     * @access public
-     */
-    public function add_wechatmail() {
-        $this->getassign_common_data();
-        $this->display();
-    }
+
 
     /**
      * 执行修改绑定用户操作

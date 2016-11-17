@@ -99,7 +99,7 @@ class cachetool
      * @param $mem
      * @return mixed
      */
-    public static function get_init_corpid_bindinfo_info($mem)
+    private static function get_init_corpid_bindinfo_info($mem)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
         $info = Db::name('corp_bind_api')->field('corpid,corp_id,privatesecret,product,domain,corp_name,api_status')->select();
@@ -123,7 +123,7 @@ class cachetool
      * @param $info
      * @return string
      */
-    public static function get_bindinfo_by_corpid($corpid, $info)
+    private static function get_bindinfo_by_corpid($corpid, $info)
     {
         if ($corpid) {
             $arr = array_key_exists($corpid, $info) ? $info[$corpid] : '';

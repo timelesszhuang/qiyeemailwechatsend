@@ -79,7 +79,7 @@ class Qiyeemailduetime extends Controller
                 //给管理员推送企业邮箱要过期
                 //获取微信管理员的 微信账号
                 $wechat_userid = Db::name('auth_corp_info')->where(['id' => $v['corp_id']])->find()['userid'];
-                $agent_id = Db::name('agent_auth_info')->where(['corp_id' => $v['corp_id'], 'appid' => Config::get('common.EMAILAGENT_ID')])->find()['agent_id'];
+                $agent_id = Db::name('agent_auth_info')->where(['corp_id' => $v['corp_id'], 'appid' => Config::get('common.EMAILAGENT_ID')])->find()['agentid'];
                 wechattool::send_text($v['corpid'], $wechat_userid, $agent_id, "您好，贵公司企业邮箱将于{$dueday}天之后到期，请联系经销商及时续费，以免影响使用。");
                 continue;
             }

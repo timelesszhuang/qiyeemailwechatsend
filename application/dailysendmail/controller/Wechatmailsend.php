@@ -31,17 +31,20 @@ class Wechatmailsend extends Controller
      */
     public function schedule_get_maillist()
     {
+        set_time_limit(0);
+        ignore_user_abort(true);
         //企业的corp_id 根据corpid  获取 该公司的相关数据
         $this->corp_id = Request::instance()->param('corp_id');
         //首先获取参数 corp_id  corpid  从缓存中获取 网易接口的 公钥 私钥等信息
         $this->corpid = Request::instance()->param('corpid');
         //获取 公司的邮箱的相关接口
         $this->bindinfo = cachetool::get_bindinfo_bycorpid($this->corpid);
-        if (empty($this->bindinfo) || $this->bindinfo['api_status'] == '20') {
-            //表示获取绑定信息失败 需要存储到数据库中 获取api 异常
+        //禁用推送的 或者接口不正常 或者邮箱信息过期 进行的相关操作
+        if (empty($this->bindinfo) || $this->bindinfo['status'] == 'off' || $this->bindinfo['api_status'] == '20' || $this->bindinfo['api_status'] == '30') {
+            //表示获取绑定信息失败 需要存储到数据库中 获取api 异常 跳出系统
+            return;
         }
         $this->prikey = $this->bindinfo['privatesecret'];
-        //域名
         $this->domain = $this->bindinfo['domain'];
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];

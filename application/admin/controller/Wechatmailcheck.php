@@ -81,7 +81,7 @@ class Wechatmailcheck extends Base
     public function add_wechatmail()
     {
         $this->get_assign();
-        $this->fetch('add_wechatmail');
+        return $this->fetch('add_wechatmail');
     }
 
 }

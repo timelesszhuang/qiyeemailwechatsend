@@ -33,7 +33,7 @@ class wechatuser
      */
     public static function get_wechatuser_arr_bycorp_id($corp_id)
     {
-        return Db::name('wechat_user')->where(['corp_id' => $corp_id, 'status' => '10'])->field('wechat_userid,account,lastgetmailtime')->select();
+        return Db::name('wechat_user')->where(['corp_id' => $corp_id, 'status' => '10'])->field('wechat_userid,account,name,lastgetmailtime')->select();
     }
 
 

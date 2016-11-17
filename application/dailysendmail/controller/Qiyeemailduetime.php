@@ -8,13 +8,16 @@
 
 namespace app\dailysendmail\controller;
 
-
 use app\admin\model\cachetool;
 use app\common\model\wechattool;
 use app\mailapi\controller\mailinfo;
 use think\console\command\optimize\Config;
 use think\Controller;
 use think\Db;
+
+
+//访问的 url 为 http://sm.youdao.so/index.php/dailysendmail/qiyeemailduetime/index  定期执行脚本 更新邮箱的到期时间信息
+
 
 class Qiyeemailduetime extends Controller
 {

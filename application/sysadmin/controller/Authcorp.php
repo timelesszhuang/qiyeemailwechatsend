@@ -187,7 +187,8 @@ class Authcorp extends Base
         $id = Request::instance()->param('id');
         $status = Request::instance()->param('status');
         if (Db::name('corp_bind_api')->where('corp_id', $id)->update(['status' => $status])) {
-            //需要更新memcache 中相关键值对 然后取消邮件推送
+            //需要更新memcache 中相关键值对 然后取消邮件推送 更新相关的缓存
+            cachetool::get_bindinfo_bycorpid('', 'init');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('操作状态', '修改成功', self::success));
         }
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('操作失败', '修改失败', self::error));

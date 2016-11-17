@@ -51,7 +51,7 @@ class Qiyeemailduetime extends Controller
      */
     private function analyse_bindinfo($info)
     {
-        print_r($info);
+//        print_r($info);
         foreach ($info as $k => $v) {
             //邮箱到期时间
             $exp_time = $v['mail_exp_time'];
@@ -62,14 +62,12 @@ class Qiyeemailduetime extends Controller
             }
             //距离过期事件只有一个月的情况下 从数据库中获取之后需要给出提醒
             $dueday = ($exp_time - time()) / 86400;
-            echo $dueday;
             if ($dueday > 50) {
                 continue;
             }
             //表示快到期期限
             //检测一下是不是已经续费了  重新获取下 过期时间
             list($corp_info, $get_api_status) = mailinfo::get_domain_info($v['privatesecret'], $v['domain'], $v['product']);
-//            print_r($corp_info);
             if ($get_api_status) {
                 $mail_exp_time = substr($corp_info['exp_time'], 0, -3);
                 if ($mail_exp_time != $v['mail_exp_time']) {
@@ -80,9 +78,7 @@ class Qiyeemailduetime extends Controller
                 //给管理员推送企业邮箱要过期
                 //获取微信管理员的 微信账号
                 $wechat_userid = Db::name('auth_corp_info')->where(['id' => $v['corp_id']])->find()['userid'];
-                echo $wechat_userid;
                 $agent_id = Db::name('agent_auth_info')->where(['corp_id' => $v['corp_id'], 'appid' => Config::get('common.EMAILAGENT_ID')])->find()['agentid'];
-                echo $agent_id;
                 wechattool::send_text($v['corpid'], $wechat_userid, $agent_id, "您好，贵公司企业邮箱将于{$duedate}到期，请联系经销商及时续费，以免影响使用。");
                 continue;
             }

@@ -80,36 +80,33 @@
             fitColumns: true,
             columns: [[
                 {field: 'id', title: 'ID', align: 'center', hidden: true},
-                {field: 'check_name', title: '姓名（填写）', align: 'center', width: 8},
-                //售前跟踪   合同回传——售中  已经付款之后的——售后  服务    动态更改状态
-                {field: 'name', title: '姓名', align: 'center', width: 8},
-                //表示是潜在客户 一般客户  vip 客户等
+                {field: 'check_name', title: '姓名（填写）', align: 'center', width: 6},
+                {field: 'name', title: '姓名', align: 'center', width: 6},
                 {field: 'check_email', title: '邮箱账号(填写)', width: 8},
-                //表示是公海还是私海
                 {field: 'email', title: '邮箱账号', width: 8},
                 {field: 'mobile', title: '手机号码', width: 8},
                 {field: 'addtime', title: '提交审核时间', width: 8},
                 {field: 'status', hidden: true, width: 8},
-                {field: 'checktime', hidden: true, width: 8},
+                {field: 'checktime', title: '审核操作时间', width: 8},
                 {
                     field: 'action',
                     title: '操作',
                     align: 'center',
-                    width: 10,
+                    width: 20,
                     formatter: function (value, row, index) {
                         var edit_btn = '<button type="button" id="myButton" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" class="btn btn-danger btn-sm btn-menu">修改信息</button>&nbsp;&nbsp;\n\ ';
                         if (row.status == 20) {
-                            return '<button type="button" id="myButton" onclick="check_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">审核通过</button>&nbsp;&nbsp;\n\
+                            return '<img src="/static/sys/image/wait.png" title="等待审核"/><button type="button" id="myButton" onclick="check_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">审核通过</button>&nbsp;&nbsp;\n\
                                         <button type="button" id="myButton" onclick="notcheck_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefnotcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">否决</button>&nbsp;&nbsp;\n\ '
                                     + edit_btn;
                         } else if (row.status == 10) {
-                            return '已审核,时间：' + row.checktime + edit_btn;
+                            return '<img src="/static/sys/image/right.png" title="审核通过"/>' + edit_btn;
                         } else {
-                            return '已否决,时间：' + row.checktime + edit_btn;
+                            return '<img src="/static/sys/image/wrong.png" title="已否决"/>' + edit_btn;
                         }
                     }
                 }
-            ]],
+            ]]
         });
     }
 

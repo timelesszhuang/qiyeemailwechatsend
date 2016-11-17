@@ -11,7 +11,7 @@ namespace app\dailysendmail\controller;
 use app\admin\model\cachetool;
 use app\common\model\wechattool;
 use app\mailapi\controller\mailinfo;
-use think\console\command\optimize\Config;
+use think\Config;
 use think\Controller;
 use think\Db;
 

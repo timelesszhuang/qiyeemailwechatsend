@@ -105,7 +105,7 @@ class wechattool
     {
         $get_wechat_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/get?access_token={$corp_access_token}&userid=" . $wechat_userid;
         $info = json_decode(common::send_curl_request($get_wechat_userid_url), true);
-        return [$info['name'], isset($info['mobile']) ? $info['mobile'] : '', isset($info['email']) ? $info['email'] : ''];
+        return [isset($info['name']) ? $info['name'] : '', isset($info['mobile']) ? $info['mobile'] : '', isset($info['email']) ? $info['email'] : ''];
     }
 
 

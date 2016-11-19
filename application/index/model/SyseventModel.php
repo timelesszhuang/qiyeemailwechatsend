@@ -94,7 +94,7 @@ class SyseventModel
 //                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
-//                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+//                  file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
                     break;
@@ -117,7 +117,7 @@ class SyseventModel
                     if (!auth::analyse_init_corp_auth($auth_info)) {
                         return;
                     }
-                    //file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     break;
                 case 'change_auth':
                     $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;

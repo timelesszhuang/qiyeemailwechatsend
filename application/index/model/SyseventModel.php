@@ -114,6 +114,7 @@ class SyseventModel
                     //永久授权码，并换取授权信息、企业access_token
                     $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
                     $auth_info = json_decode($json_auth_info, true);
+                    file_put_contents('a.txt', 'auth_info:' . $auth_info, FILE_APPEND);
                     if (!auth::analyse_init_corp_auth($auth_info)) {
                         return;
                     }

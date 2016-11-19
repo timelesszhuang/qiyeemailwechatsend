@@ -51,7 +51,7 @@ $page_id='add_wechatinfo';
 <script>
     $(function () {
         $('#add_{$page_id}_btn').click(function () {
-            var action = "<?php echo url('WechatMailcheck/exec_add_wechatmail');?>";
+            var action = "<?php echo url('Wechatmailcheck/exec_add_wechatmail');?>";
             var datagrid_id = $('input[name="add_{$page_id}_datagrid_id"]').val();
             var modal_id = $('input[name="add_{$page_id}_modal_id"]').val();
             var d = new Object();

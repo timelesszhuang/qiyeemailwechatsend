@@ -134,7 +134,7 @@ class Wechatmailcheck extends Base
         $data['mobile'] = $mobile ?: '';
         $data['email'] = $email ?: '';
         $data['lastgetmailtime'] = time();
-        $data['check_time'] = 0;
+        $data['checktime'] = 0;
         if ($m->insert($data)) {
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr($sys_title, "账号绑定添加成功，请审核。", self::success));
         }

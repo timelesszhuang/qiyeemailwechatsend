@@ -128,7 +128,7 @@ class Wechatmailcheck extends Base
         //获取制定的微信id 的微信相关信息
         list($name, $mobile, $email) = wechattool::get_wechat_userid_info($wechat_userid, wechattool::get_corp_access_token($corpid, $permanent_code));
         if (!$name) {
-            return json(\app\sysadmin\model\common::form_ajaxreturn_arr($err_title, "该微信ID不存在，请到微信后台添加该职员账号。", self::error));
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr($err_title, "该微信ID不存在，或该用户不在应用可见范围内，请到微信后台添加该职员账号或在可见范围内添加该账号。", self::error));
         }
         $data['name'] = $name;
         $data['mobile'] = $mobile ?: '';

@@ -1,0 +1,380 @@
+
+Array
+(
+    [con] => Array
+        (
+            [list] => Array
+                (
+                    [0] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11548
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.79
+                            [sendtime] => 2016-11-15 11:11:30
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [1] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11559
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.149
+                            [sendtime] => 2016-11-15 06:25:07
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [2] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11537
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.69
+                            [sendtime] => 2016-11-15 03:55:34
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [3] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.146
+                            [sendtime] => 2016-11-14 23:00:12
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [4] => Array
+                        (
+                            [mailfrom] => support@qiangbi.net
+                            [mailsize] => 962
+                            [mailto] => xingzhuang@cio.club
+                            [result] => 1
+                            [sendip] => 115.28.183.198
+                            [sendtime] => 2016-11-14 15:17:44
+                            [subject] => 强比公司甩单--测试
+                        )
+
+                )
+
+            [total] => 5
+        )
+
+    [suc] => 1
+    [ver] => 0
+)
+进去邮箱的url：?account=xingzhuang&corpid=wxe041af5a55ce7365&entrykey=b0e179bab4cdde1bc8f2663bdcb93d21Array
+(
+    [con] => Array
+        (
+            [list] => Array
+                (
+                    [0] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11548
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.79
+                            [sendtime] => 2016-11-15 11:11:30
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [1] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11559
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.149
+                            [sendtime] => 2016-11-15 06:25:07
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [2] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11537
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.69
+                            [sendtime] => 2016-11-15 03:55:34
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [3] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.146
+                            [sendtime] => 2016-11-14 23:00:12
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [4] => Array
+                        (
+                            [mailfrom] => support@qiangbi.net
+                            [mailsize] => 962
+                            [mailto] => xingzhuang@cio.club
+                            [result] => 1
+                            [sendip] => 115.28.183.198
+                            [sendtime] => 2016-11-14 15:17:44
+                            [subject] => 强比公司甩单--测试
+                        )
+
+                )
+
+            [total] => 5
+        )
+
+    [suc] => 1
+    [ver] => 0
+)
+进去邮箱的url：?account=xingzhuang&corpid=wxe041af5a55ce7365&entrykey=b0e179bab4cdde1bc8f2663bdcb93d21Array
+(
+    [con] => Array
+        (
+            [list] => Array
+                (
+                    [0] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11548
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.79
+                            [sendtime] => 2016-11-15 11:11:30
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [1] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11559
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.149
+                            [sendtime] => 2016-11-15 06:25:07
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [2] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11537
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.69
+                            [sendtime] => 2016-11-15 03:55:34
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [3] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.146
+                            [sendtime] => 2016-11-14 23:00:12
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [4] => Array
+                        (
+                            [mailfrom] => support@qiangbi.net
+                            [mailsize] => 962
+                            [mailto] => xingzhuang@cio.club
+                            [result] => 1
+                            [sendip] => 115.28.183.198
+                            [sendtime] => 2016-11-14 15:17:44
+                            [subject] => 强比公司甩单--测试
+                        )
+
+                )
+
+            [total] => 5
+        )
+
+    [suc] => 1
+    [ver] => 0
+)
+进去邮箱的url：http://sm.youdao.so/index.php/dailysendmail/Wechatmailsend/check_redirect_entry?account=xingzhuang&corpid=wxe041af5a55ce7365&entrykey=b0e179bab4cdde1bc8f2663bdcb93d21Array
+(
+    [con] => Array
+        (
+            [list] => Array
+                (
+                    [0] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11548
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.79
+                            [sendtime] => 2016-11-15 11:11:30
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [1] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11559
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.149
+                            [sendtime] => 2016-11-15 06:25:07
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [2] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11537
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.69
+                            [sendtime] => 2016-11-15 03:55:34
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [3] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.146
+                            [sendtime] => 2016-11-14 23:00:12
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [4] => Array
+                        (
+                            [mailfrom] => support@qiangbi.net
+                            [mailsize] => 962
+                            [mailto] => xingzhuang@cio.club
+                            [result] => 1
+                            [sendip] => 115.28.183.198
+                            [sendtime] => 2016-11-14 15:17:44
+                            [subject] => 强比公司甩单--测试
+                        )
+
+                )
+
+            [total] => 5
+        )
+
+    [suc] => 1
+    [ver] => 0
+)
+进去邮箱的url：http://sm.youdao.so/index.php/dailysendmail/Wechatmailsend/check_redirect_entry?account=xingzhuang&corpid=wxe041af5a55ce7365&entrykey=b0e179bab4cdde1bc8f2663bdcb93d21Array
+(
+    [con] => Array
+        (
+            [list] => Array
+                (
+                    [0] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.74
+                            [sendtime] => 2016-11-16 08:36:19
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [1] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11530
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.64
+                            [sendtime] => 2016-11-16 03:58:23
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [2] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11544
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.84
+                            [sendtime] => 2016-11-16 00:00:15
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [3] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11548
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.79
+                            [sendtime] => 2016-11-15 11:11:30
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [4] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11559
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.149
+                            [sendtime] => 2016-11-15 06:25:07
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [5] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11537
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 115.124.23.69
+                            [sendtime] => 2016-11-15 03:55:34
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [6] => Array
+                        (
+                            [mailfrom] => system@notice.aliyun.com
+                            [mailsize] => 11557
+                            [mailto] => xingzhuang@qiangbi.net
+                            [result] => 1
+                            [sendip] => 140.205.209.146
+                            [sendtime] => 2016-11-14 23:00:12
+                            [subject] => 阿里云云盾安全通知
+                        )
+
+                    [7] => Array
+                        (
+                            [mailfrom] => support@qiangbi.net
+                            [mailsize] => 962
+                            [mailto] => xingzhuang@cio.club
+                            [result] => 1
+                            [sendip] => 115.28.183.198
+                            [sendtime] => 2016-11-14 15:17:44
+                            [subject] => 强比公司甩单--测试
+                        )
+
+                )
+
+            [total] => 8
+        )
+
+    [suc] => 1
+    [ver] => 0
+)
+进去邮箱的url：http://sm.youdao.so/index.php/dailysendmail/Wechatmailsend/check_redirect_entry?account=xingzhuang&corpid=wxe041af5a55ce7365&entrykey=b0e179bab4cdde1bc8f2663bdcb93d21发送curl请求错误：Operation timed out after 30000 milliseconds with 0 bytes received

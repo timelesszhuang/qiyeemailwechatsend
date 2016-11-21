@@ -12,6 +12,9 @@ use think\Controller;
 use think\Db;
 use think\Request;
 
+//这是测试
+//sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=2&corpid=wxe041af5a55ce7365
+
 class Wechatmailsend extends Controller
 {
 
@@ -62,10 +65,14 @@ class Wechatmailsend extends Controller
             //更新一下 获取邮件的 上次获取时间
             Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
             //更新log 数据 精确到详细的每个人
-            Db::name('wechat_user_sendlog')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'account' => $v['account'], 'name' => $v['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
+            if ($total) {
+                Db::name('wechat_user_sendlog')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'account' => $v['account'], 'name' => $v['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
+            }
         }
-        //更新下公司的本次的请求信息 log数据库
-        Db::name('crontab_log')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'mailsendcount' => $all_sendcount, 'accesstime' => $access_time]);
+        //更新下公司的本次的请求信息 所有log数据库
+        if ($all_sendcount) {
+            Db::name('crontab_log')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'mailsendcount' => $all_sendcount, 'accesstime' => $access_time]);
+        }
     }
 
     //https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs?

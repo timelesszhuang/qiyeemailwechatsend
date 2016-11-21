@@ -46,7 +46,7 @@ class Authcorp extends Base
         }
         if ($domain) {
             $map .= $map ? ' and ' : '';
-            $map .= " api.domain='{$domain}' ";
+            $map .= " api.domain like '%{$domain}%' ";
         }
         if ($api_status) {
             $map .= $map ? ' and ' : '';

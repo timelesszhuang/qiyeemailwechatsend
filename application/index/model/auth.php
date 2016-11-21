@@ -292,13 +292,15 @@ class auth
         ];
         Db::startTrans();
         try {
-            //把已经取消授权的人的信息删除
+            //把已经取消授权的人的信息删除        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
             Db::name('cancel_corp_info')->insert($a);
             //删除 组织的信息
             Db::name('auth_corp_info')->where($map)->delete();
             $where['corp_id'] = $id;
             //删除组织下的应用相关信息
             Db::name('agent_auth_info')->where($where)->delete();
+            //需要同步把 该公司的信息删除掉 的信息取消掉
+            
             // 提交事务
             Db::commit();
             cachetool::get_permanent_code_by_corpid('', 'init');

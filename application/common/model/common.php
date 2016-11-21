@@ -10,7 +10,6 @@ namespace app\common\model;
 
 use think\Config;
 use think\Db;
-use think\image\Exception;
 use think\Loader;
 use think\Request;
 

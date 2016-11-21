@@ -1,0 +1,165 @@
+<!--添加日报 该文件ajax 获取 -->
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        添加日报
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12 pull-left">
+            <form class="form-horizontal" id="edit_noticeform">
+                <div class="add-daily-content">
+                    <div class="row clear-margin">
+                        <div class="col-lg-12 add-daily-header">
+                            <td style="font-size: 16px;color: #CC5522;line-height: 30px;background-color:  #DDDDDD;">
+                                主动汇报的程度，决定领导对我行为的放心程度。<br>
+                                如果是领导问起汇报内容，会有两个原因，一是不放心，二是没看。
+                            </td>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;今日操作&nbsp;&nbsp;
+                                <small>今天做的事项</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row clear-margin">
+                        <div class="col-sm-12 operator-container">
+                            <!--后台获取每天要做的事情-->
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;今日计划&nbsp;&nbsp;
+                                <small>({$pre_list.addtime}填写)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12 word-wrap add-daily-predaycontent">
+                            {$pre_list.summary}
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;工作总结&nbsp;&nbsp;
+                                <small>(撰写今日工作总结)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <textarea name="plan" id="plan" style="width:100%;height:350px;visibility:hidden;">{$record.plan}</textarea>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;明日计划&nbsp;&nbsp;
+                                <small>(撰写明日工作计划)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <textarea name="summary" id="summary" style="width:100%;height:350px;visibility:hidden;">{$record.summary}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" value="{$record.id}" name="id">
+                <input type="hidden" value="{$modal_id}" name='add_daily_modal_id'>
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-danger btn-sm" id='save_btn' title="提交之后不能再次修改">保存</button>
+</div>
+<script>
+    $(function () {
+        $('#tmp_save_btn').click(function () {
+            var flag = 'tmp_save';
+            save_daily(flag);
+        });
+
+        $('#save_btn').click(function () {
+            var flag = 'save';
+            save_daily(flag);
+        });
+
+        /**
+         * 执行保存操作
+         */
+        function save_daily(flag) {
+            var action = '{:U("Home/Daily/exec_add_daily")}';
+            var data = new Object();
+            var modal_id = $('input[name="add_daily_modal_id"]').val();
+            data.id = $('input[name="id"]').val();
+            data.plan = $('textarea[name="plan"]').val();
+            data.summary = $('textarea[name="summary"]').val();
+            //表示是日报
+            data.type = '10';
+            data.flag = flag;
+            submit_form(action, $.param(data), modal_id);
+        }
+
+        //表单的初始化
+        KindEditor.create('textarea[name="plan"]', {
+            allowFileManager: true,
+            uploadJson: '{:U("Home/Upfile/upload_img")}',
+            fileManagerJson: '{:U("Home/Upfile/file_manager_json")}',
+            afterBlur: function () {
+                this.sync();
+                //这一句的作用：当失去焦点时执行 this.sync()
+                //这个函数作用是同步KindEditor的值到textarea文本框。
+            }
+        });
+
+        KindEditor.create('textarea[name="summary"]', {
+            allowFileManager: true,
+            uploadJson: '{:U("Home/Upfile/upload_img")}',
+            fileManagerJson: '{:U("Home/Upfile/file_manager_json")}',
+            afterBlur: function () {
+                this.sync();
+                //这一句的作用：当失去焦点时执行 this.sync()
+                //这个函数作用是同步KindEditor的值到textarea文本框。
+            }
+        });
+
+        //获取日常操作
+        get_daily_operator('operator-container');
+
+    });
+
+    /**
+     * 获取日常操作html文件
+     */
+    function get_daily_operator(show_div) {
+        var selecter = '.' + show_div;
+        var href = "__MODULE__/DailyCount/get_report_daily_operator";
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
+            async: false,
+            url: href,
+            beforeSend: function (xhr) {
+                var img = "<div style='width:50%;margin:0px auto;'><img src='/Public/Home/image/load.gif' /></div>"
+                $(selecter).html(img);
+            },
+            success: function (data) {
+                $(selecter).html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                parse_ajax_errortype(jqXHR, textStatus, errorThrown);
+            }
+        });
+    }
+
+
+</script>

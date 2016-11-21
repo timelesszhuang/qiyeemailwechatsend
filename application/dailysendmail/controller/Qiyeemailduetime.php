@@ -51,7 +51,6 @@ class Qiyeemailduetime extends Controller
      */
     private function analyse_bindinfo($info)
     {
-//        print_r($info);
         foreach ($info as $k => $v) {
             //邮箱到期时间
             $exp_time = $v['mail_exp_time'];

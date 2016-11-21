@@ -1,0 +1,138 @@
+<div class="page-header page-header-title">
+    <h4>微信广告推送</h4>
+</div>
+<div class="opendialog">
+    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add' id="add_ads">
+        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
+        添加广告
+    </button>
+    <button type="button" class="btn btn-danger btn-sm" rel='cancel' tag='cancel'>
+        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
+        批量删除
+    </button>
+    <ul class="nav query-ul">
+        <li class="pull-left">
+            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp; 查询：
+        </li>
+        <li class="pull-left">
+            <input type="text" class="form-control input-sm" name="auth_corp_name" id='auth_corp_name'
+                   placeholder="客户名称/客户简称" style="width: 150px">
+        </li>
+        <li class="pull-left">
+            <input type="text" class="form-control input-sm" name="api_domain" id='api_domain'
+                   placeholder="域名" style="width: 100px">
+        </li>
+        <li class="pull-left">
+            &nbsp; 邮箱接口状态：
+        </li>
+        <li class="pull-left">
+            <input type="radio" name="api_status" value="10">正常
+            <input type="radio" name="api_status" value="20" checked>异常
+        </li>
+        <li class="pull-left">
+            &nbsp; 邮件推送状态：
+        </li>
+        <li class="pull-left">
+            <input type="radio" name="status" value="on">启用
+            <input type="radio" name="status" value="off" checked>禁用
+        </li>
+        <li class="pull-left">
+            <button type="button" class="btn btn-primary btn-sm " id="quick_query" rel='refresh_datagrid' tag='query'
+                    datagrid_id="auth_corp_datagrid">
+                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                查询
+            </button>
+        </li>
+    </ul>
+</div>
+<div class="clearfix"></div>
+<div class="bottom-data-div">
+    <table id="auth_corp_datagrid" width="100%">
+    </table>
+</div>
+<script>
+    $(function () {
+        var classid = 'auth_corp';
+        var datagrid_id = classid + '_datagrid';
+        //修改配置信息
+        var modal_id = 'index_menulist';
+        var edit_modal = modal_id;
+        var urljson = '<?php echo Url("authcorp/index_json")?>';
+        var hrefaddapi = '<?php echo Url("authcorp/editadd_netease_apiinfo")?>';
+        //表示是 开启还是关闭
+        var hrefstatus = '<?php echo Url("authcorp/cancelorok_sendmail")?>';
+        var hrefcopy = '<?php echo Url("authcorp/copy_crontab_set");?>';
+        load_ads_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal);
+
+        $('#quick_query').click(function () {
+            var corp_name = $('#auth_corp_name').val();
+            var domain = $('#api_domain').val();
+            var api_status = $('input[name="api_status"]:checked').val();
+            var status = $('input[name="status"]:checked').val();
+            var datagrid_id = $(this).attr('datagrid_id');
+            $('#' + datagrid_id).datagrid('load', {
+                corp_name: corp_name,
+                domain: domain,
+                api_status: api_status,
+                status: status
+            });
+        });
+
+        //按钮点击事件完成之后
+        $('#add_ads').click(function () {
+            var add_daily_link = '<?php echo Url("ad/add_ads");?>';
+            open_modal(modal_id, add_daily_link, '', datagrid_id);
+        });
+
+
+    });
+
+    /**
+     * 加载datagrid 信息
+     */
+    function load_ads_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal) {
+        $('#' + datagrid_id).datagrid({
+            url: urljson,
+            idField: 'id',
+            pagination: true,
+            pageSize: 10,
+            rownumbers: true,
+            fitColumns: true,
+            frozenColumns: [[
+                {
+                    field: 'ck',
+                    checkbox: true
+                }
+            ]],
+            columns: [[
+                {field: 'id', title: 'ID', width: 5, align: 'center', hidden: true},
+                {field: 'corp_full_name', title: '发布者', width: 10},
+                {field: 'subject_type', title: '企业类型', width: 5},
+                {field: 'corp_type', title: '企业号类型', width: 5},
+                {field: 'agent_count', title: '授权应用数量', width: 5},
+                {field: 'agent', title: '应用名', width: 10},
+                {field: 'api_status_title', title: '邮箱接口状态', width: 5},
+                {field: 'status_title', title: '邮件推送状态', width: 5},
+                {field: 'addtime', title: '添加时间', align: 'center', width: 5},
+                {
+                    field: 'action',
+                    title: '操作',
+                    width: 10,
+                    formatter: function (value, row, index) {
+                        return '<img class="btn_do" src="/static/sys/image/code.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefcopy + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ';
+                    }, align: 'center'
+                }
+            ]]
+        });
+    }
+</script>
+<script>
+    $(function () {
+        /*//显示部门和个人
+         $('#show_person').combotree({
+         url: '__MODULE__/Orgstructure/json_noauthority_tree',
+         panelWidth: 250
+         });*/
+    })
+
+</script>

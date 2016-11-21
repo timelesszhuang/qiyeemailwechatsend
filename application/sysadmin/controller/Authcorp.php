@@ -205,7 +205,7 @@ class Authcorp extends Base
         $this->get_assign();
         $id = Request::instance()->param('id');
         $corpid = Db::name('auth_corp_info')->where(['id' => $id])->find()['corpid'];
-        $url = '*/5  * * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=' . $id . '&corpid=' . $corpid . '"';
+        $url = '*/5 * * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=' . $id . '&corpid=' . $corpid . '"';
         return $this->fetch('copy_crontab_set', ['url' => $url]);
     }
 

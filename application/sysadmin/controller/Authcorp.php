@@ -195,4 +195,18 @@ class Authcorp extends Base
     }
 
 
+    /**
+     * copy_crontab_set
+     * copy备注信息
+     */
+    public function copy_crontab_set()
+    {
+        //这个是corp_id  这个是指的是
+        $this->get_assign();
+        $id = Request::instance()->param('id');
+        $corpid = Db::name('auth_corp_info')->where(['id' => $id])->find()['corpid'];
+        $url = "*/5  * * * * curl  http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id={$id}&corpid={$corpid}";
+        return $this->fetch('copy_crontab_set', ['url' => $url]);
+    }
+
 }

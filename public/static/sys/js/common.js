@@ -260,6 +260,10 @@ function edit_record_modal(record_id, link, datagrid_id, pre_modal_id) {
     }
 }
 
+
+
+
+
 /**
  * ajax 更新操作完成之后操作
  * @param {string} data 完成请求之后返回的信息

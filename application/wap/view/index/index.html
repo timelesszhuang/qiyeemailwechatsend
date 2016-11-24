@@ -1,41 +1,104 @@
 {include file="public:header"/}
-
-</head>
-<body>
-{include file="index:navbar"/}
-<div style="clear: both"></div>
-<div class='width-container container' id='show_div'>
-    {include file='index:load_index'/}
+<div id="slider2_container" style="position:relative; width:650px; height:250px; margin:0px auto;">
+    <!-- Slides Container -->
+    <div u="slides"
+         style="cursor:move; position:absolute; left:0px; top:0px; width:650px; height:250px; overflow:hidden;">
+        <div><a u=image href="#"><img src="upload/mobile_img/banner_img01.jpg"/></a></div>
+        <div><a u=image href="#"><img src="upload/mobile_img/banner_img03.jpg"/></a></div>
+        <div><a u=image href="#"><img src="upload/mobile_img/banner_img04.jpg"/></a></div>
+        <div><a u=image href="#"><img src="upload/mobile_img/banner_img02.jpg"/></a></div>
+    </div>
+    <div u="navigator" class="jssorb01" style="position:absolute; bottom:15px; left:50%;">
+        <span u="prototype"
+              style="POSITION: absolute; WIDTH:12px; HEIGHT:12px; border-radius:12px; text-align:center;"></span>
+    </div>
 </div>
-
-<!--modal 模态框-->
-<div style="display: none;" id="index_menulist_modal" data-backdrop="static" class="modal fade" tabindex="-1"
-     role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id='index_menulist_content'>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
+<!-- Jssor Slider End -->
+<ul class="home_btn">
+    <li>
+        <a href="#">
+            <u><i class="icon-thumbs-up"></i></u>
+            <strong>十八年运营经验</strong>
+            <span>中国领先的电子邮件服务商，十八年专业运营经验保障。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class="icon-star-empty"></i></u>
+            <strong>国内最高安全级别</strong>
+            <span>中国信息安全测评中心权威证书，EAL3+级信息安全独家资质。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class=" icon-legal"></i></u>
+            <strong>让邮件变“铁证”</strong>
+            <span>国内唯一支持在线发起公证的企业邮箱。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class=" icon-key"></i></u>
+            <strong>萨班斯归档</strong>
+            <span>国内唯一符合《萨班斯法案》的邮件归档系统。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class="icon-facetime-video"></i></u>
+            <strong>视频云会议</strong>
+            <span>异地沟通也能面对面，经济、便捷、高效。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class="icon-mobile-phone"></i></u>
+            <strong>邮箱大师APP</strong>
+            <span>支持所有邮箱，您的专属移动办公神器。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class=" icon-globe"></i></u>
+            <strong>连接海外全球畅邮</strong>
+            <span>智能选择安全链路和DNS智能解析技术，服务器遍布全球。</span>
+        </a>
+    </li>
+    <li>
+        <a href="#">
+            <u><i class="icon-group"></i></u>
+            <strong>一站式体贴服务</strong>
+            <span>300名专业技术及服务人员，售前售中售后全方位守护。</span>
+        </a>
+    </li>
+</ul>
+<div class="home_case">
+    <h3><a href="case_list.html">他们都在用网易企业邮【详情点击】</a></h3>
+    <ul>
+        <li>
+            <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                <tr>
+                    <td width="34%"><a href="case_list.html"><img src="upload/case_img/p24.jpg"></a></td>
+                    <td width="33%"><a href="case_list.html"><img src="upload/case_img/p13.jpg"></a></td>
+                    <td width="33%"><a href="case_list.html"><img src="upload/case_img/p25.jpg"></a></td>
+                </tr>
+                <tr>
+                    <td><a href="case_list.html"><img src="upload/case_img/p19.jpg"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p14.jpg"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p18.jpg"></a></td>
+                </tr>
+                <tr>
+                    <td><a href="case_list.html"><img src="upload/case_img/p17.jpg"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p16.jpg"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p15.jpg"></a></td>
+                </tr>
+                <tr>
+                    <td><a href="case_list.html"><img src="upload/case_img/p10.gif"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p21.jpg"></a></td>
+                    <td><a href="case_list.html"><img src="upload/case_img/p20.jpg"></a></td>
+                </tr>
+            </table>
+        </li>
+    </ul>
 </div>
-<!--modal 小的模态框-->
-<div style="display: none;" id="index_menulist_sm_modal" data-backdrop="static" class="modal fade" tabindex="-1"
-     role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content" id='index_menulist_sm_content'>
-
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
-<!--备用的选项-->
-<div style="display: none;" id="index2_menulist_modal" data-backdrop="static" class="modal fade" tabindex="-1"
-     role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content" id='index2_menulist_content'>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-</div>
-
-<!--点赞-->
-<div id="sm_dialog"></div>
 {include file="public:footer"/}
-

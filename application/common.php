@@ -16,5 +16,5 @@ return [
     'DOMAIN' => $domain,
     'ENTRYMAILURL' => $domain . '/index.php/dailysendmail/Wechatmailsend/check_redirect_entry',
     'EMAILAGENT_ID' => 1,
-    'ADS_READ_URL' => $domain . '/index.php/sysadmin/Ad/read',
+    'ADS_READ_URL' => $domain . '/index.php/wap/Ad/read',
 ];

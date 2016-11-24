@@ -17,6 +17,15 @@ use think\Request;
 class Ad extends Controller
 {
     /**
+     * 首页信息
+     * @access public
+     */
+    public function index()
+    {
+        return $this->fetch('index/index');
+    }
+
+    /**
      * 点击阅读广告信息
      * @access public
      */
@@ -30,7 +39,25 @@ class Ad extends Controller
         if (!$id) {
             exit('您的请求异常。');
         }
-        return $this->fetch('index', ['r' => $m->where($where)->find()]);
+        return $this->fetch('read', ['r' => $m->where($where)->find()]);
+    }
+
+    /**
+     * 广告列表
+     * @access public
+     */
+    public function ads_list()
+    {
+        return $this->fetch('ads_list');
+    }
+
+    /**
+     * 关于我们页面
+     * @access public
+     */
+    public function aboutus()
+    {
+        return $this->fetch('aboutus');
     }
 
 }

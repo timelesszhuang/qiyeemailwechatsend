@@ -27,7 +27,7 @@ class Readad extends Controller
         if (!$id) {
             exit('您的请求异常。');
         }
-        
+        return $this->fetch('index');
     }
 
 }

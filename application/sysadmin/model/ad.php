@@ -43,15 +43,23 @@ class ad
             for ($start; $start < $stop; $start++) {
                 //需要获取 url 信息
                 $v = $adds[$start];
-                $perarticle = [
-                    'title' => $v['title'],
-                    'picurl' => Config::get('DOMAIN') . $v['pic_url'],
-                    'url' => self::get_ads_url($v['id'])
-                ];
+                if ($v['pic_url']) {
+                    $perarticle = [
+                        'title' => $v['title'],
+                        'picurl' => Config::get('DOMAIN') . $v['pic_url'],
+                        'url' => self::get_ads_url($v['id'])
+                    ];
+                } else {
+                    $perarticle = [
+                        'title' => $v['title'],
+                        'url' => self::get_ads_url($v['id'])
+                    ];
+                }
                 $articles[] = $perarticle;
             }
             $all_ads[] = $articles;
         }
+        file_put_contents('a.txt', print_r($all_ads, true), FILE_APPEND);
         foreach ($corp_ids as $k => $v) {
             $corp_id = $v;
             //要把这个广告发送到  邮件推送的广告中

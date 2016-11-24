@@ -1,0 +1,82 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        发送广告
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12">
+            <table class="table table-bordered" style="width:80%;margin: 0px auto;">
+                <tr>
+                    <td class="t-left">
+                        <span class="glyphicon glyphicon-star" style="color:  #8c0101"></span>
+                        广告
+                    </td>
+                    <td colspan="3">
+                        <input type="text" id='ads' name="ads" value="" style="width: 200px;">
+                    </td>
+                </tr>
+                <tr>
+                    <td class='t-left'>
+                        <span class="glyphicon glyphicon-star" style="color:#8c0101"></span>公司
+                    </td>
+                    <td colspan="3">
+                        <input type="text" id='corp_id' name="corp_id" value="">
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <div style="width: 100px; margin: 0px auto;">
+                            <button type="button" class="btn btn-primary btn-sm" id="send_ads_btn">
+                                <span class="glyphicon glyphicon-floppy-save"></span>保存并发送
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <input type="hidden" value="{$modal_id}" name='send_ads_modal_id'>
+            <input type="hidden" value="{$datagrid_id}" name="send_ads_datagrid_id">
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>
+<script>
+    $(function () {
+        //send_ads
+        $('#send_ads_btn').click(function () {
+            var action = '<?php echo Url("Ad/exec_send_ads"); ?>';
+            var data = new Object();
+            var modal_id = $('input[name="send_ads_modal_id"]').val();
+            data.ads = $('#ads').combotree('getValues');
+            data.corp_ids = $('#corp_id').combotree('getValues');
+            if (is_null_or_empty(data.ads)) {
+                $.messager.alert('保存发送失败', '请选择广告信息。', 'error');
+            }
+            if (is_null_or_empty(data.corp_ids)) {
+                $.messager.alert('添加失败', '请选择要发送的组织或公司。', 'error');
+            }
+            submit_form(action, $.param(data), modal_id);
+        });
+        //获取开票记录
+        $('#corp_id').combotree({
+            //获取客户开票类型
+            url: '<?php echo Url("authcorp/get_authcorp_list");?>',
+            required: true,
+            multiple: true,
+            width: 200
+        });
+        //添加广告数据
+        $('#ads').combotree({
+            //获取客户开票类型
+            url: '<?php echo Url("ad/get_ads_list");?>',
+            required: true,
+            multiple: true,
+            panelWidth: 300
+        });
+    });
+</script>

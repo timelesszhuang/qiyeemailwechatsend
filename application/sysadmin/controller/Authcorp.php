@@ -209,4 +209,19 @@ class Authcorp extends Base
         return $this->fetch('copy_crontab_set', ['url' => $url]);
     }
 
+
+    /**
+     * 获取全部的信息
+     * @access public
+     */
+    public function get_authcorp_list()
+    {
+        $r_data = [];
+        foreach (Db::name('auth_corp_info')->field('id,corp_full_name')->order('id desc')->select() as $v) {
+            $r_data[] = array('id' => $v['id'], 'text' => $v['corp_full_name']);
+        }
+        exit(json_encode($r_data));
+    }
+
+
 }

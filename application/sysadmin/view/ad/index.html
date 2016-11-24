@@ -2,13 +2,13 @@
     <h4>微信广告推送</h4>
 </div>
 <div class="opendialog">
-    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add' id="add_ads">
+    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add_ads' id="add_ads">
         <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
         添加广告
     </button>
-    <button type="button" class="btn btn-danger btn-sm" rel='cancel' tag='cancel'>
-        <span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span>
-        批量删除
+    <button type="button" class="btn btn-default btn-sm" rel='modal' tag='send_ads' id="send_ads">
+        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
+        发送广告
     </button>
     <ul class="nav query-ul">
         <li class="pull-left">
@@ -80,9 +80,16 @@
 
         //按钮点击事件完成之后
         $('#add_ads').click(function () {
-            var add_daily_link = '<?php echo Url("ad/add_ads");?>';
-            open_modal(modal_id, add_daily_link, '', datagrid_id);
+            var add_ads_link = '<?php echo Url("ad/add_ads");?>';
+            open_modal(modal_id, add_ads_link, '', datagrid_id);
         });
+
+        //发送广告
+        $('#send_ads').click(function () {
+            var send_ads_link = '<?php echo Url("ad/send_ads");?>';
+            open_modal(modal_id, send_ads_link, '', datagrid_id);
+        });
+
 
 
     });
@@ -125,14 +132,4 @@
             ]]
         });
     }
-</script>
-<script>
-    $(function () {
-        /*//显示部门和个人
-         $('#show_person').combotree({
-         url: '__MODULE__/Orgstructure/json_noauthority_tree',
-         panelWidth: 250
-         });*/
-    })
-
 </script>

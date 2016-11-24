@@ -1,10 +1,9 @@
-<!--添加日报 该文件ajax 获取 -->
 <div class="modal-header">
     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
         <span aria-hidden="true">×</span>
     </button>
     <h4 class="modal-title" id="myModalLabel">
-        添加日报
+        添加广告
     </h4>
 </div>
 <div class="modal-body">
@@ -13,64 +12,46 @@
             <form class="form-horizontal" id="edit_noticeform">
                 <div class="add-daily-content">
                     <div class="row clear-margin">
-                        <div class="col-lg-12 add-daily-header">
-                            <td style="font-size: 16px;color: #CC5522;line-height: 30px;background-color:  #DDDDDD;">
-                                主动汇报的程度，决定领导对我行为的放心程度。<br>
-                                如果是领导问起汇报内容，会有两个原因，一是不放心，二是没看。
-                            </td>
-                        </div>
-                    </div>
-                    <div class="row clear-margin border-top border-bottom">
-                        <div class="col-lg-12">
-                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;今日操作&nbsp;&nbsp;
-                                <small>今天做的事项</small>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="row clear-margin">
                         <div class="col-sm-12 operator-container">
-                            <!--后台获取每天要做的事情-->
                         </div>
                     </div>
                     <div class="row clear-margin border-top">
                         <div class="col-lg-12">
-                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;今日计划&nbsp;&nbsp;
-                                <small>({$pre_list.addtime}填写)</small>
+                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;标题&nbsp;&nbsp;
+                                <small>推送到客户微信应用 时候显示的标题</small>
+                            </h4>
+                            <input type="text" value="" name="title" class="form-control col-sm-5"/>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;图片&nbsp;&nbsp;
+                                <small>发送news消息时候，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80</small>
+                            </h4>
+                            <input type="file" name="pic" id="pic" style="display: inline-block;">
+                            <span class="upload_img"></span>
+                            <button type="button" class="btn btn-danger btn-sm" id='upload_pic' style="display:inline">
+                                上传
+                            </button>
+                            <input type="hidden" name="pic_url" id="pic_url" value="">
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;广告内容&nbsp;&nbsp;
+                                <small>(推荐产品之类 支持上传图片附件)</small>
                             </h4>
                         </div>
                     </div>
                     <div class="row clear-margin border-top border-bottom">
-                        <div class="col-lg-12 word-wrap add-daily-predaycontent">
-                            {$pre_list.summary}
-                        </div>
-                    </div>
-                    <div class="row clear-margin border-top border-bottom">
                         <div class="col-lg-12">
-                            <h4><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;工作总结&nbsp;&nbsp;
-                                <small>(撰写今日工作总结)</small>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="row clear-margin border-top border-bottom">
-                        <div class="col-lg-12">
-                            <textarea name="plan" id="plan" style="width:100%;height:350px;visibility:hidden;">{$record.plan}</textarea>
-                        </div>
-                    </div>
-                    <div class="row clear-margin border-top border-bottom">
-                        <div class="col-lg-12">
-                            <h4><span class="glyphicon glyphicon-check"></span>&nbsp;&nbsp;明日计划&nbsp;&nbsp;
-                                <small>(撰写明日工作计划)</small>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="row clear-margin border-top border-bottom">
-                        <div class="col-lg-12">
-                            <textarea name="summary" id="summary" style="width:100%;height:350px;visibility:hidden;">{$record.summary}</textarea>
+                            <textarea name="contents" id="contents"
+                                      style="width:100%;height:350px;visibility:hidden;"></textarea>
                         </div>
                     </div>
                 </div>
-                <input type="hidden" value="{$record.id}" name="id">
-                <input type="hidden" value="{$modal_id}" name='add_daily_modal_id'>
+                <input type="hidden" value="{$modal_id}" name='add_ads_modal_id'>
+                <input type="hidden" value="{$datagrid_id}" name="add_ads_datagrid_id">
             </form>
         </div>
     </div>
@@ -82,84 +63,66 @@
 </div>
 <script>
     $(function () {
-        $('#tmp_save_btn').click(function () {
-            var flag = 'tmp_save';
-            save_daily(flag);
-        });
 
         $('#save_btn').click(function () {
-            var flag = 'save';
-            save_daily(flag);
+            var action = '<?php echo Url("Ad/exec_add_ads"); ?>';
+            var data = new Object();
+            var modal_id = $('input[name="add_ads_modal_id"]').val();
+            data.title = $('input[name="title"]').val();
+            data.pic_url = $('input[name="pic_url"]').val();
+            data.contents = $('textarea[name="contents"]').val();
+            if (is_null_or_empty(data.title)) {
+                $.messager.alert('添加失败', '请填写广告的标题。', 'error');
+            }
+            if (is_null_or_empty(data.contents)) {
+                $.messager.alert('添加失败', '请填写广告的内容。', 'error');
+            }
+            submit_form(action, $.param(data), modal_id);
         });
 
         /**
-         * 执行保存操作
+         * 点击上传之后的操作
          */
-        function save_daily(flag) {
-            var action = '{:U("Home/Daily/exec_add_daily")}';
-            var data = new Object();
-            var modal_id = $('input[name="add_daily_modal_id"]').val();
-            data.id = $('input[name="id"]').val();
-            data.plan = $('textarea[name="plan"]').val();
-            data.summary = $('textarea[name="summary"]').val();
-            //表示是日报
-            data.type = '10';
-            data.flag = flag;
-            submit_form(action, $.param(data), modal_id);
-        }
+        $('#upload_pic').click(function () {
+            var file_name = $('#pic').val();
+            if (!file_name) {
+                $.messager.alert('合同状态', '请选择上传文件', 'error');
+                return;
+            }
+            //设置稍后
+            $('.upload_img').html('<img src="/static/sys/image/load_sm.gif" />');
+            $.ajaxFileUpload({
+                url: "<?php echo Url('Upfile/upload_img');?>",
+                fileElementId: 'pic',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 'success') {
+                        $('input[name="pic_url"]').val(data.url);
+                        $('.upload_img').html('上传成功');
+                    } else {
+                        $('.upload_img').html('');
+                        $.messager.alert(data.title, data.msg, 'error');
+                    }
+                },
+                error: function (xhttprequest, msg, e) {
+                    $.messager.alert('上传失败', '上传失败请联系技术人员', 'error');
+                }
+            });
+        });
 
         //表单的初始化
-        KindEditor.create('textarea[name="plan"]', {
+        KindEditor.create('textarea[name="contents"]', {
             allowFileManager: true,
-            uploadJson: '{:U("Home/Upfile/upload_img")}',
-            fileManagerJson: '{:U("Home/Upfile/file_manager_json")}',
+            uploadJson: '<?php echo Url("common/Upfile/upload_file");?>',
+            fileManagerJson: '<?php echo Url("common/Upfile/file_manager_json");?>',
             afterBlur: function () {
                 this.sync();
                 //这一句的作用：当失去焦点时执行 this.sync()
                 //这个函数作用是同步KindEditor的值到textarea文本框。
             }
         });
-
-        KindEditor.create('textarea[name="summary"]', {
-            allowFileManager: true,
-            uploadJson: '{:U("Home/Upfile/upload_img")}',
-            fileManagerJson: '{:U("Home/Upfile/file_manager_json")}',
-            afterBlur: function () {
-                this.sync();
-                //这一句的作用：当失去焦点时执行 this.sync()
-                //这个函数作用是同步KindEditor的值到textarea文本框。
-            }
-        });
-
-        //获取日常操作
-        get_daily_operator('operator-container');
 
     });
-
-    /**
-     * 获取日常操作html文件
-     */
-    function get_daily_operator(show_div) {
-        var selecter = '.' + show_div;
-        var href = "__MODULE__/DailyCount/get_report_daily_operator";
-        $.ajax({
-            type: "POST",
-            dataType: "html",
-            //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
-            async: false,
-            url: href,
-            beforeSend: function (xhr) {
-                var img = "<div style='width:50%;margin:0px auto;'><img src='/Public/Home/image/load.gif' /></div>"
-                $(selecter).html(img);
-            },
-            success: function (data) {
-                $(selecter).html(data);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                parse_ajax_errortype(jqXHR, textStatus, errorThrown);
-            }
-        });
-    }
 
 
 </script>

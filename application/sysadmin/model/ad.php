@@ -45,7 +45,7 @@ class ad
                 $v = $adds[$start];
                 $perarticle = [
                     'title' => $v['title'],
-                    'pic_url' => $v['pic_url'],
+                    'pic_url' => Config::get('DOMAIN') . $v['pic_url'],
                     'url' => self::get_ads_url($v['id'])
                 ];
                 $articles[] = $perarticle;
@@ -74,6 +74,5 @@ class ad
     {
         return Config::get('common.ADS_READ_URL') . "?id={$add_id}";
     }
-
 
 }

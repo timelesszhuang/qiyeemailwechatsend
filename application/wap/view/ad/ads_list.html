@@ -1,6 +1,6 @@
 ﻿{include file="public:header"/}
 <h3 class="zi_news_title">
-    <span><i class="icon-file-alt"></i>新闻公告</span>
+    <span><i class="icon-file-alt"></i>公告/新闻/通知</span>
     <strong><a href="javascript:history.go(-1);"><i class="icon-reply"></i>返回</a></strong>
 </h3>
 <div class="zi_content">
@@ -8,7 +8,7 @@
         <?php
         foreach($r as $v){
         ?>
-        <li><a href="<?php echo Url('Ad/read?id=$v.id');?>">{$v.title}</a></li>
+        <li><a href="<?php echo url('Ad/read',['id'=>$v['id']]);?>">{$v.title}</a></li>
         <?php } ?>
     </ul>
 </div>

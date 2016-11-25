@@ -60,4 +60,14 @@ class Ad extends Controller
         return $this->fetch('aboutus');
     }
 
+
+    /**
+     * 关于我们中的其他信息
+     * @access public
+     */
+    public function about()
+    {
+        return $this->fetch('about/about_' . Request::instance()->param('flag'));
+    }
+
 }

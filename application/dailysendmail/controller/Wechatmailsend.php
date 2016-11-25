@@ -230,13 +230,18 @@ class Wechatmailsend extends Controller
                 $stop = (($start + 8) > $total) ? $total : ($start + 8);
                 for ($start; $start < $stop; $start++) {
                     $v = $list[$start];
-                    $perarticle = [
-                        'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
-                        'url' => $url
-                    ];
-                    $articles[] = $perarticle;
+                    $result = $v['result'];
+                    if ($result == 1) {
+                        $perarticle = [
+                            'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
+                            'url' => $url
+                        ];
+                        $articles[] = $perarticle;
+                    }
                 }
-                wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
+                if (!empty($articles)) {
+                    wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
+                }
             }
         }
         return $total;

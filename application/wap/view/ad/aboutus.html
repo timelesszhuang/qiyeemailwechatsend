@@ -1,9 +1,11 @@
 ﻿{include file="public:header"/}
-<div class="zi_banner"><img src="images/m_img/banner_about.jpg"></div>
+<div class="zi_banner">
+    <img src="/static/wap/images/m_img/banner_about.jpg">
+</div>
 <ul class="zi_menu">
-    <li><a href="company/company1.html">公司简介</a><i class="fa fa-long-arrow-right"></i></li>
-    <li><a href="company/company2.html">企业愿景</a><i class="fa fa-long-arrow-right"></i></li>
-    <li><a href="company/company3.html">付款方式</a><i class="fa fa-long-arrow-right"></i></li>
-    <li><a href="company/company4.html">联系我们</a><i class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/about',['flag'=>'desc']);?>">公司简介</a><i class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/about',['flag'=>'=>'wish'']);?>">企业愿景</a><i class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/about,['flag'=>'pay']);?>">付款方式</a><i class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/about',['flag'=>'contact']);?>">联系我们</a><i class="fa fa-long-arrow-right"></i></li>
 </ul>
 {include file="public:footer"/}

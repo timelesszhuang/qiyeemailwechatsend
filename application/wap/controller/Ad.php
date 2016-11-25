@@ -48,7 +48,7 @@ class Ad extends Controller
      */
     public function ads_list()
     {
-        return $this->fetch('ads_list');
+        return $this->fetch('ads_list', ['r' => Db::name('ads')->limit(0.20)->order('id desc')->field('id,title')->select()]);
     }
 
     /**

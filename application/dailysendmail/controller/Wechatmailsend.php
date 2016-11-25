@@ -334,6 +334,12 @@ class Wechatmailsend extends Controller
         $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
         $user_info = common::send_curl_request($get_userid_url, [], 'get');
         $user_info = json_decode($user_info, true);
+        if (array_key_exists('errcode', $user_info)) {
+            exit('请求code错误');
+        }
+        if (array_key_exists('OpenId', $user_info)) {
+            exit('您不属于该公司，或者您没有权限访问');
+        }
         $wechat_userid = $user_info['UserId'];
         //知道UserId  corpid之后可以获取 网易邮箱账号 也可以获取网易接口数据
         //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定

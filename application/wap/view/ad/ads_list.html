@@ -5,20 +5,13 @@
 </h3>
 <div class="zi_content">
     <ul class="news_list">
-        <li><a href="news_show.html">客户告知函 </a></li>
-        <li><a href="news_show.html">2015国庆放假通知</a></li>
-        <li><a href="news_show.html">网易企业邮箱亮相东盟博览会 安全稳定受追捧</a></li>
-        <li><a href="news_show.html">工作更从容 网易企业邮箱精品酒会完美落幕</a></li>
-        <li><a href="news_show.html">多项技术创新 网易企业邮箱反垃圾实力突显</a></li>
-        <li><a href="news_show.html">网易企业邮箱：深挖井，广积粮是外贸公司生存法则</a></li>
-        <li><a href="news_show.html">网易企业邮箱角逐世锦赛，安全稳定是重要因素</a></li>
-        <li><a href="news_show.html">网易企业邮箱业内独家获得最高等级安全证书EAL3+ </a></li>
-        <li><a href="news_show.html">开学啦！网易企业邮箱推进高校走向互联网+ </a></li>
-        <li><a href="news_show.html">十八年技术传承——网易企业邮箱助力2015北京世锦赛</a></li>
+        <?php
+        foreach($r as $v){
+        ?>
+        <li><a href="<?php echo Url('Ad/read?id=$v.id');?>">{$v.title}</a></li>
+        <?php } ?>
     </ul>
 </div>
-<!--page-->
-<div class="zipage"><span>1</span><a href="#">2</a></div>
 {include file="public:footer"/}
 
 

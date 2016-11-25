@@ -33,6 +33,15 @@ class Ad extends Base
     }
 
     /**
+     * 首页信息修改
+     */
+    public function index_json()
+    {
+        
+    }
+
+
+    /**
      * add_ads
      * 添加广告数据
      * @access public

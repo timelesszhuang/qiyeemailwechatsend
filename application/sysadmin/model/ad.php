@@ -59,7 +59,7 @@ class ad
             }
             $all_ads[] = $articles;
         }
-        file_put_contents('a.txt', print_r($all_ads), FILE_APPEND);
+        file_put_contents('a.txt', print_r($all_ads, true), FILE_APPEND);
         foreach ($corp_ids as $k => $v) {
             $corp_id = $v;
             //要把这个广告发送到  邮件推送的广告中

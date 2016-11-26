@@ -1,0 +1,21 @@
+﻿{include file="public:header"/}
+<div class="zi_banner"><img src="/static/wap/images/m_img/banner_product.jpg"></div>
+<ul class="zi_menu">
+    <li><a href="<?php echo url('ad/product',['flag'=>'emaildesc']);?>">邮箱介绍</a><i
+            class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/product',['flag'=>'emailadvantage']);?>">产品优势</a><i
+            class="fa fa-long-arrow-right"></i></li>
+    <li><a href="<?php echo url('ad/product',['flag'=>'emailfunctiondesc']);?>">功能介绍</a><i
+            class="fa fa-long-arrow-right"></i>
+        <dl>
+            <dd><a href="<?php echo url('ad/product',['flag'=>'emailbackendfunction']);?>">后台管理功能</a>
+            </dd>
+            <dd>
+                <a href="<?php echo url('ad/product',['flag'=>'addedservice']);?>">增值服务功能</a>
+            </dd>
+        </dl>
+    </li>
+    <li><a href="<?php echo url('ad/product',['flag'=>'corp']);?>">合作机构</a><i
+            class="fa fa-long-arrow-right"></i></li>
+</ul>
+{include file="public:footer"/}

@@ -70,4 +70,49 @@ class Ad extends Controller
         return $this->fetch('about/about_' . Request::instance()->param('flag'));
     }
 
+
+    /**
+     * 产品信息
+     * @access public
+     */
+    public function product()
+    {
+        $flag = Request::instance()->param('flag');
+        if (!$flag) {
+            return $this->fetch('product');
+        }
+        return $this->fetch('product/product_' . $flag);
+
+    }
+
+    /**
+     * 成功案例
+     * @access public
+     */
+    public function case_list()
+    {
+        return $this->fetch('case_list');
+    }
+
+
+    /**
+     * 客户服务
+     * @access public
+     */
+    public function qiye_service()
+    {
+        return $this->fetch('qiye_service');
+    }
+
+    /**
+     * 客户添加
+     * @access public
+     */
+    public function service()
+    {
+        $flag = Request::instance()->param('flag');
+        $this->fetch('service_' . $flag);
+    }
+
+
 }

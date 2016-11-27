@@ -8,8 +8,7 @@
 
 namespace app\sysadmin\controller;
 
-
-use app\sysadmin\model\common;
+use app\common\model\common;
 use think\Config;
 use think\Db;
 use think\Request;
@@ -37,7 +36,38 @@ class Ad extends Base
      */
     public function index_json()
     {
-        
+        //分页信息获取
+        list($firstRow, $pageRows) = common::get_page_info();
+//        $corp_name = Request::instance()->param('corp_name', '');
+        $map = '';
+//        if ($corp_name) {
+//            $map .= "corp_full_name like '%{$corp_name}%' ";
+//        }
+        $db = Db::name('ads');
+        $count = $db->where($map)->count('id');
+        $info = $db->where($map)->limit($firstRow, $pageRows)
+            ->field('id,title,addtime,readcount')
+            ->select();
+        array_walk($info, array($this, 'formatter_ads'));
+        if ($count != 0) {
+            $array['total'] = $count;
+            $array['rows'] = $info;
+            echo json_encode($array);
+        } else {
+            $array['total'] = 0;
+            $array['rows'] = array();
+            echo json_encode($array);
+        }
+    }
+
+    /**
+     * 格式化 广告字段
+     * @access public
+     * @param $v
+     */
+    public function formatter_ads(&$v)
+    {
+        $v['addtime'] = date('Y-m-d H:i:s', $v['addtime']);
     }
 
 
@@ -80,7 +110,8 @@ class Ad extends Base
     public function edit_ads()
     {
         $this->get_assign();
-        return $this->fetch('edit_ads');
+        $id = Request::instance()->param('id');
+        return $this->fetch('edit_ads', ['r' => Db::name('ads')->where(['id' => $id])->find()]);
     }
 
 
@@ -119,17 +150,17 @@ class Ad extends Base
             return json(common::form_ajaxreturn_arr('发送失败', '广告和组织/公司不能为空', self::error));
         } else {
             //感觉需要写个 程序来保存下发送的历史
-//            echo json_encode(common::form_ajaxreturn_arr('正在发送', '后台正在发送。', self::success));
+            echo json_encode(common::form_ajaxreturn_arr('正在发送', '后台正在发送。', self::success));
         }
-        /*      //省略php接口中处理数据的代码
-                // get the size of the output
-                $size = ob_get_length();
-                // send headers to tell the browser to close the connection
-                header("Content-Length: $size");
-                header('Connection: close');
-                ob_end_flush();
-                ob_flush();
-                flush();*/
+        //省略php接口中处理数据的代码
+        // get the size of the output
+        $size = ob_get_length();
+        // send headers to tell the browser to close the connection
+        header("Content-Length: $size");
+        header('Connection: close');
+        ob_end_flush();
+        ob_flush();
+        flush();
         set_time_limit(0);
         ignore_user_abort(true);
         //获取广告数据

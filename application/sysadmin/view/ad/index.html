@@ -16,25 +16,7 @@
         </li>
         <li class="pull-left">
             <input type="text" class="form-control input-sm" name="auth_corp_name" id='auth_corp_name'
-                   placeholder="客户名称/客户简称" style="width: 150px">
-        </li>
-        <li class="pull-left">
-            <input type="text" class="form-control input-sm" name="api_domain" id='api_domain'
-                   placeholder="域名" style="width: 100px">
-        </li>
-        <li class="pull-left">
-            &nbsp; 邮箱接口状态：
-        </li>
-        <li class="pull-left">
-            <input type="radio" name="api_status" value="10">正常
-            <input type="radio" name="api_status" value="20" checked>异常
-        </li>
-        <li class="pull-left">
-            &nbsp; 邮件推送状态：
-        </li>
-        <li class="pull-left">
-            <input type="radio" name="status" value="on">启用
-            <input type="radio" name="status" value="off" checked>禁用
+                   placeholder="广告标题" style="width: 150px">
         </li>
         <li class="pull-left">
             <button type="button" class="btn btn-primary btn-sm " id="quick_query" rel='refresh_datagrid' tag='query'
@@ -47,22 +29,19 @@
 </div>
 <div class="clearfix"></div>
 <div class="bottom-data-div">
-    <table id="auth_corp_datagrid" width="100%">
+    <table id="ads_datagrid" width="100%">
     </table>
 </div>
 <script>
     $(function () {
-        var classid = 'auth_corp';
+        var classid = 'ads';
         var datagrid_id = classid + '_datagrid';
         //修改配置信息
         var modal_id = 'index_menulist';
         var edit_modal = modal_id;
-        var urljson = '<?php echo Url("authcorp/index_json")?>';
-        var hrefaddapi = '<?php echo Url("authcorp/editadd_netease_apiinfo")?>';
-        //表示是 开启还是关闭
-        var hrefstatus = '<?php echo Url("authcorp/cancelorok_sendmail")?>';
-        var hrefcopy = '<?php echo Url("authcorp/copy_crontab_set");?>';
-        load_ads_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal);
+        var urljson = '<?php echo Url("ad/index_json")?>';
+        var hrefedit = '<?php echo Url("ad/edit_ads");?>';
+        load_ads_datagrid(datagrid_id, urljson, hrefedit, edit_modal);
 
         $('#quick_query').click(function () {
             var corp_name = $('#auth_corp_name').val();
@@ -91,13 +70,12 @@
         });
 
 
-
     });
 
     /**
      * 加载datagrid 信息
      */
-    function load_ads_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal) {
+    function load_ads_datagrid(datagrid_id, urljson, hrefedit, edit_modal) {
         $('#' + datagrid_id).datagrid({
             url: urljson,
             idField: 'id',
@@ -113,20 +91,15 @@
             ]],
             columns: [[
                 {field: 'id', title: 'ID', width: 5, align: 'center', hidden: true},
-                {field: 'corp_full_name', title: '发布者', width: 10},
-                {field: 'subject_type', title: '企业类型', width: 5},
-                {field: 'corp_type', title: '企业号类型', width: 5},
-                {field: 'agent_count', title: '授权应用数量', width: 5},
-                {field: 'agent', title: '应用名', width: 10},
-                {field: 'api_status_title', title: '邮箱接口状态', width: 5},
-                {field: 'status_title', title: '邮件推送状态', width: 5},
+                {field: 'title', title: '标题', width: 10},
+                {field: 'readcount', title: '阅读次数', width: 5},
                 {field: 'addtime', title: '添加时间', align: 'center', width: 5},
                 {
                     field: 'action',
                     title: '操作',
                     width: 10,
                     formatter: function (value, row, index) {
-                        return '<img class="btn_do" src="/static/sys/image/code.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefcopy + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ';
+                        return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ';
                     }, align: 'center'
                 }
             ]]

@@ -1,0 +1,130 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        修改广告
+    </h4>
+</div>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-lg-12 pull-left">
+            <form class="form-horizontal" id="edit_noticeform">
+                <div class="add-daily-content">
+                    <div class="row clear-margin">
+                        <div class="col-sm-12 operator-container">
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;标题&nbsp;&nbsp;
+                                <small>推送到客户微信应用 时候显示的标题</small>
+                            </h4>
+                            <input type="text" name="title" class="form-control col-sm-5" value="{$r.title}"/>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;图片&nbsp;&nbsp;
+                                <small>发送news消息时候，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80</small>
+                            </h4>
+                            <input type="file" name="pic" id="pic" style="display: inline-block;">
+                            <span class="upload_img"></span>
+                            <button type="button" class="btn btn-danger btn-sm" id='upload_pic' style="display:inline">
+                                上传
+                            </button>
+                            <input type="hidden" name="pic_url" id="pic_url" value="{$r.pic_url}">
+                            <img src="{$r.pic_url}" style="width: 128px; height: 64px;" title="大图"/>
+                            <img src="{$r.pic_url}" style="width: 64px; height: 64px;" title="小图"/>
+
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <h4><span class="glyphicon glyphicon-edit"></span>&nbsp;&nbsp;广告内容&nbsp;&nbsp;
+                                <small>(推荐产品之类 支持上传图片附件)</small>
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row clear-margin border-top border-bottom">
+                        <div class="col-lg-12">
+                            <textarea name="contents" id="contents" style="width:100%;height:350px;visibility:hidden;">{$r.contents}</textarea>
+                        </div>
+                    </div>
+                </div>
+                <input type="hidden" value="{$modal_id}" name='add_ads_modal_id'>
+                <input type="hidden" value="{$datagrid_id}" name="add_ads_datagrid_id">
+            </form>
+        </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <button type="button" class="btn btn-danger btn-sm" id='save_btn' title="提交之后不能再次修改">保存</button>
+</div>
+<script>
+    $(function () {
+
+        $('#save_btn').click(function () {
+            var action = '<?php echo Url("Ad/exec_add_ads"); ?>';
+            var data = new Object();
+            var modal_id = $('input[name="add_ads_modal_id"]').val();
+            data.title = $('input[name="title"]').val();
+            data.pic_url = $('input[name="pic_url"]').val();
+            data.contents = $('textarea[name="contents"]').val();
+            if (is_null_or_empty(data.title)) {
+                $.messager.alert('添加失败', '请填写广告的标题。', 'error');
+            }
+            if (is_null_or_empty(data.contents)) {
+                $.messager.alert('添加失败', '请填写广告的内容。', 'error');
+            }
+            submit_form(action, $.param(data), modal_id);
+        });
+
+        /**
+         * 点击上传之后的操作
+         */
+        $('#upload_pic').click(function () {
+            var file_name = $('#pic').val();
+            if (!file_name) {
+                $.messager.alert('合同状态', '请选择上传文件', 'error');
+                return;
+            }
+            //设置稍后
+            $('.upload_img').html('<img src="/static/sys/image/load_sm.gif" />');
+            $.ajaxFileUpload({
+                url: "<?php echo Url('Upfile/upload_img');?>",
+                fileElementId: 'pic',
+                dataType: 'json',
+                success: function (data) {
+                    if (data.status == 'success') {
+                        $('input[name="pic_url"]').val(data.url);
+                        $('.upload_img').html('上传成功');
+                    } else {
+                        $('.upload_img').html('');
+                        $.messager.alert(data.title, data.msg, 'error');
+                    }
+                },
+                error: function (xhttprequest, msg, e) {
+                    $.messager.alert('上传失败', '上传失败请联系技术人员', 'error');
+                }
+            });
+        });
+
+        //表单的初始化
+        KindEditor.create('textarea[name="contents"]', {
+            allowFileManager: true,
+            uploadJson: '<?php echo Url("common/Upfile/upload_file");?>',
+            fileManagerJson: '<?php echo Url("common/Upfile/file_manager_json");?>',
+            afterBlur: function () {
+                this.sync();
+                //这一句的作用：当失去焦点时执行 this.sync()
+                //这个函数作用是同步KindEditor的值到textarea文本框。
+            }
+        });
+
+    });
+
+
+</script>

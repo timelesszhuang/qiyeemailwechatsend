@@ -96,7 +96,7 @@
                     width: 20,
                     formatter: function (value, row, index) {
                         var edit_btn = '<button type="button" id="myButton" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" class="btn btn-info btn-sm btn-menu">修改信息</button>&nbsp;&nbsp;\n\ ';
-                        var del_btn = '<button type="button" id="delete_btn" onclick="delete_single_record(\'' + row.id + '\',\'' + hrefdelete + '\',\'' + datagrid_id + '\') " class="btn btn-danger btn-menu">删除用户</button> ';
+                        var del_btn = '<button type="button" id="delete_btn" onclick="delete_single_record(\'' + row.id + '\',\'' + hrefdelete + '\',\'' + datagrid_id + '\') " class="btn btn-danger btn-sm btn-menu">删除用户</button> ';
                         if (row.status == 20) {
                             return '<img src="/static/sys/image/wait.png" title="等待审核"/><button type="button" id="myButton" onclick="check_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">审核通过</button>&nbsp;&nbsp;\n\
                                         <button type="button" id="myButton" onclick="notcheck_wechatuserid_mailaccount(\'' + row.id + '\',\'' + hrefnotcheck + '\',\'' + datagrid_id + '\')" class="btn btn-success btn-sm btn-menu">否决</button>&nbsp;&nbsp;\n\ '

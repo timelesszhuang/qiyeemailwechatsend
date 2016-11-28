@@ -219,7 +219,7 @@ class Wechatmailcheck extends Base
      * 删除更新的相关信息
      * @access public
      */
-    public function delete_wechatuser()
+    public function delete_wechatmail()
     {
         $id = Request::instance()->param('id');
         if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->delete()) {

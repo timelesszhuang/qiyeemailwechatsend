@@ -24,7 +24,7 @@
                         </div>
                     </div>
                     <div class="row clear-margin border-top">
-                        <div class="col-lg-12">
+                        <div class="col-lg-12" id="pic_upload">
                             <h4><span class="glyphicon glyphicon-picture"></span>&nbsp;&nbsp;图片&nbsp;&nbsp;
                                 <small>发送news消息时候，支持JPG、PNG格式，较好的效果为大图640*320，小图80*80</small>
                             </h4>
@@ -34,6 +34,7 @@
                                 上传
                             </button>
                             <input type="hidden" name="pic_url" id="pic_url" value="">
+
                         </div>
                     </div>
                     <div class="row clear-margin border-top border-bottom">
@@ -98,6 +99,9 @@
                 success: function (data) {
                     if (data.status == 'success') {
                         $('input[name="pic_url"]').val(data.url);
+                        var img = '<img src="' + data.url + '" style="width: 128px; height: 64px;" title="大图" /> &nbsp;' +
+                                '<img src="' + data.url + '" style="width: 64px; height: 64px;" title="小图" />';
+                        $('#pic_upload').append(img);
                         $('.upload_img').html('上传成功');
                     } else {
                         $('.upload_img').html('');

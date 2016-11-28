@@ -8,7 +8,8 @@
 
 namespace app\sysadmin\controller;
 
-use app\common\model\common;
+
+use app\sysadmin\model\common;
 use think\Config;
 use think\Db;
 use think\Request;
@@ -37,7 +38,7 @@ class Ad extends Base
     public function index_json()
     {
         //分页信息获取
-        list($firstRow, $pageRows) = common::get_page_info();
+        list($firstRow, $pageRows) = \app\common\model\common::get_page_info();
 //        $corp_name = Request::instance()->param('corp_name', '');
         $map = '';
 //        if ($corp_name) {

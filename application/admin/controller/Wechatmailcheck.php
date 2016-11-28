@@ -215,5 +215,18 @@ class Wechatmailcheck extends Base
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决失败', "用户否决失败。", self::failed));
     }
 
+    /**
+     * 删除更新的相关信息
+     * @access public
+     */
+    public function delete_wechatuser()
+    {
+        $id = Request::instance()->param('id');
+        if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->delete()) {
+            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户删除成功', "用户删除成功。", self::success));
+        }
+        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户删除失败', "用户删除失败。", self::failed));
+    }
+
 
 }

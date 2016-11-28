@@ -111,7 +111,7 @@ class Ad extends Controller
     public function service()
     {
         $flag = Request::instance()->param('flag');
-        $this->fetch('service_' . $flag);
+        return $this->fetch('service/service_' . $flag);
     }
 
 

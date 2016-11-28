@@ -224,4 +224,60 @@ class Authcorp extends Base
     }
 
 
+    /**
+     *  取消授权的公司
+     * @access public
+     */
+    public function cancel_corp_index()
+    {
+        return $this->fetch('cancel_corp_index');
+    }
+
+
+    /**
+     * 取消授权的 企业信息
+     * @access public
+     */
+    public function cancelcorp_index_json()
+    {
+        //分页信息获取
+        list($firstRow, $pageRows) = common::get_page_info();
+        $corp_name = Request::instance()->param('corp_name', '');
+        $domain = Request::instance()->param('domain', '');
+        $api_status = Request::instance()->param('api_status', '');
+        $status = Request::instance()->param('status', '');
+        $map = '';
+        if ($corp_name) {
+            $map .= "corp_full_name like '%{$corp_name}%' ";
+        }
+        if ($domain) {
+            $map .= $map ? ' and ' : '';
+            $map .= " api.domain like '%{$domain}%' ";
+        }
+        if ($api_status) {
+            $map .= $map ? ' and ' : '';
+            $map .= " api.api_status='{$api_status}' ";
+        }
+        if ($status) {
+            $map .= " and api.status='{$status}' ";
+        }
+        $db = Db::name('auth_corp_info');
+        $count = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->count('auth.id');
+        $info = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->limit($firstRow, $pageRows)
+            ->field('auth.*,api.api_status,api.status')
+            ->select();
+        $auth_model = new \app\sysadmin\model\authcorp();
+        array_walk($info, array($auth_model, 'formatter_corp_info'));
+        if ($count != 0) {
+            $array['total'] = $count;
+            $array['rows'] = $info;
+            echo json_encode($array);
+        } else {
+            $array['total'] = 0;
+            $array['rows'] = array();
+            echo json_encode($array);
+        }
+    }
+
+
 }

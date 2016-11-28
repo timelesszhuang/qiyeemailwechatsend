@@ -285,6 +285,8 @@ class auth
         $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
         $id = $pre_corpinfo['id'];
         $a = [
+            'pre_corp_id' => $id,
+            'pre_corp_id' => $corpid,
             'corp_name' => $pre_corpinfo['corp_full_name'],
             'email' => $pre_corpinfo['email'],
             'mobile' => $pre_corpinfo['mobile'],
@@ -302,8 +304,11 @@ class auth
             //需要同步把 该公司的信息删除掉 的信息取消掉
             //同步删除 该账号下面的 职员信息
             Db::name('wechat_user')->where($where)->delete();
+            //api 接口 怎么处理才好
+            Db::name('corp_bind_api')->where($where)->delete();
             // 提交事务
             Db::commit();
+            cachetool::get_bindinfo_bycorpid('', 'init');
             cachetool::get_permanent_code_by_corpid('', 'init');
         } catch (\Exception $e) {
             // 回滚事务

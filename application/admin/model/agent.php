@@ -145,6 +145,19 @@ class agent
      */
     public static function enter_agent($corpid, $agent_id, $reqFromUserName)
     {
+        $content = '';
+        //第一步要做的 就是从缓存中获取下 已经绑定API 的账号更新数据
+        $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
+        if ($bind_info['api_status'] == '20') {
+            $content = '您好，你司网易企业邮箱API绑定信息异常，请联系拨打　4006060163（山东强比信息技术有限公司）　联系我公司。';
+            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
+            return;
+        }
+        if ($bind_info['status'] == 'off') {
+            $content = '您好，管理员已经停止你公司网易企业邮箱邮件推送。';
+            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
+            return;
+        }
         //从数据库中获取 状态 更新下有多少访问量 更新到 数据库中
         list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $reqFromUserName);
         $bind_url = "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&agent_id={$agent_id}&wechat_userid={$reqFromUserName}";
@@ -155,7 +168,6 @@ class agent
                 case '10':
                     //绑定之后的
                     $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
-//                    file_put_contents('a.txt', '', FILE_APPEND);
                     list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
                     Db::name('entermail_log')->insertGetId([
                         'corp_id' => $info['corp_id'],
@@ -180,6 +192,7 @@ class agent
         if ($content) {
             self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
         }
+
     }
 
 

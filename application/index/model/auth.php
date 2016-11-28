@@ -300,7 +300,8 @@ class auth
             //删除组织下的应用相关信息
             Db::name('agent_auth_info')->where($where)->delete();
             //需要同步把 该公司的信息删除掉 的信息取消掉
-            
+            //同步删除 该账号下面的 职员信息
+            Db::name('wechat_user')->where($where)->delete();
             // 提交事务
             Db::commit();
             cachetool::get_permanent_code_by_corpid('', 'init');

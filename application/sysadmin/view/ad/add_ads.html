@@ -69,6 +69,7 @@
             var action = '<?php echo Url("Ad/exec_add_ads"); ?>';
             var data = new Object();
             var modal_id = $('input[name="add_ads_modal_id"]').val();
+            var datagrid_id = $('input[name="add_ads_datagrid_id"]').val();
             data.title = $('input[name="title"]').val();
             data.pic_url = $('input[name="pic_url"]').val();
             data.contents = $('textarea[name="contents"]').val();
@@ -78,7 +79,7 @@
             if (is_null_or_empty(data.contents)) {
                 $.messager.alert('添加失败', '请填写广告的内容。', 'error');
             }
-            submit_form(action, $.param(data), modal_id);
+            submit_form(action, $.param(data), modal_id, datagrid_id);
         });
 
         /**
@@ -125,7 +126,6 @@
                 //这个函数作用是同步KindEditor的值到textarea文本框。
             }
         });
-
     });
 
 

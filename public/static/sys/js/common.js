@@ -261,9 +261,6 @@ function edit_record_modal(record_id, link, datagrid_id, pre_modal_id) {
 }
 
 
-
-
-
 /**
  * ajax 更新操作完成之后操作
  * @param {string} data 完成请求之后返回的信息
@@ -325,16 +322,17 @@ function open_map_window(id, href) {
     win.focus();
 }
 
+
 /**
- * 打开新的邮箱浏览器窗体
+ * 预览广告
  */
-function open_mail_window(location) {
-    //左右居中操作 宽度合适
+function review_ads(id) {
+    var href = "/index.php/wap/ad/read?id=" + id;
     var iWidth = window.screen.availWidth - 100;
     var iHeight = window.screen.availHeight - 100;
     var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;           //获得窗口的水平位置;
-    var win_name = 'mail_entry';
-    var win = window.open(location, win_name, 'height=' + iHeight + ',width=' + iWidth + ',top=0,left=' + iLeft + ', toolbar = no, menubar = no, scrollbars = yes, resizable = no, location = no, status = no');
+    var win_name = 'cus_' + id;
+    var win = window.open(href, win_name, 'height=' + iHeight + ',width=' + iWidth + ',top=0,left=' + iLeft + ', toolbar = no, menubar = no, scrollbars = yes, resizable = no, location = no, status = no');
     if (!win || (win.closed || !win.focus) || typeof (win.document) == 'unknown' || typeof (win.document) == 'undefined') {
         alert('您的请求被拦截，请永久允许弹出窗体');
     }

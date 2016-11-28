@@ -15,7 +15,7 @@
             &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp; 查询：
         </li>
         <li class="pull-left">
-            <input type="text" class="form-control input-sm" name="auth_corp_name" id='auth_corp_name'
+            <input type="text" class="form-control input-sm" name="query_title" id='query_title'
                    placeholder="广告标题" style="width: 150px">
         </li>
         <li class="pull-left">
@@ -42,18 +42,10 @@
         var urljson = '<?php echo Url("ad/index_json")?>';
         var hrefedit = '<?php echo Url("ad/edit_ads");?>';
         load_ads_datagrid(datagrid_id, urljson, hrefedit, edit_modal);
-
         $('#quick_query').click(function () {
-            var corp_name = $('#auth_corp_name').val();
-            var domain = $('#api_domain').val();
-            var api_status = $('input[name="api_status"]:checked').val();
-            var status = $('input[name="status"]:checked').val();
-            var datagrid_id = $(this).attr('datagrid_id');
+            var title = $('#query_title').val();
             $('#' + datagrid_id).datagrid('load', {
-                corp_name: corp_name,
-                domain: domain,
-                api_status: api_status,
-                status: status
+                title: title
             });
         });
 
@@ -99,7 +91,8 @@
                     title: '操作',
                     width: 10,
                     formatter: function (value, row, index) {
-                        return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ';
+                        return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="修改广告数据"/>&nbsp;&nbsp;\n\ ' +
+                                '<img class="btn_do" src="/static/sys/image/review.png" onclick="review_ads(\'' + row.id + '\')" title="预览广告"/>&nbsp;&nbsp;\n\ ';
                     }, align: 'center'
                 }
             ]]

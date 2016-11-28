@@ -20,6 +20,7 @@
                             <h4><span class="glyphicon glyphicon-star"></span>&nbsp;&nbsp;标题&nbsp;&nbsp;
                                 <small>推送到客户微信应用 时候显示的标题</small>
                             </h4>
+                            <input type="hidden" value="{$r.id}" id="id"/>
                             <input type="text" name="title" class="form-control col-sm-5" value="{$r.title}"/>
                         </div>
                     </div>
@@ -51,8 +52,8 @@
                         </div>
                     </div>
                 </div>
-                <input type="hidden" value="{$modal_id}" name='add_ads_modal_id'>
-                <input type="hidden" value="{$datagrid_id}" name="add_ads_datagrid_id">
+                <input type="hidden" value="{$modal_id}" name='edit_ads_modal_id'>
+                <input type="hidden" value="{$datagrid_id}" name="edit_ads_datagrid_id">
             </form>
         </div>
     </div>
@@ -66,9 +67,11 @@
     $(function () {
 
         $('#save_btn').click(function () {
-            var action = '<?php echo Url("Ad/exec_add_ads"); ?>';
+            var action = '<?php echo Url("Ad/exec_edit_ads"); ?>';
             var data = new Object();
-            var modal_id = $('input[name="add_ads_modal_id"]').val();
+            var modal_id = $('input[name="edit_ads_modal_id"]').val();
+            var datagrid_id = $('input[name="edit_ads_datagrid_id"]').val();
+            data.id = $('#id').val();
             data.title = $('input[name="title"]').val();
             data.pic_url = $('input[name="pic_url"]').val();
             data.contents = $('textarea[name="contents"]').val();
@@ -78,7 +81,7 @@
             if (is_null_or_empty(data.contents)) {
                 $.messager.alert('添加失败', '请填写广告的内容。', 'error');
             }
-            submit_form(action, $.param(data), modal_id);
+            submit_form(action, $.param(data), modal_id, datagrid_id);
         });
 
         /**

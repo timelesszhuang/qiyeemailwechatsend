@@ -39,11 +39,11 @@ class Ad extends Base
     {
         //分页信息获取
         list($firstRow, $pageRows) = \app\common\model\common::get_page_info();
-//        $corp_name = Request::instance()->param('corp_name', '');
+        $title = Request::instance()->param('title', '');
         $map = '';
-//        if ($corp_name) {
-//            $map .= "corp_full_name like '%{$corp_name}%' ";
-//        }
+        if ($title) {
+            $map .= "title like '%{$title}%' ";
+        }
         $db = Db::name('ads');
         $count = $db->where($map)->count('id');
         $info = $db->where($map)->limit($firstRow, $pageRows)
@@ -113,6 +113,25 @@ class Ad extends Base
         $this->get_assign();
         $id = Request::instance()->param('id');
         return $this->fetch('edit_ads', ['r' => Db::name('ads')->where(['id' => $id])->find()]);
+    }
+
+    /**
+     *
+     * @access public
+     */
+    public function exec_edit_ads()
+    {
+        $id = Request::instance()->param('id');
+        $title = Request::instance()->param('title');
+        $pic_url = Request::instance()->param('pic_url');
+        $contents = Request::instance()->param('contents');
+        if (!$title || !$contents) {
+            return json(common::form_ajaxreturn_arr('修改失败', '标题跟内容不能为空', self::error));
+        }
+        if (Db::name('ads')->update(['id' => $id, 'title' => $title, 'pic_url' => $pic_url, 'contents' => $contents, 'updatetime' => time()])) {
+            return json(common::form_ajaxreturn_arr('修改成功', '修改成功', self::success));
+        }
+        return json(common::form_ajaxreturn_arr('修改失败', '原因未知请联系管理员', self::error));
     }
 
 

@@ -286,7 +286,7 @@ class auth
         $id = $pre_corpinfo['id'];
         $a = [
             'pre_corp_id' => $id,
-            'pre_corp_id' => $corpid,
+            'pre_corpid' => $corpid,
             'corp_name' => $pre_corpinfo['corp_full_name'],
             'email' => $pre_corpinfo['email'],
             'mobile' => $pre_corpinfo['mobile'],

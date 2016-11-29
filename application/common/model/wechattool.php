@@ -122,6 +122,23 @@ class wechattool
 
 
     /**
+     *  获取预授权码  公司自己网站授权
+     * @access public
+     */
+    public static function get_pre_auth_code()
+    {
+        $url = "https://qyapi.weixin.qq.com/cgi-bin/service/get_pre_auth_code?suite_access_token=" . self::get_suite_access_token();
+        $post = json_encode([
+            'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
+        ]);
+        $json_info = common::send_curl_request($url, $post, 'post');
+        $info = json_decode($json_info, true);
+        return $info['pre_auth_code'];
+
+    }
+
+
+    /**
      * 发送文本信息
      * @access public
      * @param $corpid  微信中组织的id

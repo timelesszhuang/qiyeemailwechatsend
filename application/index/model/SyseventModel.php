@@ -78,14 +78,14 @@ class SyseventModel
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-//        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
+        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-//            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
+            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
             switch ($info_type) {
@@ -95,7 +95,7 @@ class SyseventModel
 //                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
-//                  file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
                     exit('success');

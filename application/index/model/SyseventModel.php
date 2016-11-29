@@ -78,13 +78,14 @@ class SyseventModel
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'post:'.$sPostData, FILE_APPEND);
+        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
+            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
             switch ($info_type) {
@@ -115,7 +116,7 @@ class SyseventModel
                     //永久授权码，并换取授权信息、企业access_token
                     $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
                     $auth_info = json_decode($json_auth_info, true);
-                    file_put_contents('a.txt', 'auth_info:' .print_r($auth_info, true), FILE_APPEND);
+                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
                     if (!auth::analyse_init_corp_auth($auth_info)) {
                         return;
                     }

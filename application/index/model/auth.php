@@ -304,7 +304,7 @@ class auth
             //需要同步把 该公司的信息删除掉 的信息取消掉
             //同步删除 该账号下面的 职员信息
             Db::name('wechat_user')->where($where)->delete();
-            //api 接口 怎么处理才好
+            //网易api 接口删除掉
             Db::name('corp_bind_api')->where($where)->delete();
             // 提交事务
             Db::commit();

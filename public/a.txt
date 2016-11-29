@@ -4,3 +4,18 @@ Array
     [errcode] => 60020
     [errmsg] => not allow to access from your ip
 )
+Array
+(
+    [errcode] => 60020
+    [errmsg] => not allow to access from your ip
+)
+Array
+(
+    [errcode] => 60020
+    [errmsg] => not allow to access from your ip
+)
+Array
+(
+    [errcode] => 60020
+    [errmsg] => not allow to access from your ip
+)

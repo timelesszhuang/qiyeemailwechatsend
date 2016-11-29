@@ -92,13 +92,12 @@ class SyseventModel
                 case "suite_ticket":
                     //获取　suite_ticket
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-//                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
                     file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
-                    exit('success');
                     break;
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　

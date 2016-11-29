@@ -34,7 +34,7 @@ class Wechatmailsend extends Controller
      */
     public function schedule_get_maillist()
     {
-        file_put_contents('a.txt', date('Y-m-d H:i:s', time()), FILE_APPEND);
+//      file_put_contents('a.txt', date('Y-m-d H:i:s', time()), FILE_APPEND);
         set_time_limit(0);
         ignore_user_abort(true);
         //企业的corp_id 根据corpid  获取 该公司的相关数据

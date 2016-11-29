@@ -74,18 +74,18 @@ class SyseventModel
         $msg_signature = urldecode(Request::instance()->param('msg_signature'));
         $timestamp = urldecode(Request::instance()->param('timestamp'));
         $nonce = urldecode(Request::instance()->param('nonce'));
-//        file_put_contents('auth.txt', '授权', FILE_APPEND);
+        file_put_contents('auth.txt', '授权', FILE_APPEND);
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
+//        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
+//            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
             switch ($info_type) {
@@ -98,6 +98,7 @@ class SyseventModel
 //                  file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
+                    exit('success');
                     break;
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　

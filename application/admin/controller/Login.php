@@ -29,6 +29,7 @@ class Login extends Controller
         }
         $post = json_encode(['auth_code' => $auth_code]);
         $json_login_info = common::send_curl_request($url, $post, 'post');
+        file_put_contents('a.txt', print_r($json_login_info, true), FILE_APPEND);
         $info = json_decode($json_login_info, true);
         if (array_key_exists('errcode', $info)) {
             exit('请求　auth_code　异常');

@@ -78,7 +78,7 @@ class SyseventModel
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', $sPostData, FILE_APPEND);
+        file_put_contents('a.txt', 'post:'.$sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
         //验证通过
@@ -101,7 +101,7 @@ class SyseventModel
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
-                    file_put_contents('a.txt', $info_type, FILE_APPEND);
+                    file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
                     file_put_contents('a.txt', 'xml:' . print_r($sMsg, true), FILE_APPEND);
                     file_put_contents('a.txt', 'authcode:' . $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
@@ -115,7 +115,7 @@ class SyseventModel
                     //永久授权码，并换取授权信息、企业access_token
                     $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
                     $auth_info = json_decode($json_auth_info, true);
-                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+                    file_put_contents('a.txt', 'auth_info:' .print_r($auth_info, true), FILE_APPEND);
                     if (!auth::analyse_init_corp_auth($auth_info)) {
                         return;
                     }

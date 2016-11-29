@@ -40,7 +40,7 @@ class auth
         if (!$corp_id) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));
             common::add_log('添加预授权信息公司信息失败。添加数据库数组：', print_r($add_auth_corp_info, true));
-            return false;
+            return [false, $corpid];
         }
         $agent_auth_info = $auth_info['auth_info'];
         file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
@@ -54,11 +54,11 @@ class auth
         if (!self::add_auth_agent_info($add_auth_agent_info)) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));
             common::add_log('添加预授权信息公司信息失败。授权应用信息为：', print_r($add_auth_agent_info, true));
-            return false;
+            return [false, $corpid];
         }
         //更新memcache 中 相关数据
         cachetool::get_permanent_code_by_corpid('', 'init');
-        return true;
+        return [true, $corpid];
     }
 
     /**

@@ -1,11 +1,15 @@
 <?php
 namespace app\index\controller;
 
+use app\common\model\wechattool;
 use app\index\model\auth;
+use think\Config;
 use think\Controller;
 
 use app\common\model\common;
 use app\index\model\SyseventModel;
+use think\Request;
+use think\Session;
 
 /**
  * 接收系统事件
@@ -28,6 +32,29 @@ class Sysevent extends Controller
 //       SyseventModel::test_xml();
         //企业号后台随机填写的encodingAesKey
         SyseventModel::event();
+    }
+
+
+    /**
+     * 从第三方接口授权过来的时候会 重定向到这 带着预授权码  然后再从 微信中获取
+     * @access
+     */
+    public function trd_suite_callback()
+    {
+        $auth_code = Request::instance()->get('auth_code');
+        $suite_flag = Request::instance()->get('state');
+        if (!$auth_code) {
+            exit('请求异常');
+        }
+        list($status, $corpid) = SyseventModel::analyse_permanent_codeinfo(Config::get("wechatsuite.{$suite_flag}_SUITE_ID"), $auth_code);
+        if ($status) {
+            //从数据库中 查询处corp_id
+            Session::set('corpid', $corpid);
+            header('Location:' . Config::get('common.DOMAIN') . '/index.php/admin/');
+            exit;
+        } else {
+            exit('授权失败，请重试或联系我们：客服电话 4006360163 ；');
+        }
     }
 
 

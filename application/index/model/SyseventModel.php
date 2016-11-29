@@ -106,21 +106,7 @@ class SyseventModel
                     file_put_contents('a.txt', 'xml:' . print_r($sMsg, true), FILE_APPEND);
                     file_put_contents('a.txt', 'authcode:' . $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
-                    $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
-                    file_put_contents('a.txt', '$get_permanent_code_url:' . $get_permanent_code_url, FILE_APPEND);
-                    $post = json_encode([
-                        'suite_id' => $suite_id,
-                        'auth_code' => $authcode,
-                    ]);
-                    file_put_contents('a.txt', 'post:' . $post, FILE_APPEND);
-                    //永久授权码，并换取授权信息、企业access_token
-                    $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
-                    $auth_info = json_decode($json_auth_info, true);
-                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
-                    if (!auth::analyse_init_corp_auth($auth_info)) {
-                        return;
-                    }
-                    file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+                    self::analyse_permanent_codeinfo($suite_id, $authcode);
                     break;
                 case 'change_auth':
                     $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;
@@ -149,6 +135,36 @@ class SyseventModel
             }
         }
         echo 'success';
+    }
+
+
+    /**
+     * 从自己公司点击授权的时候需要用到
+     * 从其微信第三方应用点击的时候也需要用到
+     * @access public
+     * @param $suite_id 套件的id
+     * @param $authcode 授权之后回调的 $auth_code 授权码 用来获取永久授权码 等授权信息
+     * @return mixed [bool,corpid]
+     */
+    public static function analyse_permanent_codeinfo($suite_id, $authcode)
+    {
+        $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
+        file_put_contents('a.txt', '$get_permanent_code_url:' . $get_permanent_code_url, FILE_APPEND);
+        $post = json_encode([
+            'suite_id' => $suite_id,
+            'auth_code' => $authcode,
+        ]);
+        file_put_contents('a.txt', 'post:' . $post, FILE_APPEND);
+        //永久授权码，并换取授权信息、企业access_token
+        $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
+        $auth_info = json_decode($json_auth_info, true);
+        file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+        list($analyse_status, $corpid) = auth::analyse_init_corp_auth($auth_info);
+        if (!$analyse_status) {
+            return [false, $corpid];
+        }
+        file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
+        return [true, $corpid];
     }
 
 

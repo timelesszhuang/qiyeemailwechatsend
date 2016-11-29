@@ -85,14 +85,13 @@ class SyseventModel
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
-            file_put_contents('a.txt', 'xml:' . $xml, FILE_APPEND);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
             switch ($info_type) {
                 case "suite_ticket":
                     //获取　suite_ticket
                     $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-                  file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
                     file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);

@@ -80,7 +80,6 @@ class SyseventModel
 //        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
-//        file_put_contents('a.txt', 'errcode:' . $errCode, FILE_APPEND);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();

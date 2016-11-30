@@ -9,8 +9,6 @@ class Agentcallback
 {
     public function index()
     {
-//        cachetool::get_permanent_code_by_corpid('');
-//        exit;
         agent::event();
         //验证回调接口
     }

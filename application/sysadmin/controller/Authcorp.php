@@ -107,11 +107,6 @@ class Authcorp extends Base
      */
     public function exec_add_bind_info()
     {
-        $mem = common::phpmemcache();
-        cachetool::get_bindinfo_bycorpid('', 'init');
-        $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
-        print_r($info);
-        exit;
         $d = $this->get_auth_post();
         $d['addtime'] = time();
         $d['updatetime'] = time();
@@ -132,6 +127,11 @@ class Authcorp extends Base
      */
     public function exec_edit_bind_info()
     {
+        $mem = common::phpmemcache();
+        cachetool::get_bindinfo_bycorpid('', 'init');
+        $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
+        print_r($info);
+        exit;
         $d = $this->get_auth_post();
         $d['updatetime'] = time();
         list($d, $msg) = $this->get_email_info($d);

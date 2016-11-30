@@ -284,7 +284,6 @@ class auth
         $map['corpid'] = $corpid;
         // 把查询条件传入查询方法
         $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
-        file_put_contents('a.txt', 'PRE_CORPINFO:' . print_r($pre_corpinfo, true), FILE_APPEND);
         $id = $pre_corpinfo['id'];
         $a = [
             'pre_corp_id' => $id,
@@ -299,21 +298,16 @@ class auth
         try {
             //把已经取消授权的人的信息删除        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
             Db::name('cancel_corp_info')->insert($a);
-            file_put_contents('a.txt', '1', FILE_APPEND);
             //删除 组织的信息
             Db::name('auth_corp_info')->where($map)->delete();
-            file_put_contents('a.txt', '1', FILE_APPEND);
             $where['corp_id'] = $id;
             //删除组织下的应用相关信息
             Db::name('agent_auth_info')->where($where)->delete();
-            file_put_contents('a.txt', '1', FILE_APPEND);
             //需要同步把 该公司的信息删除掉 的信息取消掉
             //同步删除 该账号下面的 职员信息
             Db::name('wechat_user')->where($where)->delete();
-            file_put_contents('a.txt', '1', FILE_APPEND);
             //网易api 接口删除掉
             Db::name('corp_bind_api')->where($where)->delete();
-            file_put_contents('a.txt', '1', FILE_APPEND);
             // 提交事务
             Db::commit();
             cachetool::get_bindinfo_bycorpid('', 'init');

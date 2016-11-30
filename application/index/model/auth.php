@@ -122,7 +122,7 @@ class auth
             'corp_wxqrcode' => $auth_corp_info_arr['corp_wxqrcode'], //	授权方企业号二维码
             'corp_full_name' => $auth_corp_info_arr['corp_full_name'], //所绑定的企业号主体名称
             'subject_type' => $auth_corp_info_arr['subject_type'], //企业类型，1. 企业; 2. 政府以及事业单位; 3. 其他组织, 4.团队号
-            'verified_end_time' => $auth_corp_info_arr['verified_end_time'], //认证到期时间
+            'verified_end_time' => array_key_exists('verified_end_time', $auth_user_info) ? $auth_corp_info_arr['verified_end_time'] : 0, //认证到期时间
             //管理员的信息
             'email' => array_key_exists('email', $auth_user_info) ? $auth_user_info['email'] : '',
             'mobile' => array_key_exists('mobile', $auth_user_info) ? $auth_user_info['mobile'] : '',

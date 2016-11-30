@@ -77,17 +77,17 @@ class SyseventModel
         //实例化加解密类
         //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
         $sPostData = file_get_contents("php://input");
-        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
+//        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
         $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
         $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
-        file_put_contents('a.txt', 'errcode:' . $errCode, FILE_APPEND);
+//        file_put_contents('a.txt', 'errcode:' . $errCode, FILE_APPEND);
         //验证通过
         if ($errCode == 0) {
             $xml = new \DOMDocument();
             $xml->loadXML($sMsg);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
-            file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
+//            file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
             switch ($info_type) {
                 case "suite_ticket":
                     //获取　suite_ticket

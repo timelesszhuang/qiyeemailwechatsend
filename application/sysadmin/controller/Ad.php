@@ -179,8 +179,6 @@ class Ad extends Base
         header("Content-Length: $size");
         header('Connection: close');
         ob_end_flush();
-        ob_flush();
-        flush();
         set_time_limit(0);
         ignore_user_abort(true);
         //获取广告数据

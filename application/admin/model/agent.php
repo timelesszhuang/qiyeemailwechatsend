@@ -148,6 +148,7 @@ class agent
         $content = '';
         //第一步要做的 就是从缓存中获取下 已经绑定API 的账号更新数据
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
+        self::send_bind_info($corpid, $reqFromUserName, $agent_id, print_r($corpid, true));
         self::send_bind_info($corpid, $reqFromUserName, $agent_id, print_r($bind_info, true));
         if (!empty($bind_info)) {
             if ($bind_info['api_status'] == '20') {

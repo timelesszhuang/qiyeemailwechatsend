@@ -11,6 +11,7 @@ namespace app\sysadmin\controller;
 
 use app\admin\model\cachetool;
 use app\common\model\common;
+use think\Config;
 use think\Db;
 use think\Request;
 use app\mailapi\controller\mailinfo;
@@ -24,6 +25,7 @@ class Authcorp extends Base
      */
     public function index()
     {
+
         return $this->fetch();
     }
 
@@ -105,6 +107,10 @@ class Authcorp extends Base
      */
     public function exec_add_bind_info()
     {
+        $mem = common::phpmemcache();
+        $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
+        print_r($info);
+        exit;
         $d = $this->get_auth_post();
         $d['addtime'] = time();
         $d['updatetime'] = time();

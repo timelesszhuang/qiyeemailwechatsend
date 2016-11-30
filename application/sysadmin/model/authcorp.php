@@ -55,5 +55,16 @@ class authcorp
         unset($v['agent_serialize']);
     }
 
+    /**
+     * 格式化　取消组织信息
+     * ＠access public
+     * @param $v 值
+     * @param $k 键
+     */
+    public function formatter_cancel_corp_info(&$v, $k)
+    {
+        $v['canceltime'] = date('Y-m-d H:i', $v['canceltime']);
+    }
+
 
 }

@@ -1,31 +1,5 @@
 <div class="page-header page-header-title">
-    <h4>微信广告推送</h4>
-</div>
-<div class="opendialog">
-    <button type="button" class="btn btn-primary btn-sm" rel='modal' tag='add_ads' id="add_ads">
-        <span class="glyphicon glyphicon-plus-sign" aria-hidden="true"></span>
-        添加广告
-    </button>
-    <button type="button" class="btn btn-default btn-sm" rel='modal' tag='send_ads' id="send_ads">
-        <span class="glyphicon glyphicon-send" aria-hidden="true"></span>
-        发送广告
-    </button>
-    <ul class="nav query-ul">
-        <li class="pull-left">
-            &nbsp;<span class="glyphicon glyphicon-search"></span>&nbsp; 查询：
-        </li>
-        <li class="pull-left">
-            <input type="text" class="form-control input-sm" name="query_title" id='query_title'
-                   placeholder="广告标题" style="width: 150px">
-        </li>
-        <li class="pull-left">
-            <button type="button" class="btn btn-primary btn-sm " id="quick_query" rel='refresh_datagrid' tag='query'
-                    datagrid_id="auth_corp_datagrid">
-                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-                查询
-            </button>
-        </li>
-    </ul>
+    <h4>取消授权企业</h4>
 </div>
 <div class="clearfix"></div>
 <div class="bottom-data-div">
@@ -38,28 +12,8 @@
         var datagrid_id = classid + '_datagrid';
         //修改配置信息
         var modal_id = 'index_menulist';
-        var edit_modal = modal_id;
         var urljson = '<?php echo Url("authcorp/cancelcorp_index_json")?>';
-        var hrefedit = '<?php echo Url("ad/edit_ads");?>';
-        load_ads_datagrid(datagrid_id, urljson, hrefedit, edit_modal);
-        $('#quick_query').click(function () {
-            var title = $('#query_title').val();
-            $('#' + datagrid_id).datagrid('load', {
-                title: title
-            });
-        });
-
-        //按钮点击事件完成之后
-        $('#add_ads').click(function () {
-            var add_ads_link = '<?php echo Url("ad/add_ads");?>';
-            open_modal(modal_id, add_ads_link, '', datagrid_id);
-        });
-
-        //发送广告
-        $('#send_ads').click(function () {
-            var send_ads_link = '<?php echo Url("ad/send_ads");?>';
-            open_modal(modal_id, send_ads_link, '', datagrid_id);
-        });
+        load_ads_datagrid(datagrid_id, urljson);
 
 
     });
@@ -67,7 +21,7 @@
     /**
      * 加载datagrid 信息
      */
-    function load_ads_datagrid(datagrid_id, urljson, hrefedit, edit_modal) {
+    function load_ads_datagrid(datagrid_id, urljson) {
         $('#' + datagrid_id).datagrid({
             url: urljson,
             idField: 'id',
@@ -83,18 +37,10 @@
             ]],
             columns: [[
                 {field: 'id', title: 'ID', width: 5, align: 'center', hidden: true},
-                {field: 'title', title: '标题', width: 10},
-                {field: 'readcount', title: '阅读次数', width: 5},
-                {field: 'addtime', title: '添加时间', align: 'center', width: 5},
-                {
-                    field: 'action',
-                    title: '操作',
-                    width: 10,
-                    formatter: function (value, row, index) {
-                        return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefedit + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="修改广告数据"/>&nbsp;&nbsp;\n\ ' +
-                                '<img class="btn_do" src="/static/sys/image/review.png" onclick="review_ads(\'' + row.id + '\')" title="预览广告"/>&nbsp;&nbsp;\n\ ';
-                    }, align: 'center'
-                }
+                {field: 'corp_name', title: '公司名称', width: 10},
+                {field: 'pre_corp_id', title: '编号', width: 5},
+                {field: 'pre_corpid', title: ' CORPID', align: 'center', width: 5},
+                {field: 'canceltime', title: '取消时间', align: 'center', width: 5},
             ]]
         });
     }

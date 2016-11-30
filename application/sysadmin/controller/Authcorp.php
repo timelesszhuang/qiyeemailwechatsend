@@ -245,31 +245,16 @@ class Authcorp extends Base
         //分页信息获取
         list($firstRow, $pageRows) = common::get_page_info();
         $corp_name = Request::instance()->param('corp_name', '');
-        $domain = Request::instance()->param('domain', '');
-        $api_status = Request::instance()->param('api_status', '');
-        $status = Request::instance()->param('status', '');
         $map = '';
         if ($corp_name) {
-            $map .= "corp_full_name like '%{$corp_name}%' ";
+            $map .= "corp_name like '%{$corp_name}%' ";
         }
-        if ($domain) {
-            $map .= $map ? ' and ' : '';
-            $map .= " api.domain like '%{$domain}%' ";
-        }
-        if ($api_status) {
-            $map .= $map ? ' and ' : '';
-            $map .= " api.api_status='{$api_status}' ";
-        }
-        if ($status) {
-            $map .= " and api.status='{$status}' ";
-        }
-        $db = Db::name('auth_corp_info');
-        $count = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->count('auth.id');
-        $info = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->limit($firstRow, $pageRows)
-            ->field('auth.*,api.api_status,api.status')
+        $db = Db::name('cancel_corp_info');
+        $count = $db->where($map)->count('id');
+        $info = $db->where($map)->limit($firstRow, $pageRows)
             ->select();
         $auth_model = new \app\sysadmin\model\authcorp();
-        array_walk($info, array($auth_model, 'formatter_corp_info'));
+        array_walk($info, array($auth_model, 'formatter_cancel_corp_info'));
         if ($count != 0) {
             $array['total'] = $count;
             $array['rows'] = $info;

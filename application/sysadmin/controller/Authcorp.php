@@ -108,6 +108,7 @@ class Authcorp extends Base
     public function exec_add_bind_info()
     {
         $mem = common::phpmemcache();
+        cachetool::get_bindinfo_bycorpid('', 'init');
         $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
         print_r($info);
         exit;

@@ -48,12 +48,14 @@ class Login extends Controller
         //根据corpid 获取 私钥,product,domain 等数据
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
         Session::set('permanent_code', Db::name('auth_corp_info')->where(['corpid' => $corpid])->find()['permanent_code']);
-        Session::set('api_status', $bind_info['api_status']);
-        Session::set('corp_id', $bind_info['corp_id']);
-        Session::set('corp_name', $bind_info['corp_name']);
-        Session::set('privatesecret', $bind_info['privatesecret']);
-        Session::set('product', $bind_info['product']);
-        Session::set('domain', $bind_info['domain']);
+        if (!empty($bind_info)) {
+            Session::set('api_status', $bind_info['api_status']);
+            Session::set('corp_id', $bind_info['corp_id']);
+            Session::set('corp_name', $bind_info['corp_name']);
+            Session::set('privatesecret', $bind_info['privatesecret']);
+            Session::set('product', $bind_info['product']);
+            Session::set('domain', $bind_info['domain']);
+        }
         //管理员登陆信息
         $this->redirect('Index/index');
     }

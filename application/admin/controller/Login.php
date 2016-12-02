@@ -86,4 +86,15 @@ class Login extends Controller
     }
 
 
+    /**
+     * 退出登陆
+     * @access public
+     */
+    public function log_out()
+    {
+        Session::clear();
+        return $this->fetch('login/exit', ['msg' => '登出成功，再次进入该系统请从微信企业号中进入。']);
+    }
+
+
 }

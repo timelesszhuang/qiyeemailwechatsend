@@ -38,26 +38,3 @@
 <!--点赞-->
 <div id="sm_dialog"></div>
 {include file="public:footer"/}
-
-<script>
-    $(function () {
-        init_load_index();
-    });
-
-    /**
-     * 初始化加载 首页数据
-     * 加载相关公司的信息
-     */
-    function init_load_index() {
-        $.ajax({
-            type: "POST",
-            dataType: "html",
-            async: true,
-            url: '__MODULE__/Mailinfo/get_domain_info',
-            success: function (data) {
-                $('#show_div').html(data);
-            },
-        });
-    }
-
-</script>

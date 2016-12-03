@@ -77,7 +77,7 @@ class Index extends Base
         $sum = Db::name('crontab_log')->where($where)->sum('mailsendcount') ?: 0;
         $html = <<<html
 <div class="jumbotron">
-  <h3>从{$auth_time}共推送{$sum}封邮件</h3>
+  <h3>从{$auth_time}开始，共推送{$sum}封邮件</h3>
 </div>
 html;
         echo $html;

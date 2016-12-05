@@ -350,6 +350,9 @@ class Wechatmailsend extends Controller
         //知道UserId  corpid之后可以获取 网易邮箱账号 也可以获取网易接口数据
         //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定
         $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();
+        if (empty($user_info)) {
+            return $this->fetch('oath_msg', ['msg' => '您还没有绑定邮箱账号或贵公司网易企业邮箱接口还未通过。']);
+        }
         if ($user_info['status'] == '10') {
             //存在的情况下
             //需要更新相关 log 日志

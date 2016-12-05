@@ -336,6 +336,8 @@ class Wechatmailsend extends Controller
     {
         $code = Request::instance()->param('code');
         $corpid = Request::instance()->param('corpid');
+        print_r($corpid);
+        echo 'dsadsa';
         $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
         $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
         $user_info = common::send_curl_request($get_userid_url, [], 'get');

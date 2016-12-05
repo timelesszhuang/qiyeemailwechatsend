@@ -35,6 +35,9 @@ class authcorp
             case '4':
                 $v['subject_type'] = '团队号';
                 break;
+            default:
+                $v['subject_type'] = '未知';
+                break;
         }
         switch ($v['corp_type']) {
             case 'verified':

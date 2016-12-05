@@ -91,6 +91,7 @@ class wechattool
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_info, true);
+        print_r($info);
         return $info['access_token'];
     }
 

@@ -44,10 +44,10 @@ class Bindwechat extends Controller
                 $assign_data = ["status" => '10', "msg" => '您已经绑定,邮箱账号，可以正常收到邮件推送!!。'];
                 break;
             case '20':
-                $assign_data = ["status" => '20', "msg" => '您已经提交网易企业邮箱绑定信息，请等待管理员审核。'];
+                $assign_data = ["status" => '20', "msg" => '您已经提交网易企业邮箱绑定信息，请等待贵公司管理员审核。'];
                 break;
             case '30':
-                $info['msg'] = '您提交的信息有误，管理员未通过，请重新填写之后等待管理员审核。';
+                $info['msg'] = '您提交的信息有误，贵公司管理员审核未通过，请重新填写之后等待管理员审核。';
                 $assign_data = ["status" => '30', 'data' => $info];
                 break;
         }

@@ -217,8 +217,8 @@ class Authcorp extends Base
     public function get_authcorp_list()
     {
         $r_data = [];
-        foreach (Db::name('auth_corp_info')->field('id,corp_full_name')->order('id desc')->select() as $v) {
-            $r_data[] = array('id' => $v['id'], 'text' => $v['corp_full_name']);
+        foreach (Db::name('auth_corp_info')->field('id,corp_name,corp_full_name')->order('id desc')->select() as $v) {
+            $r_data[] = array('id' => $v['id'], 'text' => $v['corp_full_name'] ?: $v['corp_name']);
         }
         exit(json_encode($r_data));
     }

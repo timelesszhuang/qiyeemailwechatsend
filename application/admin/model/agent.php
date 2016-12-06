@@ -148,9 +148,9 @@ class agent
         $content = '';
         //第一步要做的 就是从缓存中获取下 已经绑定API 的账号更新数据
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
-        $contact = '请联系拨打　4006360163（山东强比信息技术有限公司）联系我公司。';
+        $contact = '请联系拨打　0531-88554123（山东强比信息技术有限公司）联系我公司。';
         if (empty($bind_info) || $bind_info['api_status'] == '20') {
-            $content = '您好，你司网易企业邮箱API绑定信息异常,' . $contact;
+            $content = '您好，你司网易企业邮箱API绑定信息暂时不可用,' . $contact;
             self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
             return;
         }

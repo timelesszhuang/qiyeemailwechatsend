@@ -351,7 +351,7 @@ class Wechatmailsend extends Controller
         //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定
         $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();
         if (empty($user_info)) {
-            return $this->fetch('oath_msg', ['msg' => '您还没有绑定邮箱账号或贵公司网易企业邮箱接口还未通过。']);
+            return $this->fetch('oath_msg', ['msg' => '您还没有绑定邮箱账号或贵公司网易企业邮箱接口暂时不可用。']);
         }
         if ($user_info['status'] == '10') {
             //存在的情况下
@@ -363,10 +363,10 @@ class Wechatmailsend extends Controller
         }
         if ($user_info['status'] == '20') {
             //审核信息 表示正在审核
-            return $this->fetch('oath_msg', ['msg' => '您的账号绑定信息正在审核，请耐心等待!']);
+            return $this->fetch('oath_msg', ['msg' => '您的账号绑定信息正在审核，请耐心等待贵公司管理员审核!']);
         } else {
             //审核失败
-            return $this->fetch('oath_msg', ['msg' => '您的绑定信息有误，管理员审核未通过，请重新填写绑定信息!!']);
+            return $this->fetch('oath_msg', ['msg' => '您的绑定信息有误，贵公司管理员审核未通过，请重新填写绑定信息!!']);
         }
     }
 

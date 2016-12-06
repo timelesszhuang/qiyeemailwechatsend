@@ -21,6 +21,9 @@ class mailinfo
      */
     public static function get_domain_info($prikey, $domain, $product)
     {
+        file_put_contents('a.txt', $prikey, FILE_APPEND);
+        file_put_contents('a.txt', $domain, FILE_APPEND);
+        file_put_contents('a.txt', $product , FILE_APPEND);
         $time = date(time()) . '000';
         $res = openssl_pkey_get_private($prikey);
         //需要逐条获取部门信息

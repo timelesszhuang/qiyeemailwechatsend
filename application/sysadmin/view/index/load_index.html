@@ -14,21 +14,156 @@
     {$msg}
 </div>
 <div class="row">
-    <div class="col-sm-1"></div>
-    <div class='col-sm-10'>
-        <!--小组件调用展现的是日程等信息-->
+    <div class="col-sm-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;系统信息
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月邮件推送排行
                 </h3>
             </div>
             <div class="panel-body">
-                <table class="table table-striped">
-                    <tbody id='news_body'>
-                    </tbody>
-                </table>
+                <div id='email_sendcount_order' style='height: 350px;padding: 2px;border:1px solid #E8E8E8;'>
+
+                </div>
             </div>
         </div>
     </div>
-    <div class="col-sm-1"></div>
+    <div class="col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;推送总量
+                </h3>
+            </div>
+            <div class="panel-body" id="send_all_counthtml" style="height: 350px;padding-top:20px;">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月进入应用次数
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div id='entry_mail_log' style='height: 350px;padding: 2px;border:1px solid #E8E8E8;'>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+<script>
+    try {
+        load_order_data("<?php echo Url('index/emailsend_count_order'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+    }
+
+    //总的数量
+    try {
+        load_allcount_html("<?php echo Url('index/load_allcount_html'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+    }
+
+
+    try {
+        load_entrymail_data("<?php echo Url('index/get_entryemail_count'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+    }
+
+
+    //加载客户积分数据
+    function load_order_data(url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                index_order_chart("email_sendcount_order", data.title, data.data);
+            }
+        });
+    }
+
+    //加载进入应用的数量信息
+    function load_entrymail_data(url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                index_entrymail_chart("entry_mail_log", data.title, data.data);
+            }
+        });
+    }
+
+
+    /**
+     * 加载总数量
+     */
+    function load_allcount_html(url) {
+        $.ajax({
+            url: url,
+            dataType: "html",
+            success: function (data) {
+                $('#send_all_counthtml').html(data);
+            }
+        });
+    }
+
+
+    /**
+     * 生成score
+     */
+    function index_order_chart(id, text, series) {
+        $('#' + id).highcharts({
+            chart: {
+                type: 'column',
+                marginRight: 100
+            },
+            title: {
+                text: text
+            },
+            xAxis: {
+                categories: ['累计']
+            },
+            yAxis: {
+                title: {
+                    text: "封"
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: series
+        });
+    }
+
+
+    /**
+     * 生成score
+     */
+    function index_entrymail_chart(id, text, series) {
+        $('#' + id).highcharts({
+            chart: {
+                type: 'column',
+                marginRight: 100
+            },
+            title: {
+                text: text
+            },
+            xAxis: {
+                categories: ['累计']
+            },
+            yAxis: {
+                title: {
+                    text: "封"
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: series
+        });
+    }
+
+</script>

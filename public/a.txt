@@ -19,3 +19,9 @@ Array
     [errcode] => 60020
     [errmsg] => not allow to access from your ip
 )
+Array
+(
+    [error_code] => SYSTEM.IPDENY:112.229.80.242
+    [suc] => 
+    [ver] => 0
+)

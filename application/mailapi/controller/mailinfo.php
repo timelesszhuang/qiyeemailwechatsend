@@ -29,8 +29,7 @@ class mailinfo
             $res = openssl_pkey_get_private($prikey);
             //需要逐条获取部门信息
             //必须使用post方法
-            $src = "domain=" . $domain . "&product=" . $product . "&time=" . $time;
-
+            $src = "domain='" . $domain . "'&product='" . $product . "'&time=" . $time;
             if (openssl_sign($src, $out, $res)) {
                 $sign = bin2hex($out);
                 $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
@@ -40,7 +39,6 @@ class mailinfo
                     return [$response_json['con'], true];
                 }
             }
-            file_put_contents('a.txt', 'error////////////////', FILE_APPEND);
         } catch (Exception $ex) {
             file_put_contents('a.txt', print_r($ex->getMessage(), true), FILE_APPEND);
         }

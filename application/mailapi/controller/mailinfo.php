@@ -35,10 +35,12 @@ class mailinfo
                 $sign = bin2hex($out);
                 $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
+                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc']) {
                     return [$response_json['con'], true];
                 }
             }
+            file_put_contents('a.txt', 'error////////////////', FILE_APPEND);
         } catch (Exception $ex) {
             file_put_contents('a.txt', print_r($ex->getMessage(), true), FILE_APPEND);
         }

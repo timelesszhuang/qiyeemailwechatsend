@@ -54,8 +54,8 @@
             <div class="form-group">
                 <label for="name" class="col-sm-2 control-label">所属</label>
                 <div class="col-sm-5">
-                    <input type="radio" name="status" value="on" <?php if($info['flag']=='10') echo "checked"; ?>>华北
-                    <input type="radio" name="status" value="off" <?php if($info['flag']=='20') echo "checked"; ?>>华东
+                    <input type="radio" name="flag" value="10" <?php if($info['flag']=='10') echo "checked"; ?>>华北
+                    <input type="radio" name="flag" value="20" <?php if($info['flag']=='20') echo "checked"; ?>>华东
                 </div>
             </div>
             <?php if($info['api_status']=='10'){?>

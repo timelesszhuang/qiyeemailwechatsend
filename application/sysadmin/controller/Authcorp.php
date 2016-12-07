@@ -173,6 +173,11 @@ class Authcorp extends Base
             $d['mail_org_name'] = $corp_info['org_name'];
             $d['mail_exp_time'] = substr($corp_info['exp_time'], 0, -3);
             $d['api_status'] = '10';
+        } else {
+            $d['mail_logo'] = '';
+            $d['mail_org_name'] = '';
+            $d['mail_exp_time'] = 0;
+            $d['api_status'] = '20';
         }
         $msg = $get_api_status ? '网易接口信息有效。' : '网易接口信息无效。';
         return [$d, $msg];

@@ -50,6 +50,7 @@ class Login extends Controller
         Session::set('permanent_code', Db::name('auth_corp_info')->where(['corpid' => $corpid])->find()['permanent_code']);
         if (!empty($bind_info)) {
             Session::set('api_status', $bind_info['api_status']);
+            Session::set('flag', $bind_info['flag']);
             Session::set('corp_id', $bind_info['corp_id']);
             Session::set('corp_name', $bind_info['corp_name']);
             Session::set('privatesecret', $bind_info['privatesecret']);

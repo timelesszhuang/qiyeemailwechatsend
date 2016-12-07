@@ -17,9 +17,10 @@ class mailinfo
      * @param $prikey 私钥
      * @param $domain 域名
      * @param $product 产品product 网易提供
+     * @param $flag 标志是华北还是华东  默认是华北
      * @return array
      */
-    public static function get_domain_info($prikey, $domain, $product)
+    public static function get_domain_info($prikey, $domain, $product, $flag = '10')
     {
 //        file_put_contents('a.txt', $prikey, FILE_APPEND);
 //        file_put_contents('a.txt', $domain, FILE_APPEND);
@@ -29,10 +30,16 @@ class mailinfo
             $res = openssl_pkey_get_private($prikey);
             //需要逐条获取部门信息
             //必须使用post方法
-            $src = "domain='" . $domain . "'&product='" . $product . "'&time=" . $time;
+            $src = "domain=" . $domain . "&product=" . $product . "&time=" . $time;
             if (openssl_sign($src, $out, $res)) {
                 $sign = bin2hex($out);
-                $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
+                if ($flag == '10') {
+                    //华北
+                    $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
+                } else {
+                    //华东
+                    $url = "https://apihz.qiye.163.com/qiyeservice/api/domain/getDomain";
+                }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
 //                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc']) {

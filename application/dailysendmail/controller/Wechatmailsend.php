@@ -25,6 +25,7 @@ class Wechatmailsend extends Controller
     public $prikey;
     public $product;
     public $domain;
+    public $flag;
 
     /**
      * 定期获取邮件列表
@@ -53,6 +54,7 @@ class Wechatmailsend extends Controller
         $this->domain = $this->bindinfo['domain'];
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];
+        $this->flag = $this->bindinfo['flag'];
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
         //获取agent_id 根据 corp_id 还有邮件套件的 id
         //公司套件中的数据
@@ -113,7 +115,13 @@ class Wechatmailsend extends Controller
         $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
-            $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+            if ($this->flag == '10') {
+                //华北
+                $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+            } else {
+                //华东
+                $url = "https://apihz.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+            }
             $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
             if ($response_json['suc'] == '1') {
                 $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
@@ -285,6 +293,7 @@ class Wechatmailsend extends Controller
         //域名
         $domain = $bindinfo['domain'];
         $product = $bindinfo['product'];
+        $flag = $bindinfo['flag'];
 //        $corp_name = $bindinfo['corp_name'];
         //语言，0-中文，1-英文，可以不传此参数，默认为0
         $lang = "0";
@@ -294,7 +303,13 @@ class Wechatmailsend extends Controller
         if (openssl_sign($src, $out, $res)) {
             $enc = bin2hex($out);
             //提交登录的url,后台加上必须的参数,为了安全，可使用https提交
-            $url = "https://entry.qiye.163.com/domain/oa/Entry?domain=" . $domain . "&account_name=" . $accounts . "&time=" . $time . "&enc=" . $enc . "&lang=" . $lang;
+            if ($flag == '10') {
+                //华北
+                $url = "https://entry.qiye.163.com/domain/oa/Entry?domain=" . $domain . "&account_name=" . $accounts . "&time=" . $time . "&enc=" . $enc . "&lang=" . $lang;
+            } else {
+                //华东
+                $url = "https://entryhz.qiye.163.com/domain/oa/Entry?domain=" . $domain . "&account_name=" . $accounts . "&time=" . $time . "&enc=" . $enc . "&lang=" . $lang;
+            }
             return $url;
         }
         exit("请求异常。");

@@ -37,7 +37,7 @@ class Qiyeemailduetime extends Controller
         $count = $m->where(['api_status' => '10'])->count();
         $step = 50;
         for ($page = 1; $page <= ceil($count / $step); $page++) {
-            $perstep_bindinfo = $m->limit(($page - 1) * $step, $step)->field('id,corp_id,corpid,privatesecret,product,domain,corp_name,mail_exp_time,api_status')->select();
+            $perstep_bindinfo = $m->limit(($page - 1) * $step, $step)->field('id,corp_id,corpid,privatesecret,product,domain,corp_name,mail_exp_time,flag,api_status')->select();
             $this->analyse_bindinfo($perstep_bindinfo);
         }
         cachetool::get_bindinfo_bycorpid('', 'init');
@@ -66,7 +66,7 @@ class Qiyeemailduetime extends Controller
             }
             //表示快到期期限
             //检测一下是不是已经续费了  重新获取下 过期时间
-            list($corp_info, $get_api_status) = mailinfo::get_domain_info($v['privatesecret'], $v['domain'], $v['product']);
+            list($corp_info, $get_api_status) = mailinfo::get_domain_info($v['privatesecret'], $v['domain'], $v['product'], $v['flag']);
             if ($get_api_status) {
                 $mail_exp_time = substr($corp_info['exp_time'], 0, -3);
                 if ($mail_exp_time != $v['mail_exp_time']) {

@@ -183,9 +183,6 @@ class wechattool
             ]
         ], JSON_UNESCAPED_UNICODE);
         $info = common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
-        if ($corpid == 'wxcef9d0042b47024c') {
-            file_put_contents('a.txt', 'code'.print_r(json_decode($info, true), true), FILE_APPEND);
-        }
         return true;
     }
 

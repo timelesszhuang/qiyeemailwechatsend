@@ -279,8 +279,11 @@ class Wechatmailsend extends Controller
             $articles = [];
             $result = $v['result'];
             if ($result == 1) {
+                $subject = isset($v['subject']) ? $v['subject'] : '';
+                $mailfrom = isset($v['mailfrom']) ? $v['mailfrom'] : '未知';
+                $sendtime = isset($v['sendtime']) ? $v['sendtime'] : '未知';
                 $perarticle = [
-                    'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
+                    'title' => "新邮件 {$subject} 发件人： {$mailfrom} {$sendtime}",
                     'url' => $url
                 ];
                 $articles[] = $perarticle;

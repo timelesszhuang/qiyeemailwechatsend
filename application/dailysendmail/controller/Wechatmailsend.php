@@ -234,30 +234,42 @@ class Wechatmailsend extends Controller
         $url = Config::get('common.ENTRYMAILURL') . "?account={$accounts}&corpid={$this->corpid}&entrykey={$this->get_entrykey($accounts,$this->corpid)}";
         $total = $con['total'];
         $list = $con['list'];
-        $loop = 1;
-        if ($total >= 8) {
-            $loop = ceil($total / 8);
-        }
-        if ($total) {
-            for ($i = 0; $i < $loop; $i++) {
-                $articles = [];
-                //每次循环取八条
-                $start = $i * 8;
-                $stop = (($start + 8) > $total) ? $total : ($start + 8);
-                for ($start; $start < $stop; $start++) {
-                    $v = $list[$start];
-                    $result = $v['result'];
-                    if ($result == 1) {
-                        $perarticle = [
-                            'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
-                            'url' => $url
-                        ];
-                        $articles[] = $perarticle;
+        /*      $loop = 1;
+                if ($total > 8) {
+                    $loop = ceil($total / 8);
+                }
+                if ($total) {
+                    for ($i = 0; $i < $loop; $i++) {
+                        $articles = [];
+                        //每次循环取八条
+                        $start = $i * 8;
+                        $stop = (($start + 8) > $total) ? $total : ($start + 8);
+                        for ($start; $start < $stop; $start++) {
+                            $v = $list[$start];
+                            $result = $v['result'];
+                            if ($result == 1) {
+                                $perarticle = [
+                                    'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
+                                    'url' => $url
+                                ];
+                                $articles[] = $perarticle;
+                            }
+                        }
+                        if (!empty($articles)) {
+                            wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
+                        }
                     }
-                }
-                if (!empty($articles)) {
-                    wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
-                }
+                }*/
+
+        foreach ($list as $k => $v) {
+            $result = $v['result'];
+            if ($result == 1) {
+                $perarticle = [
+                    'title' => "新邮件 {$v['subject']} 发件人： {$v['mailfrom']} {$v['sendtime']}",
+                    'url' => $url
+                ];
+                $articles[] = $perarticle;
+                wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
             }
         }
         return $total;

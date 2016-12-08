@@ -66,6 +66,7 @@ class Wechatmailsend extends Controller
             $access_time = time();
             foreach ($wechatuserid_info as $k => $v) {
                 list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
+                file_put_contents('a.txt', $endtime, FILE_APPEND);
                 $all_sendcount += $total;
                 //更新一下 获取邮件的 上次获取时间
                 Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
@@ -117,6 +118,7 @@ class Wechatmailsend extends Controller
         $res = openssl_pkey_get_private($this->prikey);
         //必须使用post方法
         $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
+        $total = 0;
         try {
             if (openssl_sign($src, $out, $res)) {
                 $sign = bin2hex($out);

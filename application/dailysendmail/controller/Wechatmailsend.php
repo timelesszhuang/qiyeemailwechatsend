@@ -10,6 +10,7 @@ use app\common\model\wechattool;
 use think\Config;
 use think\Controller;
 use think\Db;
+use think\image\Exception;
 use think\Request;
 
 //这是测试
@@ -35,7 +36,6 @@ class Wechatmailsend extends Controller
      */
     public function schedule_get_maillist()
     {
-//      file_put_contents('a.txt', date('Y-m-d H:i:s', time()), FILE_APPEND);
         set_time_limit(0);
         ignore_user_abort(true);
         //企业的corp_id 根据corpid  获取 该公司的相关数据
@@ -59,22 +59,29 @@ class Wechatmailsend extends Controller
         $this->flag = $this->bindinfo['flag'];
         sleep(rand(1, 120));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
-        //获取agent_id 根据 corp_id 还有邮件套件的 id
-        //公司套件中的数据
-        $email_agentid = Config::get('common.EMAILAGENT_ID');
-        $agent_id = Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $this->corp_id])->find()['agentid'];
-        //全部这次请求的公司 推送的数量
-        $all_sendcount = 0;
-        $access_time = time();
-        foreach ($wechatuserid_info as $k => $v) {
-            list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
-            $all_sendcount += $total;
-            //更新一下 获取邮件的 上次获取时间
-            Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
-            //更新log 数据 精确到详细的每个人
-            if ($total) {
-                Db::name('wechat_user_sendlog')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'account' => $v['account'], 'name' => $v['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
+        if ($this->corp_id == 18) {
+            file_put_contents('a.txt', print_r($wechatuserid_info, true), FILE_APPEND);
+        }
+        try {
+            //获取agent_id 根据 corp_id 还有邮件套件的 id
+            //公司套件中的数据
+            $email_agentid = Config::get('common.EMAILAGENT_ID');
+            $agent_id = Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $this->corp_id])->find()['agentid'];
+            //全部这次请求的公司 推送的数量
+            $all_sendcount = 0;
+            $access_time = time();
+            foreach ($wechatuserid_info as $k => $v) {
+                list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
+                $all_sendcount += $total;
+                //更新一下 获取邮件的 上次获取时间
+                Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
+                //更新log 数据 精确到详细的每个人
+                if ($total) {
+                    Db::name('wechat_user_sendlog')->insert(['corpid' => $this->corpid, 'corp_id' => $this->corp_id, 'corp_name' => $this->corp_name, 'account' => $v['account'], 'name' => $v['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
+                }
             }
+        } catch (Exception $ex) {
+            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
         }
         //更新下公司的本次的请求信息 所有log数据库
         if ($all_sendcount) {

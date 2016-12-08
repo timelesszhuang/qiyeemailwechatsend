@@ -44,9 +44,6 @@ class Wechatmailsend extends Controller
         $this->corpid = Request::instance()->param('corpid');
         //获取 公司的邮箱的相关接口
         $this->bindinfo = cachetool::get_bindinfo_bycorpid($this->corpid);
-        if ($this->corp_id == 18) {
-            file_put_contents('a.txt', print_r($this->bindinfo, true), FILE_APPEND);
-        }
         //禁用推送的 或者接口不正常 或者邮箱信息过期 进行的相关操作
         if (empty($this->bindinfo) || $this->bindinfo['status'] == 'off' || $this->bindinfo['api_status'] == '20' || $this->bindinfo['api_status'] == '30') {
             //表示获取绑定信息失败 需要存储到数据库中 获取api 异常 跳出系统
@@ -59,9 +56,6 @@ class Wechatmailsend extends Controller
         $this->flag = $this->bindinfo['flag'];
         sleep(rand(1, 120));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
-        if ($this->corp_id == 18) {
-            file_put_contents('a.txt', print_r($wechatuserid_info, true), FILE_APPEND);
-        }
         try {
             //获取agent_id 根据 corp_id 还有邮件套件的 id
             //公司套件中的数据
@@ -134,7 +128,6 @@ class Wechatmailsend extends Controller
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
-                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc'] == '1') {
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
                     //更新数据到数据库中
@@ -239,7 +232,6 @@ class Wechatmailsend extends Controller
     private function formatWechatSendeMail($con, $accounts, $wechat_userid, $agent_id)
     {
         $url = Config::get('common.ENTRYMAILURL') . "?account={$accounts}&corpid={$this->corpid}&entrykey={$this->get_entrykey($accounts,$this->corpid)}";
-//      file_put_contents('error.log', '进去邮箱的url：' . $url, FILE_APPEND);
         $total = $con['total'];
         $list = $con['list'];
         $loop = 1;
@@ -266,6 +258,7 @@ class Wechatmailsend extends Controller
                 if (!empty($articles)) {
                     wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
                 }
+                $i++;
             }
         }
         return $total;

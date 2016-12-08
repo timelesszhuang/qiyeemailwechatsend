@@ -135,6 +135,9 @@ class Wechatmailsend extends Controller
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
                 if ($response_json['suc'] == '1') {
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
+                    if ($this->corp_id == 18) {
+                        file_put_contents('a.txt', '总数：' . $total, FILE_APPEND);
+                    }
                     //更新数据到数据库中
                 }
                 //失败  返回详细信息
@@ -275,6 +278,9 @@ class Wechatmailsend extends Controller
                     'url' => $url
                 ];
                 $articles[] = $perarticle;
+                if ($this->corp_id == 18) {
+                    file_put_contents('a.txt', print_r($articles, true), FILE_APPEND);
+                }
                 wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
             }
         }

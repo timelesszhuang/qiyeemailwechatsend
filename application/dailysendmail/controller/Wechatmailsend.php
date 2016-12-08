@@ -134,6 +134,7 @@ class Wechatmailsend extends Controller
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
+                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc'] == '1') {
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
                     //更新数据到数据库中

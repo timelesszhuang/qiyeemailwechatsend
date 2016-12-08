@@ -38,7 +38,7 @@ class Wechatmailsend extends Controller
 //      file_put_contents('a.txt', date('Y-m-d H:i:s', time()), FILE_APPEND);
         set_time_limit(0);
         ignore_user_abort(true);
-        sleep(rand(1, 250));
+        sleep(rand(1, 120));
         //企业的corp_id 根据corpid  获取 该公司的相关数据
         $this->corp_id = Request::instance()->param('corp_id');
         //首先获取参数 corp_id  corpid  从缓存中获取 网易接口的 公钥 私钥等信息

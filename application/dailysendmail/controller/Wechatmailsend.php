@@ -262,6 +262,7 @@ class Wechatmailsend extends Controller
                 }*/
 
         foreach ($list as $k => $v) {
+            $articles = [];
             $result = $v['result'];
             if ($result == 1) {
                 $perarticle = [

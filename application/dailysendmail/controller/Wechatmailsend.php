@@ -66,7 +66,10 @@ class Wechatmailsend extends Controller
             $access_time = time();
             foreach ($wechatuserid_info as $k => $v) {
                 list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
-                file_put_contents('a.txt', $endtime, FILE_APPEND);
+                if ($this->corp_id == 18) {
+                    file_put_contents('a.txt', $endtime, FILE_APPEND);
+                    file_put_contents('a.txt', $v['wechat_userid'], FILE_APPEND);
+                }
                 $all_sendcount += $total;
                 //更新一下 获取邮件的 上次获取时间
                 Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);

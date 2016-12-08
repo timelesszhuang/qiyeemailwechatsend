@@ -134,6 +134,9 @@ class Wechatmailsend extends Controller
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
                 if ($response_json['suc'] == '1') {
+                    if ($this->corp_id == 18) {
+                        file_put_contents('a.txt', '用户：' . $wechat_userid, FILE_APPEND);
+                    }
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
                     if ($this->corp_id == 18) {
                         file_put_contents('a.txt', '总数：' . $total, FILE_APPEND);
@@ -270,6 +273,9 @@ class Wechatmailsend extends Controller
                 }*/
 
         foreach ($list as $k => $v) {
+            if ($this->corp_id == 18) {
+                file_put_contents('a.txt', print_r($v, true), FILE_APPEND);
+            }
             $articles = [];
             $result = $v['result'];
             if ($result == 1) {

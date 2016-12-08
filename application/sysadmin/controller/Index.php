@@ -64,9 +64,7 @@ class Index extends Base
         ];
         $sum = Db::name('crontab_log')->where($where)->sum('mailsendcount') ?: 0;
         $html = <<<html
-<div class="jumbotron">
-  <h3>本月系统共推送{$sum}封邮件</h3>
-</div>
+  <h4>本月系统共推送{$sum}封邮件</h4>
 html;
         echo $html;
     }
@@ -90,5 +88,21 @@ html;
         }
         echo json_encode(['title' => " ", 'data' => $arr]);
     }
+
+
+    /**
+     * 加载用户数量
+     * @access public
+     */
+    public function load_user_count()
+    {
+        $info = Db::name('wechat_user')->field('count(corp_id) as count,corp_name')->group('corp_id')->select();
+        $arr = [];
+        foreach ($info as $k => $v) {
+            $arr[] = array("id" => 1, "name" => $v["corp_name"], "data" => [intval($v['count'])]);
+        }
+        echo json_encode(['title' => " ", 'data' => $arr]);
+    }
+
 
 }

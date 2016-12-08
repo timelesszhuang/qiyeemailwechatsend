@@ -33,7 +33,7 @@ class agent
         $nonce = urldecode(Request::instance()->param('nonce'));
         $echostr = urldecode(Request::instance()->param('echostr'));
         //实例化加解密类
-        file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
+//        file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
         try {
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
             //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echos

@@ -13,6 +13,9 @@
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     {$msg}
 </div>
+<div class="alert alert-success " id="send_all_counthtml" role="alert">
+
+</div>
 <div class="row">
     <div class="col-sm-4">
         <div class="panel panel-info">
@@ -30,17 +33,6 @@
     <div class="col-sm-4">
         <div class="panel panel-info">
             <div class="panel-heading">
-                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;推送总量
-                </h3>
-            </div>
-            <div class="panel-body" id="send_all_counthtml" style="height: 350px;padding-top:20px;">
-
-            </div>
-        </div>
-    </div>
-    <div class="col-sm-4">
-        <div class="panel panel-info">
-            <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月进入应用次数
                 </h3>
             </div>
@@ -48,6 +40,17 @@
                 <div id='entry_mail_log' style='height: 350px;padding: 2px;border:1px solid #E8E8E8;'>
 
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-4">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;用户数量
+                </h3>
+            </div>
+            <div class="panel-body" id="user_count_order" style="height: 350px;padding-top:20px;">
+
             </div>
         </div>
     </div>
@@ -66,6 +69,13 @@
         $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
     }
 
+    //总的数量
+    try {
+        load_user_count("<?php echo Url('index/load_user_count'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+    }
+
 
     try {
         load_entrymail_data("<?php echo Url('index/get_entryemail_count'); ?>");
@@ -74,7 +84,7 @@
     }
 
 
-    //加载客户积分数据
+    //加载推送邮件排序
     function load_order_data(url) {
         $.ajax({
             url: url,
@@ -84,6 +94,19 @@
             }
         });
     }
+
+
+    //加载使用数量排序
+    function load_user_count(url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                index_usercount_chart("user_count_order", data.title, data.data);
+            }
+        });
+    }
+
 
     //加载进入应用的数量信息
     function load_entrymail_data(url) {
@@ -107,6 +130,34 @@
             success: function (data) {
                 $('#send_all_counthtml').html(data);
             }
+        });
+    }
+
+
+    /**
+     * 生成用户使用数量排序
+     */
+    function index_usercount_chart(id, text, series) {
+        $('#' + id).highcharts({
+            chart: {
+                type: 'column',
+                marginRight: 100
+            },
+            title: {
+                text: text
+            },
+            xAxis: {
+                categories: ['累计']
+            },
+            yAxis: {
+                title: {
+                    text: "个（用户）"
+                }
+            },
+            credits: {
+                enabled: false
+            },
+            series: series
         });
     }
 

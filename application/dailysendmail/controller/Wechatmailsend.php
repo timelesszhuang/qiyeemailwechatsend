@@ -258,7 +258,6 @@ class Wechatmailsend extends Controller
                 if (!empty($articles)) {
                     wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
                 }
-                $i++;
             }
         }
         return $total;

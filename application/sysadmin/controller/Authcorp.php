@@ -112,10 +112,11 @@ class Authcorp extends Base
         $d['updatetime'] = time();
         //调用网易邮箱接口获取 邮箱信息
         list($d, $msg) = $this->get_email_info($d);
-        cachetool::get_bindinfo_bycorpid('', 'init');
         if (!Db::name('corp_bind_api')->insertGetId($d)) {
+            cachetool::get_bindinfo_bycorpid('', 'init');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
+        cachetool::get_bindinfo_bycorpid('', 'init');
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
     }
 
@@ -129,10 +130,11 @@ class Authcorp extends Base
         $d = $this->get_auth_post();
         $d['updatetime'] = time();
         list($d, $msg) = $this->get_email_info($d);
-        cachetool::get_bindinfo_bycorpid('', 'init');
         if (!Db::name('corp_bind_api')->update($d)) {
+            cachetool::get_bindinfo_bycorpid('', 'init');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
+        cachetool::get_bindinfo_bycorpid('', 'init');
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
     }
 

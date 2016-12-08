@@ -45,6 +45,9 @@ class Wechatmailsend extends Controller
         $this->corpid = Request::instance()->param('corpid');
         //获取 公司的邮箱的相关接口
         $this->bindinfo = cachetool::get_bindinfo_bycorpid($this->corpid);
+        if ($this->corp_id == 18) {
+            file_put_contents('a.txt', print_r($this->bindinfo, true), FILE_APPEND);
+        }
         //禁用推送的 或者接口不正常 或者邮箱信息过期 进行的相关操作
         if (empty($this->bindinfo) || $this->bindinfo['status'] == 'off' || $this->bindinfo['api_status'] == '20' || $this->bindinfo['api_status'] == '30') {
             //表示获取绑定信息失败 需要存储到数据库中 获取api 异常 跳出系统

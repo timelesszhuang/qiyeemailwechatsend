@@ -123,21 +123,25 @@ class Wechatmailsend extends Controller
         $res = openssl_pkey_get_private($this->prikey);
         //必须使用post方法
         $src = "accounts={$accounts}&domain={$this->domain}&end={$end}&product={$this->product}&start={$start}&time={$time}";
-        if (openssl_sign($src, $out, $res)) {
-            $sign = bin2hex($out);
-            if ($this->flag == '10') {
-                //华北
-                $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
-            } else {
-                //华东
-                $url = "https://apihz.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+        try {
+            if (openssl_sign($src, $out, $res)) {
+                $sign = bin2hex($out);
+                if ($this->flag == '10') {
+                    //华北
+                    $url = "https://apibj.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+                } else {
+                    //华东
+                    $url = "https://apihz.qiye.163.com/qiyeservice/api/mail/getReceivedMailLogs";
+                }
+                $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
+                if ($response_json['suc'] == '1') {
+                    $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
+                    //更新数据到数据库中
+                }
+                //失败  返回详细信息
             }
-            $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
-            if ($response_json['suc'] == '1') {
-                $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
-                //更新数据到数据库中
-            }
-            //失败  返回详细信息
+        } catch (Exception $ex) {
+            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
         }
         return [$endtime, $total];
     }

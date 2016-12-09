@@ -60,7 +60,7 @@ class Authcorp extends Base
         $db = Db::name('auth_corp_info');
         $count = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->count('auth.id');
         $info = $db->alias('auth')->join('sm_corp_bind_api as api', 'api.corp_id=auth.id', 'left')->where($map)->limit($firstRow, $pageRows)
-            ->field('auth.*,api.api_status,api.status,api.domain')
+            ->field('auth.*,api.corp_name as apicorp_name,api.api_status,api.status,api.domain')
             ->select();
         $auth_model = new \app\sysadmin\model\authcorp();
         array_walk($info, array($auth_model, 'formatter_corp_info'));

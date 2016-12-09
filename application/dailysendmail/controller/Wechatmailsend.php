@@ -54,7 +54,7 @@ class Wechatmailsend extends Controller
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];
         $this->flag = $this->bindinfo['flag'];
-        sleep(rand(1, 120));
+        sleep(rand(1, 60));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
         try {
             //获取agent_id 根据 corp_id 还有邮件套件的 id
@@ -66,10 +66,6 @@ class Wechatmailsend extends Controller
             $access_time = time();
             foreach ($wechatuserid_info as $k => $v) {
                 list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
-                if ($this->corp_id == 18) {
-                    file_put_contents('a.txt', $endtime, FILE_APPEND);
-                    file_put_contents('a.txt', $v['wechat_userid'], FILE_APPEND);
-                }
                 $all_sendcount += $total;
                 //更新一下 获取邮件的 上次获取时间
                 Db::name('wechat_user')->where(['wechat_userid' => $v['wechat_userid'], 'corpid' => $this->corpid])->update(['lastgetmailtime' => $endtime]);
@@ -134,13 +130,7 @@ class Wechatmailsend extends Controller
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
                 if ($response_json['suc'] == '1') {
-                    if ($this->corp_id == 18) {
-                        file_put_contents('a.txt', '用户：' . $wechat_userid, FILE_APPEND);
-                    }
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id);
-                    if ($this->corp_id == 18) {
-                        file_put_contents('a.txt', '总数：' . $total, FILE_APPEND);
-                    }
                     //更新数据到数据库中
                 }
                 //失败  返回详细信息
@@ -273,9 +263,6 @@ class Wechatmailsend extends Controller
                 }*/
 
         foreach ($list as $k => $v) {
-            if ($this->corp_id == 18) {
-                file_put_contents('a.txt', print_r($v, true), FILE_APPEND);
-            }
             $articles = [];
             $result = $v['result'];
             if ($result == 1) {
@@ -287,9 +274,6 @@ class Wechatmailsend extends Controller
                     'url' => $url
                 ];
                 $articles[] = $perarticle;
-                if ($this->corp_id == 18) {
-                    file_put_contents('a.txt', print_r($articles, true), FILE_APPEND);
-                }
                 wechattool::send_news($this->corpid, $wechat_userid, $agent_id, $articles);
             }
         }

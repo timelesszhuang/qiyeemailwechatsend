@@ -11,8 +11,10 @@ class Index
 
     public function index()
     {
+
         $corpid = Request::instance()->param('corpid');
         echo $corpid;
+        echo 'dsadsa';
     }
-    
+
 }

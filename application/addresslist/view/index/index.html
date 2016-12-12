@@ -20,47 +20,27 @@
 </head>
 <body>
 <div class="htmleaf-container">
-    <div class="container">
+    <div class="container" style="margin-top: 15px">
         <div class="row">
-            <div class="col-sm-4">
+            <div class="col-sm-12">
                 <div class="form-group">
                     <label for="input-search" class="sr-only">Search Tree:</label>
                     <input type="input" class="form-control" id="input-search" placeholder="查询姓名或部门" value="">
                 </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" class="checkbox" id="chk-ignore-case" value="false">
-                        不去分大小写
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" class="checkbox" id="chk-exact-match" value="false">
-                        精确查询
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" class="checkbox" id="chk-reveal-results" value="false">
-                        展开查询结果
-                    </label>
-                </div>
-                <button type="button" class="btn btn-success" id="btn-search">Search</button>
-                <button type="button" class="btn btn-default" id="btn-clear-search">Clear</button>
-            </div>
-            <div class="col-sm-4">
-                <h2>Tree</h2>
-                <div id="treeview-searchable" class=""></div>
-            </div>
-            <div class="col-sm-4">
-                <h2>Results</h2>
-                <div id="search-output"></div>
+                <button type="button" class="btn btn-success" id="btn-search">查询</button>
+                <button type="button" class="btn btn-default" id="btn-clear-search">清除</button>
             </div>
         </div>
+        <div class="row">
+            <div class="col-sm-12" style="padding-top: 10px;">
+                <div id="treeview-searchable" class=""></div>
+            </div>
+        </div>
+
     </div>
 </div>
 
-<script src="http://libs.useso.com/js/jquery/2.1.1/jquery.min.js"></script>
+<script src="/static/sys/js/jquery-3.1.1.min.js"></script>
 <script src="/static/treeview/js/bootstrap-treeview.js"></script>
 <script type="text/javascript">
 
@@ -68,29 +48,29 @@
 
         var defaultData = [
             {
-                text: 'Parent 1',
+                text: '山东强比',
                 href: '#parent1',
                 tags: ['4'],
                 nodes: [
                     {
-                        text: 'Child 1',
+                        text: '销售部',
                         href: '#child1',
                         tags: ['2'],
                         nodes: [
                             {
-                                text: 'Grandchild 1',
+                                text: '销售一部',
                                 href: '#grandchild1',
                                 tags: ['0']
                             },
                             {
-                                text: 'Grandchild 2',
+                                text: '销售二部',
                                 href: '#grandchild2',
                                 tags: ['0']
                             }
                         ]
                     },
                     {
-                        text: 'Child 2',
+                        text: '技术服务部',
                         href: '#child2',
                         tags: ['0']
                     }
@@ -119,23 +99,20 @@
         ];
 
         var $searchableTree = $('#treeview-searchable').treeview({
-            data: defaultData,
+            data: defaultData
         });
 
         var search = function (e) {
             var pattern = $('#input-search').val();
             var options = {
-                ignoreCase: $('#chk-ignore-case').is(':checked'),
-                exactMatch: $('#chk-exact-match').is(':checked'),
-                revealResults: $('#chk-reveal-results').is(':checked')
+                //不区分大小写
+                //ignoreCase:true,
+                //精确查找
+                //exactMatch:true,
+                //展现结果
+                revealResults: true
             };
             var results = $searchableTree.treeview('search', [pattern, options]);
-
-            var output = '<p>' + results.length + ' matches found</p>';
-            $.each(results, function (index, result) {
-                output += '<p>- ' + result.text + '</p>';
-            });
-            $('#search-output').html(output);
         }
 
         $('#btn-search').on('click', search);
@@ -144,7 +121,7 @@
         $('#btn-clear-search').on('click', function (e) {
             $searchableTree.treeview('clearSearch');
             $('#input-search').val('');
-            $('#search-output').html('');
+//            $('#search-output').html('');
         });
 
     });

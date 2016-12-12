@@ -3,11 +3,12 @@ namespace app\addresslist\controller;
 
 
 use app\admin\model\cachetool;
+use think\Controller;
 use think\Db;
 use think\Request;
 use think\Session;
 
-class Index
+class Index extends Controller
 {
 
     public function index()

@@ -280,7 +280,7 @@ class auth
      */
     public static function cancel_auth($corpid)
     {
-        file_put_contents('a.txt', 'CORPID:' . $corpid, FILE_APPEND);
+//        file_put_contents('a.txt', 'CORPID:' . $corpid, FILE_APPEND);
         $map['corpid'] = $corpid;
         // 把查询条件传入查询方法
         $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
@@ -293,7 +293,7 @@ class auth
             'mobile' => $pre_corpinfo['mobile'],
             'canceltime' => time()
         ];
-        file_put_contents('a.txt', 'PRE_CORPINFO:' . print_r($a, true), FILE_APPEND);
+//        file_put_contents('a.txt', 'PRE_CORPINFO:' . print_r($a, true), FILE_APPEND);
         Db::startTrans();
         try {
             //把已经取消授权的人的信息删除        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
@@ -310,13 +310,13 @@ class auth
             Db::name('corp_bind_api')->where($where)->delete();
             // 提交事务
             Db::commit();
-            cachetool::get_bindinfo_bycorpid('', 'init');
-            cachetool::get_permanent_code_by_corpid('', 'init');
         } catch (\Exception $e) {
             // 回滚事务
             file_put_contents('a.txt', $e->getMessage(), FILE_APPEND);
             Db::rollback();
         }
+        cachetool::get_bindinfo_bycorpid('', 'init');
+        cachetool::get_permanent_code_by_corpid('', 'init');
         return true;
     }
 

@@ -14,4 +14,5 @@ class Index
         $corpid = Request::instance()->param('corpid');
         echo $corpid;
     }
+    
 }

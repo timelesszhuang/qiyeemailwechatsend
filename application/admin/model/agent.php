@@ -38,7 +38,7 @@ class agent
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
             //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echos
             $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echostr, $reecho);
-            file_put_contents('a.txt', 'errorcode:' . $errCode, FILE_APPEND);
+            //file_put_contents('a.txt', 'errorcode:' . $errCode, FILE_APPEND);
             if ($errCode == 0) {
                 echo $reecho;
             } else {

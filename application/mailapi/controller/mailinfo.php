@@ -22,9 +22,6 @@ class mailinfo
      */
     public static function get_domain_info($prikey, $domain, $product, $flag = '10')
     {
-//        file_put_contents('a.txt', $prikey, FILE_APPEND);
-//        file_put_contents('a.txt', $domain, FILE_APPEND);
-//        file_put_contents('a.txt', $product, FILE_APPEND);
         $time = date(time()) . '000';
         try {
             $res = openssl_pkey_get_private($prikey);

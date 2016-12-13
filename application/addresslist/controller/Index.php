@@ -13,7 +13,7 @@ class Index extends Controller
 
     public function index()
     {
-//        return $this->fetch('index');
+//      return $this->fetch('index');
         echo $_SERVER['HTTP_REFERER'];
         exit;
         //首先判断是不是请求来自微信
@@ -23,7 +23,6 @@ class Index extends Controller
         }
         // 首先获取下　网易邮箱接口绑定信息
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
-
         if ($bind_info) {
             Session::set('api_status', $bind_info['api_status']);
             Session::set('flag', $bind_info['flag']);

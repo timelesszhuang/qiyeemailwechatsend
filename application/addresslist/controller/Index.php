@@ -13,8 +13,7 @@ class Index extends Controller
 
     public function index()
     {
-
-        return $this->fetch('index');
+//        return $this->fetch('index');
         echo $_SERVER['HTTP_REFERER'];
         exit;
         //首先判断是不是请求来自微信

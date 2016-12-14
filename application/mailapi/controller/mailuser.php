@@ -2,6 +2,10 @@
 
 namespace Mailapi\Controller;
 
+use app\common\model\common;
+use think\Db;
+use think\image\Exception;
+
 /**
  * 职员账号设置
  * @todo 职员的相关账号信息可以添加到数据库中
@@ -9,195 +13,127 @@ namespace Mailapi\Controller;
 class mailuser
 {
 
-    /**
-     * 职员操作首页
-     * @access public
-     */
-    public function index()
-    {
-        $this->display();
-    }
-
-    /**
-     * 首页信息 展现
-     * @access public
-     */
-    public function index_json()
-    {
-        #查询条件
-        $unit_id = I('post.unit_id');
-        list($firstRow, $pageRows) = get_page_info();
-        $m = D('MailUser');
-        if (I('post.unit_id')) {
-            $where = array('unit_id' => I('post.unit_id'));
-            $count = $m->where($where)->count('id');
-            $list = $m->where($where)->limit($firstRow . ',' . $pageRows)->order('id desc')->field('id,unit_name,account_name,nickname,create_time')->select();
-        } else {
-            $count = $m->count('id');
-            $list = $m->limit($firstRow . ',' . $pageRows)->order('id desc')->field('id,unit_name,account_name,nickname,create_time,status')->select();
-        }
-        array_walk($list, array($this, 'format_userjson_list'));
-        $array = array();
-        if (!empty($list)) {
-            //需要格式化一些数据
-            $array['total'] = $count;
-            $array['rows'] = $list;
-        } else {
-            $array['total'] = 0;
-            $array['rows'] = array();
-        }
-        echo json_encode($array);
-    }
-
-    /**
-     * 格式化邮箱账号
-     * @access public
-     * @param  $v 每一条记录
-     */
-    private function format_userjson_list(&$v)
-    {
-        $v['create_time'] = date('Y-m-d', $v['create_time']);
-//        0正常 1禁用 2已删除
-        switch ($v['status']) {
-            case 0:
-                $status = '正常';
-                break;
-            case 1:
-                $status = '<span style="color:red">已禁止</span>';
-                break;
-            case 2:
-                $status = '<span style="color:red">已删除</span>';
-                break;
-            default:
-                break;
-        }
-        $v['status'] = $status;
-    }
-
-    /**
-     * 刷新用户相关操作
-     * @access public
-     */
-    public function refresh_user()
-    {
-        $this->getassign_common_data();
-        $this->display();
-    }
 
     /**
      * 更新全部用户
      * @access public
+     * @param $prikey
+     * @param $domain
+     * @param $product
+     * @param $flag
+     * @param $corp_id
+     * @param $corpid
+     * @param $corp_name
+     * @return false
      */
-    public function exec_update_alluser()
+    public function exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)
     {
-        //私钥
-        $prikey = C('MAILPRIKEY');
-        //域名
-        $domain = C('MAILDOMAIN');
-        $product = C('PRODUCT');
-        $res = openssl_pkey_get_private($prikey);
-        $page_num = 1;
-        $dep_m = M('MailOrgstructure');
-        $user_m = M('MailUser');
-        $dep_idarr = $dep_m->getField('unit_id,unit_name', true);
-        foreach ($dep_idarr as $k => $v) {
-            //必须使用post方法   第一次请求该用户下的数据
-            $response_json = $this->get_depuser($k, $page_num, $domain, $product, $res);
-            $this->update_user($response_json, $user_m, $k, $v);
-            //该用户下用户数量   如果大于2000的话 需要分页 每次获取一页
-            $count = $response_json['con']['count'];
-            $page = ceil($count / 2000); //计算出总的页数
-            while ($page > 1) {
-                $response_json = $this->get_depuser($k, $page, $domain, $product, $res);
-                $this->update_user($response_json, $user_m, $k, $v);
-                $page--;
+        try {
+            $res = openssl_pkey_get_private($prikey);
+            $page_num = 1;
+            $dep_m = Db::name('mail_orgstructure');
+            $user_m = Db::name('mail_user');
+            $dep_idarr = $dep_m->getField('unit_id,unit_name', true);
+            foreach ($dep_idarr as $k => $v) {
+                //必须使用post方法   第一次请求该用户下的数据
+                $response_json = $this->get_depuser($k, $page_num, $domain, $product, $res, $flag);
+                if ($response_json) {
+                    $this->update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                    //该用户下用户数量   如果大于2000的话 需要分页 每次获取一页
+                    $count = $response_json['con']['count'];
+                    $page = ceil($count / 2000); //计算出总的页数
+                    while ($page > 1) {
+                        $response_json = $this->get_depuser($k, $page, $domain, $product, $res, $flag);
+                        $this->update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                        $page--;
+                    }
+                }
             }
+            return true;
+        } catch (Exception $ex) {
+            return false;
         }
-        exit(json_encode(array(
-            'msg' => '用户信息更新成功,请返回刷新。',
-            'title' => '更新用户信息成功',
-            'status' => 'success'
-        )));
     }
 
-    /**
-     * 更新用户 更新用户
-     * @access private
-     */
-    private function update_user($response_json, $user_m, $unit_id, $unit_name)
-    {
-        //有种情况是 比如职员比较多的情况下
-        if ($response_json['suc']) {
-            $user_m->starttrans();
-            $user_m->where(array('unit_id' => array('eq', $unit_id)))->delete();
-            foreach ($response_json['con']['list'] as $k => $v) {
-                $perdata = array(
-                    'account_name' => $v['account_name'],
-                    'account_openid' => $v['account_openid'],
-                    'addr_right' => $v['addr_right'],
-                    'addr_visible' => $v['addr_visible'],
-                    'create_time' => strtotime($v['create_time']),
-                    'domain' => $v['domain'],
-                    'domain_openid' => $v['domain_openid'],
-                    'fwd' => $v['fwd'],
-                    'fwdauth' => $v['fwdauth'],
-                    'mobile' => $v['mobile'],
-                    'job_no' => $v['job_no'],
-                    'nickname' => $v['nickname'],
-                    'passchange_req' => $v['passchange_req'],
-                    'quota' => $v['quota'],
-                    'resetpass_general' => $v['resetpass_general'],
-                    'resetpass_mobile' => $v['resetpass_mobile'],
-                    'status' => $v['status'],
-                    'unit_id' => $v['unit_id'],
-                    'unit_name' => $unit_name,
-                );
-                $data[] = $perdata;
-            }
-            if ($user_m->addAll($data)) {
-                $user_m->commit();
-            } else {
-                $user_m->rollback();
-            }
-        } else {
-            exit(json_encode(array(
-                'msg' => '用户信息更新失败,错误参数' . $response_json['error_code'],
-                'title' => '更新用户信息失败',
-                'status' => self::error
-            )));
-        }
-    }
 
     /**
      * 获取用户的用户的职员
      * 默认一页2000条
+     * @param $unit_id
+     * @param $page_num
+     * @param $domain
+     * @param $product
+     * @param $res
+     * @param $flag 标志
+     * @return mixed
      */
-    private function get_depuser($unit_id, $page_num, $domain, $product, $res)
+    private function get_depuser($unit_id, $page_num, $domain, $product, $res, $flag)
     {
         $time = date(time()) . '000';
         $src = "domain=" . $domain . "&page_num=" . $page_num . "&product=" . $product . "&recuion=true" . "&time=" . $time . "&unit_id=" . $unit_id;
-        if (openssl_sign($src, $out, $res)) {
-            $sign = bin2hex($out);
-            $url = "https://apibj.qiye.163.com/qiyeservice/api/unit/getAccountList";
-            return $this->exec_postresponse($url, $src . '&sign=' . $sign);
+        try {
+            if (openssl_sign($src, $out, $res)) {
+                $sign = bin2hex($out);
+                if ($flag == '10') {
+                    //华北
+                    $url = "https://apibj.qiye.163.com/qiyeservice/api/unit/getAccountList";
+                } else {
+                    //华东
+                    $url = "https://apibj.qiye.163.com/qiyeservice/api/unit/getAccountList";
+                }
+                return json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
+            }
+        } catch (Exception $ex) {
+            return [];
         }
-        //返回错误数据
-        exit(json_encode(array(
-            'msg' => '用户信息更新失败',
-            'title' => '更新用户信息失败',
-            'status' => self::error
-        )));
     }
 
+
     /**
-     * 添加用户操作
-     * @access public
+     * 更新用户 更新用户
+     * @access private
+     * @param $response_json
+     * @param $user_m
+     * @param $unit_id
+     * @param $unit_name
+     * @param $corp_id
+     * @param $corp_name
+     * @param $corpid
+     * @return boolean
      */
-    public function add_user()
+    private function update_user($response_json, $user_m, $unit_id, $unit_name, $corp_id, $corp_name, $corpid)
     {
-        $this->getassign_common_data();
-        $this->display();
+        //有种情况是 比如职员比较多的情况下
+        if ($response_json['suc']) {
+            Db::startTrans();
+            $user_m->where(array('unit_id' => $unit_id, 'corp_id' => $corp_id))->delete();
+            foreach ($response_json['con']['list'] as $k => $v) {
+                $perdata = array(
+                    'unit_id' => $unit_id,
+                    'unit_name' => $unit_name,
+                    'account_name' => $v['account_name'],
+                    'account_openid' => $v['account_openid'],
+                    'mobile' => isset($v['mobile']) ? $v['mobile'] : '',
+                    'job_no' => $v['job_no'],
+                    'nickname' => $v['nickname'],
+                    'corp_id' => $corp_id,
+                    'corp_name' => $corp_name,
+                    'corpid' => $corpid,
+                    'create_time' => strtotime($v['create_time']),
+                );
+                $data[] = $perdata;
+            }
+            if ($user_m->insertAll($data)) {
+                Db::commit();
+            } else {
+                Db::rollback();
+            }
+        } else {
+            return false;
+        }
     }
+
+
 
     /**
      * 执行添加邮箱账号操作

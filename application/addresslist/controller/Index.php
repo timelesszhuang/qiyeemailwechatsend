@@ -14,7 +14,6 @@ class Index extends Controller
 
     public function index()
     {
-        return $this->fetch('index');
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -32,9 +31,11 @@ class Index extends Controller
             Session::set('privatesecret', $bind_info['privatesecret']);
             Session::set('product', $bind_info['product']);
             Session::set('domain', $bind_info['domain']);
+            return $this->fetch('index');
         } else {
             return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
         }
+
     }
 
 
@@ -43,6 +44,9 @@ class Index extends Controller
      */
     public function update()
     {
+        if (!session::has('corpid')) {
+            exit('您的请求有误,请重新请求');
+        }
         //从数据库中获取所属部门信息
         $corpid = Session::get('corpid');
         $corp_id = Session::get('corp_id');
@@ -54,7 +58,6 @@ class Index extends Controller
         //获取组织架构的数据 首先删除信息 然后更新数据
         if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
             //成功的话在获取部门下的职员数据
-            
         }
         // 更新部门信息失败的情况 返回
     }

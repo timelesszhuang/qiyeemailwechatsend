@@ -34,7 +34,7 @@ class mailuser
             $page_num = 1;
             $dep_m = Db::name('mail_orgstructure');
             $user_m = Db::name('mail_user');
-            $dep_idarr = $dep_m->field('unit_id,unit_name')->select();
+            $dep_idarr = $dep_m->where(['corpid' => $corpid])->field('unit_id,unit_name')->select();
             print_r($dep_idarr);
             foreach ($dep_idarr as $k => $v) {
                 //必须使用post方法   第一次请求该用户下的数据

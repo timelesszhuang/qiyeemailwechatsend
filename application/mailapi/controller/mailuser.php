@@ -110,6 +110,7 @@ class mailuser
             Db::startTrans();
             try {
                 $user_m->where(array('unit_id' => $unit_id, 'corp_id' => $corp_id))->delete();
+                $data = [];
                 foreach ($response_json['con']['list'] as $k => $v) {
                     $perdata = array(
                         'unit_id' => $unit_id,

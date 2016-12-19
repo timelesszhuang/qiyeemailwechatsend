@@ -11,6 +11,9 @@
     {load href="/static/bootstrap3/js/bootstrap.min.js" /}
 </head>
 <body>
+<?php
+print_r($_SESSION);
+?>
 <div style="display: none;" id="update_info_modal" data-backdrop="static" class="modal fade" tabindex="-1"
      role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-sm" role="document">
@@ -45,7 +48,6 @@
 </div>
 {load href="/static/treeview/js/bootstrap-treeview.js"/}
 <script type="text/javascript">
-
     $(function () {
         var defaultData = [
             {

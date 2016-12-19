@@ -148,7 +148,7 @@ class maildep
                 $perdata = array(
                     'unit_id' => $v['unit_id'],
                     'unit_name' => $v['unit_name'],
-                    'parent_id' => $v['parent_id'] ? $v['parent_id'] : 0,
+                    'parent_id' => isset($v['parent_id']) ? $v['parent_id'] : 0,
                     'unit_desc' => $v['unit_desc'],
                     'corp_id' => $corp_id,
                     'corp_name' => $corp_name,

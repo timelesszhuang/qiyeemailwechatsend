@@ -135,10 +135,9 @@ class maildep
     {
         //没有父亲部门的 默认为 0
         //首先把之前的数据清空
-        $m = Db::name('mail_orgstructure');
         Db::startTrans();
         try {
-            $m->where(array('corpid' => $corpid))->delete();
+            Db::name('mail_orgstructure')->where(array('corpid' => $corpid))->delete();
             $dep_data = array();
             foreach ($dep_arr as $k => $v) {
                 $perdata = array(
@@ -154,7 +153,7 @@ class maildep
                 $dep_data[] = $perdata;
             }
             print_r($dep_data);
-            $m->insertAll($dep_data);
+            Db::name('mail_orgstructure')->insertAll($dep_data);
             // 提交事务
             Db::commit();
             return true;

@@ -118,7 +118,7 @@ class mailuser
                         'account_name' => $v['account_name'],
                         'account_openid' => $v['account_openid'],
                         'mobile' => isset($v['mobile']) ? $v['mobile'] : '',
-                        'job_no' => $v['job_no'],
+                        'job_no' => isset($v['job_no']) ? $v['job_no'] : '',
                         'nickname' => $v['nickname'],
                         'corp_id' => $corp_id,
                         'corp_name' => $corp_name,

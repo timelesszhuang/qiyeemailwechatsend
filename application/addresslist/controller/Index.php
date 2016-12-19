@@ -24,8 +24,10 @@ class Index extends Controller
         // 首先获取下　网易邮箱接口绑定信息
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
         if ($bind_info) {
+            if ($bind_info['api_status'] != '10') {
+                return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
+            }
             Session::set('corpid', $corpid);
-            Session::set('api_status', $bind_info['api_status']);
             Session::set('flag', $bind_info['flag']);
             Session::set('corp_id', $bind_info['corp_id']);
             Session::set('corp_name', $bind_info['corp_name']);
@@ -36,7 +38,6 @@ class Index extends Controller
         } else {
             return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
         }
-
     }
 
 

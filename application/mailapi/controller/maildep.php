@@ -41,6 +41,7 @@ class maildep
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/unit/getUnitList";
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
+                file_put_contents('a.txt', '全部信息:' . print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc'] == '1') {
                     return self::formatupdate_emaildep($response_json['con'], $corp_id, $corpid, $corp_name);
                 }
@@ -131,6 +132,11 @@ class maildep
      */
     public static function formatupdate_emaildep($dep_arr, $corp_id, $corpid, $corp_name)
     {
+        try {
+
+        } catch (Exception $ex) {
+            file_put_contents('a.txt', '部门信息:' . print_r($dep_arr, true), FILE_APPEND);
+        }
         //没有父亲部门的 默认为 0
         //首先把之前的数据清空
         $m = Db::name('mail_orgstructure');

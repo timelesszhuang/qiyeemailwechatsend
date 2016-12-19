@@ -98,7 +98,7 @@ class common
      */
     public static function check_email($email)
     {
-        if (preg_match('/^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/', $email)) {
+        if (preg_match('/^([a-zA-Z0-9_-\.])+@([a-zA-Z0-9_-])+(\.[a-zA-Z0-9_-])+/', $email)) {
             return true;
         } else {
             return false;

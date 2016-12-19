@@ -44,8 +44,8 @@ class Index extends Controller
      */
     public function update()
     {
-        if (!session::has('corpid')) {
-            exit('您的请求有误,请重新请求');
+        if (!Session::has('corpid')) {
+            exit(json_encode(['msg' => '您的请求有误,请重新请求', 'status' => 'failed']));
         }
         //从数据库中获取所属部门信息
         $corpid = Session::get('corpid');

@@ -26,7 +26,7 @@ class mailuser
      * @param $corp_name
      * @return false
      */
-    public function exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)
+    public static function exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)
     {
         try {
             $res = openssl_pkey_get_private($prikey);
@@ -36,15 +36,15 @@ class mailuser
             $dep_idarr = $dep_m->getField('unit_id,unit_name', true);
             foreach ($dep_idarr as $k => $v) {
                 //必须使用post方法   第一次请求该用户下的数据
-                $response_json = $this->get_depuser($k, $page_num, $domain, $product, $res, $flag);
+                $response_json = self::get_depuser($k, $page_num, $domain, $product, $res, $flag);
                 if ($response_json) {
-                    $this->update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                    self::update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
                     //该用户下用户数量   如果大于2000的话 需要分页 每次获取一页
                     $count = $response_json['con']['count'];
                     $page = ceil($count / 2000); //计算出总的页数
                     while ($page > 1) {
-                        $response_json = $this->get_depuser($k, $page, $domain, $product, $res, $flag);
-                        $this->update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                        $response_json = self::get_depuser($k, $page, $domain, $product, $res, $flag);
+                        self::update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
                         $page--;
                     }
                 }
@@ -67,7 +67,7 @@ class mailuser
      * @param $flag 标志
      * @return mixed
      */
-    private function get_depuser($unit_id, $page_num, $domain, $product, $res, $flag)
+    private static function get_depuser($unit_id, $page_num, $domain, $product, $res, $flag)
     {
         $time = date(time()) . '000';
         $src = "domain=" . $domain . "&page_num=" . $page_num . "&product=" . $product . "&recuion=true" . "&time=" . $time . "&unit_id=" . $unit_id;
@@ -101,7 +101,7 @@ class mailuser
      * @param $corpid
      * @return boolean
      */
-    private function update_user($response_json, $user_m, $unit_id, $unit_name, $corp_id, $corp_name, $corpid)
+    private static function update_user($response_json, $user_m, $unit_id, $unit_name, $corp_id, $corp_name, $corpid)
     {
         //有种情况是 比如职员比较多的情况下
         if ($response_json['suc']) {
@@ -132,7 +132,6 @@ class mailuser
             return false;
         }
     }
-
 
 
     /**

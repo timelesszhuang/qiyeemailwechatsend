@@ -4,6 +4,7 @@ namespace app\addresslist\controller;
 
 use app\admin\model\cachetool;
 use app\mailapi\controller\maildep;
+use Mailapi\Controller\mailuser;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -58,8 +59,10 @@ class Index extends Controller
         //获取组织架构的数据 首先删除信息 然后更新数据
         if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
             //成功的话在获取部门下的职员数据
+            mailuser::exec_update_alluser();
         }
         // 更新部门信息失败的情况 返回
+
     }
 
 

@@ -47,6 +47,7 @@ class maildep
                 }
             }
         } catch (Exception $ex) {
+            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
             return false;
         }
     }
@@ -152,6 +153,7 @@ class maildep
                 );
                 $dep_data[] = $perdata;
             }
+            print_r($dep_data);
             $m->insertAll($dep_data);
             // 提交事务
             Db::commit();

@@ -34,24 +34,25 @@ class mailuser
             $page_num = 1;
             $dep_m = Db::name('mail_orgstructure');
             $user_m = Db::name('mail_user');
-            $dep_idarr = $dep_m->getField('unit_id,unit_name', true);
+            $dep_idarr = $dep_m->field('unit_id,unit_name')->select();
             foreach ($dep_idarr as $k => $v) {
                 //必须使用post方法   第一次请求该用户下的数据
-                $response_json = self::get_depuser($k, $page_num, $domain, $product, $res, $flag);
+                $response_json = self::get_depuser($v['unit_id'], $page_num, $domain, $product, $res, $flag);
                 if ($response_json) {
-                    self::update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                    self::update_user($response_json, $user_m, $v['unit_id'], $v['unit_name'], $corp_id, $corp_name, $corpid);
                     //该用户下用户数量   如果大于2000的话 需要分页 每次获取一页
                     $count = $response_json['con']['count'];
                     $page = ceil($count / 2000); //计算出总的页数
                     while ($page > 1) {
-                        $response_json = self::get_depuser($k, $page, $domain, $product, $res, $flag);
-                        self::update_user($response_json, $user_m, $k, $v, $corp_id, $corp_name, $corpid);
+                        $response_json = self::get_depuser($v['unit_id'], $page, $domain, $product, $res, $flag);
+                        self::update_user($response_json, $user_m, $v['unit_id'], $v['unit_name'], $corp_id, $corp_name, $corpid);
                         $page--;
                     }
                 }
             }
             return true;
         } catch (Exception $ex) {
+            file_put_contents('a.txt', '发送请求获取邮箱账号:' . $ex->getMessage(), FILE_APPEND);
             return false;
         }
     }
@@ -85,6 +86,7 @@ class mailuser
                 return json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
             }
         } catch (Exception $ex) {
+            file_put_contents('a.txt', '发送请求获取邮箱账号:' . $ex->getMessage(), FILE_APPEND);
             return [];
         }
     }

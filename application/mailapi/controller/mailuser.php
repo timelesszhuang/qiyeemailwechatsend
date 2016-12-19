@@ -1,6 +1,7 @@
 <?php
 
-namespace Mailapi\Controller;
+namespace app\mailapi\controller;
+
 
 use app\common\model\common;
 use think\Db;

@@ -138,7 +138,7 @@ class maildep
         Db::startTrans();
         try {
             Db::name('mail_orgstructure')->where(array('corpid' => $corpid))->delete();
-            $dep_data = array();
+//            $dep_data = array();
             foreach ($dep_arr as $k => $v) {
                 $perdata = array(
                     'unit_id' => $v['unit_id'],
@@ -150,10 +150,11 @@ class maildep
                     'corpid' => $corpid,
                     'updatetime' => time()
                 );
-                $dep_data[] = $perdata;
+//                $dep_data[] = $perdata;
+                Db::name('mail_orgstructure')->insert($perdata);
             }
-            print_r($dep_data);
-            Db::name('mail_orgstructure')->insertAll($dep_data);
+//            print_r($dep_data);
+//            Db::name('mail_orgstructure')->insertAll($dep_data);
             // 提交事务
             Db::commit();
             return true;

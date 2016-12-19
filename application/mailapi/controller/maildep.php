@@ -132,11 +132,6 @@ class maildep
      */
     public static function formatupdate_emaildep($dep_arr, $corp_id, $corpid, $corp_name)
     {
-        try {
-
-        } catch (Exception $ex) {
-            file_put_contents('a.txt', '部门信息:' . print_r($dep_arr, true), FILE_APPEND);
-        }
         //没有父亲部门的 默认为 0
         //首先把之前的数据清空
         $m = Db::name('mail_orgstructure');
@@ -149,7 +144,7 @@ class maildep
                     'unit_id' => $v['unit_id'],
                     'unit_name' => $v['unit_name'],
                     'parent_id' => isset($v['parent_id']) ? $v['parent_id'] : 0,
-                    'unit_desc' => $v['unit_desc'],
+                    'unit_desc' => isset($v['unit_desc']) ? $v['unit_desc'] : '',
                     'corp_id' => $corp_id,
                     'corp_name' => $corp_name,
                     'corpid' => $corpid,

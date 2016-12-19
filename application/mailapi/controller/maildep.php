@@ -152,7 +152,7 @@ class maildep
                 );
                 $dep_data[] = $perdata;
             }
-            print_r($dep_data);
+//            print_r($dep_data);
             Db::name('mail_orgstructure')->insertAll($dep_data);
             // 提交事务
             Db::commit();

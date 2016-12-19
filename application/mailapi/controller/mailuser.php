@@ -111,26 +111,28 @@ class mailuser
         //有种情况是 比如职员比较多的情况下
         if ($response_json['suc']) {
             Db::startTrans();
-            $user_m->where(array('unit_id' => $unit_id, 'corp_id' => $corp_id))->delete();
-            foreach ($response_json['con']['list'] as $k => $v) {
-                $perdata = array(
-                    'unit_id' => $unit_id,
-                    'unit_name' => $unit_name,
-                    'account_name' => $v['account_name'],
-                    'account_openid' => $v['account_openid'],
-                    'mobile' => isset($v['mobile']) ? $v['mobile'] : '',
-                    'job_no' => $v['job_no'],
-                    'nickname' => $v['nickname'],
-                    'corp_id' => $corp_id,
-                    'corp_name' => $corp_name,
-                    'corpid' => $corpid,
-                    'create_time' => strtotime($v['create_time']),
-                );
-                $data[] = $perdata;
-            }
-            if ($user_m->insertAll($data)) {
+            try {
+                $user_m->where(array('unit_id' => $unit_id, 'corp_id' => $corp_id))->delete();
+                foreach ($response_json['con']['list'] as $k => $v) {
+                    $perdata = array(
+                        'unit_id' => $unit_id,
+                        'unit_name' => $unit_name,
+                        'account_name' => $v['account_name'],
+                        'account_openid' => $v['account_openid'],
+                        'mobile' => isset($v['mobile']) ? $v['mobile'] : '',
+                        'job_no' => $v['job_no'],
+                        'nickname' => $v['nickname'],
+                        'corp_id' => $corp_id,
+                        'corp_name' => $corp_name,
+                        'corpid' => $corpid,
+                        'create_time' => strtotime($v['create_time']),
+                    );
+                    $data[] = $perdata;
+                }
+                $user_m->insertAll($data);
                 Db::commit();
-            } else {
+            } catch (Exception $ex) {
+                file_put_contents('a.txt', '提交数据：' . $ex->getMessage(), FILE_APPEND);
                 Db::rollback();
             }
         } else {

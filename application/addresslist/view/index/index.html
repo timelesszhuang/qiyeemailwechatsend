@@ -92,7 +92,11 @@
         ];
 
         var $searchableTree = $('#treeview-searchable').treeview({
-            data: defaultData
+            data: defaultData,
+            onNodeSelected: function (event, data) {
+                // Your logic goes here
+                alert('dsadsa');
+            },
         });
 
         var search = function (e) {
@@ -162,7 +166,8 @@
                 }
             });
         });
-    });
+    })
+    ;
 </script>
 </body>
 </html>

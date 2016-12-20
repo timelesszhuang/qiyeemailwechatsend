@@ -15,8 +15,6 @@ class Index extends Controller
 
     public function index()
     {
-        return $this->fetch('index');
-
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -76,35 +74,103 @@ class Index extends Controller
      */
     public function get_data()
     {
-        exit(json_encode(
-            [
-                [
-                    'text' => '山东强比',
-                    'href' => '#1',
-                    'nodes' => [
+        //首先获取部门的数据
+        $corpid = session('corpid');
+        $corpid = 'wxe041af5a55ce7365';
+        if (!$corpid) {
+            exit('请求异常。');
+        }
+        $where = ['corpid' => $corpid];
+        $dep_info = Db::name('mail_orgstructure')->where($where)->field('unit_id as id,parent_id as p_id,unit_name as text')->select();
+        $user_info = Db::name('mail_user')->where($where)->field('account_openid as id,id as flag,unit_id as p_id,nickname as text')->select();
+        $tree_arr = [];
+        if (!empty($dep_info) && !empty($user_info)) {
+            $tree_arr = array_merge($dep_info, $user_info);
+        } else {
+            if (!empty($user_info)) {
+                $tree_arr = $user_info;
+            }
+            if (!empty($dep_info)) {
+                $tree_arr = $dep_info;
+            }
+        }
+        $all_info = [];
+        foreach ($tree_arr as $k => $v) {
+            unset($v['flag']);
+            $v['href'] = (isset($v['flag']) ? 'clerk' : '') . $v['id'];
+            $all_info[] = $v;
+        }
+        if (!empty($tree_arr)) {
+            //生成树状图
+            exit(json_encode($this->list_to_tree($tree_arr)));
+        }
+
+        /*        exit(json_encode(
+                    [
                         [
-                            'text' => '销售部',
-                            'href' => '#2',
+                            'text' => '山东强比',
+                            'href' => '#1',
                             'nodes' => [
                                 [
-                                    'text' => '21',
-                                    'href' => '#1',
+                                    'text' => '销售部',
+                                    'href' => '#2',
+                                    'nodes' => [
+                                        [
+                                            'text' => '21',
+                                            'href' => '#1',
+                                        ],
+                                        [
+                                            'text' => '2',
+                                            'href' => '#1',
+                                        ]
+                                    ]
                                 ],
                                 [
-                                    'text' => '2',
+                                    'text' => '1',
                                     'href' => '#1',
                                 ]
                             ]
                         ],
-                        [
-                            'text' => '1',
-                            'href' => '#1',
-                        ]
+                        []
                     ]
-                ],
-                []
-            ]
-        ));
+                ));*/
+    }
+
+    /**
+     * 把返回的数据集转换成Tree  本函数使用引用传递  修改  数组的索引架构
+     *  可能比较难理解     函数中   $reffer    $list[]  $parent 等的信息实际上只是内存中地址的引用
+     * @access public
+     * @param array $list 要转换的数据集
+     * @param string $pid parent标记字段
+     * @return array
+     */
+    private function list_to_tree($list, $pk = 'id', $pid = 'p_id', $child = 'nodes', $root = 0)
+    {
+        // 创建Tree
+        $tree = array();
+        if (is_array($list)) {
+            //创建基于主键的数组引用
+            $refer = array();
+            foreach ($list as $key => $data) {
+                $refer[$data[$pk]] = &$list[$key];
+            }
+            foreach ($list as $key => $data) {
+                // 判断是否存在parent
+                $parentId = $data[$pid];
+                if ($root == $parentId) {
+                    //根节点元素
+                    $tree[] = &$list[$key];
+                } else {
+                    if (isset($refer[$parentId])) {
+                        //当前正在遍历的父亲节点的数据
+                        $parent = &$refer[$parentId];
+                        //把当前正在遍历的数据赋值给父亲类的  children
+                        $parent[$child][] = &$list[$key];
+                    }
+                }
+            }
+        }
+        return $tree;
     }
 
 

@@ -70,6 +70,43 @@ class Index extends Controller
         exit(json_encode(['msg' => '更新数据失败', 'status' => 'failed']));
     }
 
+    /**
+     * ajax 获取信息
+     * @access public
+     */
+    public function get_data()
+    {
+        exit(json_encode(
+            [
+                [
+                    'text' => '山东强比',
+                    'href' => '#1',
+                    'nodes' => [
+                        [
+                            'text' => '销售部',
+                            'href' => '#2',
+                            'nodes' => [
+                                [
+                                    'text' => '21',
+                                    'href' => '#1',
+                                ],
+                                [
+                                    'text' => '2',
+                                    'href' => '#1',
+                                ]
+                            ]
+                        ],
+                        [
+                            'text' => '1',
+                            'href' => '#1',
+                        ]
+                    ]
+                ],
+                []
+            ]
+        ));
+    }
+
 
     /**
      * 更新全部的信息

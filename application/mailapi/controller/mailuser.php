@@ -32,7 +32,6 @@ class mailuser
             $res = openssl_pkey_get_private($prikey);
             $page_num = 1;
             $dep_idarr = Db::name('mail_orgstructure')->where(['corpid' => $corpid])->field('unit_id,unit_name')->select();
-            print_r($dep_idarr);
             foreach ($dep_idarr as $k => $v) {
                 //必须使用post方法   第一次请求该用户下的数据
                 $response_json = self::get_depuser($v['unit_id'], $page_num, $domain, $product, $res, $flag);

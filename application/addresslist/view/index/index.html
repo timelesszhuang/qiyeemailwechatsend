@@ -123,6 +123,7 @@
             data: getdata(),
             onNodeSelected: function (event, data) {
                 // Your logic goes here
+                console.log(data);
                 alert('dsadsa');
             }
         });
@@ -132,6 +133,23 @@
      */
     function getdata() {
         //使用ajax 获取
+        var r_data = [];
+        var href = '<?php echo Url("index/get_data");?>';
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
+            async: false,
+            url: href,
+            success: function (data) {
+                r_data = data;
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('获取数据失败');
+            }
+        });
+        return r_data;
+
         return [
             {
                 text: '山东强比',

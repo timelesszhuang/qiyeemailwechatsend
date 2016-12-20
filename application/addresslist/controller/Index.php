@@ -16,7 +16,6 @@ class Index extends Controller
     public function index()
     {
         return $this->fetch('index');
-
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -114,7 +113,10 @@ class Index extends Controller
      *  可能比较难理解     函数中   $reffer    $list[]  $parent 等的信息实际上只是内存中地址的引用
      * @access public
      * @param array $list 要转换的数据集
+     * @param string $pk
      * @param string $pid parent标记字段
+     * @param string $child
+     * @param int $root
      * @return array
      */
     private function list_to_tree($list, $pk = 'id', $pid = 'p_id', $child = 'nodes', $root = 0)
@@ -155,6 +157,18 @@ class Index extends Controller
     {
         //然后还需要把　其他的信息也保存下来
         return $this->fetch('update_self_info');
+    }
+
+
+    /**
+     * 查看个人信息
+     * @access public
+     */
+    public function user_info()
+    {
+        $href = substr(Request::instance()->param('href'), 5);
+        echo $href;
+        print_r(Db::name('mail_user')->where(['account_openid' => $href])->find());
     }
 
 

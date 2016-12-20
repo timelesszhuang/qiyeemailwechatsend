@@ -90,41 +90,27 @@
         $('#btn-clear-search').on('click', function (e) {
             $searchableTree.treeview('clearSearch');
             $('#input-search').val('');
-//            $('#search-output').html('');
         });
 
         //点击修改我的信息
         $('#update-my-info').click(function () {
-            $('#update_info_modal').modal('show');
-            var selecter = '#update_info_content';
             var href = '<?php echo Url("index/update_self_info");?>';
-            $.ajax({
-                type: "POST",
-                dataType: "html",
-                //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
-                async: false,
-                url: href,
-                beforeSend: function (xhr) {
-//                    var img = "<div style='width:50%;margin:0px auto;'><img src='/static/sys/image/load.gif' /></div>"
-//                    $(selecter).html(img);
-                },
-                success: function (data) {
-//                    $(selecter).html(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert('qqqq');
-                }
-            });
+            open_modal(href, new Object());
         });
     });
 
     function refresh_treeview() {
+        var locatehref = '<?php echo Url("index/user_info"); ?>';
         return $('#treeview-searchable').treeview({
             data: getdata(),
             onNodeSelected: function (event, data) {
-                // Your logic goes here
-                console.log(data);
-                alert('dsadsa');
+                var href = data.href;
+                var param = new Object();
+                param.href = href;
+                if (href.indexOf('clerk') == 0) {
+                    //去后台获取相关网站
+                    open_modal(locatehref, param);
+                }
             }
         });
     }
@@ -150,6 +136,33 @@
         });
         return r_data;
     }
+
+    /**
+     * 打开窗体
+     */
+    function open_modal(href, param) {
+        $('#update_info_modal').modal('show');
+        var selecter = '#update_info_content';
+        $.ajax({
+            type: "POST",
+            dataType: "html",
+            //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
+            async: false,
+            url: href,
+            data: param,
+            beforeSend: function (xhr) {
+//                    var img = "<div style='width:50%;margin:0px auto;'><img src='/static/sys/image/load.gif' /></div>"
+//                    $(selecter).html(img);
+            },
+            success: function (data) {
+                $(selecter).html(data);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                alert('qqqq');
+            }
+        });
+    }
+
 </script>
 </body>
 </html>

@@ -15,6 +15,8 @@ class Index extends Controller
 
     public function index()
     {
+        return $this->fetch('index');
+
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -96,44 +98,15 @@ class Index extends Controller
         }
         $all_info = [];
         foreach ($tree_arr as $k => $v) {
-            unset($v['flag']);
             $v['href'] = (isset($v['flag']) ? 'clerk' : '') . $v['id'];
+            $v['icon'] = isset($v['flag']) ? 'glyphicon glyphicon-user' : '';
+            unset($v['flag']);
             $all_info[] = $v;
         }
-        if (!empty($tree_arr)) {
+        if (!empty($all_info)) {
             //生成树状图
-            exit(json_encode($this->list_to_tree($tree_arr)));
+            exit(json_encode($this->list_to_tree($all_info)));
         }
-
-        /*        exit(json_encode(
-                    [
-                        [
-                            'text' => '山东强比',
-                            'href' => '#1',
-                            'nodes' => [
-                                [
-                                    'text' => '销售部',
-                                    'href' => '#2',
-                                    'nodes' => [
-                                        [
-                                            'text' => '21',
-                                            'href' => '#1',
-                                        ],
-                                        [
-                                            'text' => '2',
-                                            'href' => '#1',
-                                        ]
-                                    ]
-                                ],
-                                [
-                                    'text' => '1',
-                                    'href' => '#1',
-                                ]
-                            ]
-                        ],
-                        []
-                    ]
-                ));*/
     }
 
     /**

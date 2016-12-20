@@ -75,7 +75,11 @@
                     async: false,
                     url: href,
                     success: function (data) {
-                        $searchableTree = refresh_treeview();
+                        if (data.status == 'success') {
+                            $searchableTree = refresh_treeview();
+                        } else {
+                            alert(data.msg);
+                        }
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         //获取数据失败
@@ -127,6 +131,7 @@
      * 获取组织架构信息
      */
     function getdata() {
+        //使用ajax 获取
         return [
             {
                 text: '山东强比',

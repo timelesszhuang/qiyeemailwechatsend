@@ -62,11 +62,12 @@ class Index extends Controller
         //获取组织架构的数据 首先删除信息 然后更新数据
         if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
             //成功的话在获取部门下的职员数据
-            print_r('ok');
-            mailuser::exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name);
+            if (mailuser::exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
+                exit(json_encode(['msg' => '数据更新成功', 'status' => 'success']));
+            }
         }
         // 更新部门信息失败的情况 返回
-
+        exit(json_encode(['msg' => '更新数据失败', 'status' => 'failed']));
     }
 
 

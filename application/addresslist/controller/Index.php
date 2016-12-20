@@ -15,6 +15,8 @@ class Index extends Controller
 
     public function index()
     {
+        return $this->fetch('index');
+
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {

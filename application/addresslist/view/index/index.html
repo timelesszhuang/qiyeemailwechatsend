@@ -46,9 +46,88 @@
 {load href="/static/treeview/js/bootstrap-treeview.js"/}
 <script type="text/javascript">
     $(function () {
+        var $searchableTree = refresh_treeview();
+        var search = function (e) {
+            var pattern = $('#input-search').val();
+            var options = {
+                //不区分大小写
+                //ignoreCase:true,
+                //精确查找
+                //exactMatch:true,
+                //展现结果
+                revealResults: true
+            };
+            var results = $searchableTree.treeview('search', [pattern, options]);
+        };
+        $('#btn-search').on('click', search);
+        $('#input-search').on('keyup', search);
+        /**
+         * 更新通讯录信息
+         */
+        $('#btn-refresh').click(function () {
+            var href = '<?php echo Url("index/update"); ?>';
+            if (window.confirm('你确定要更新通讯录吗？该操作需要一些时间')) {
+                //真的话怎么操作　　假的话怎么操作
+                $.ajax({
+                    type: "POST",
+                    dataType: "html",
+                    //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
+                    async: false,
+                    url: href,
+                    success: function (data) {
+                        $searchableTree = refresh_treeview();
+                    },
+                    error: function (jqXHR, textStatus, errorThrown) {
+                        //获取数据失败
+                    }
+                });
+            }
+        });
+        $('#btn-clear-search').on('click', function (e) {
+            $searchableTree.treeview('clearSearch');
+            $('#input-search').val('');
+//            $('#search-output').html('');
+        });
 
+        //点击修改我的信息
+        $('#update-my-info').click(function () {
+            $('#update_info_modal').modal('show');
+            var selecter = '#update_info_content';
+            var href = '<?php echo Url("index/update_self_info");?>';
+            $.ajax({
+                type: "POST",
+                dataType: "html",
+                //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
+                async: false,
+                url: href,
+                beforeSend: function (xhr) {
+//                    var img = "<div style='width:50%;margin:0px auto;'><img src='/static/sys/image/load.gif' /></div>"
+//                    $(selecter).html(img);
+                },
+                success: function (data) {
+//                    $(selecter).html(data);
+                },
+                error: function (jqXHR, textStatus, errorThrown) {
+                    alert('qqqq');
+                }
+            });
+        });
+    });
 
-        var defaultData = [
+    function refresh_treeview() {
+        return $('#treeview-searchable').treeview({
+            data: getdata(),
+            onNodeSelected: function (event, data) {
+                // Your logic goes here
+                alert('dsadsa');
+            }
+        });
+    }
+    /**
+     * 获取组织架构信息
+     */
+    function getdata() {
+        return [
             {
                 text: '山东强比',
                 href: '#parent1',
@@ -90,84 +169,7 @@
                 href: '#parent5',
             }
         ];
-
-        var $searchableTree = $('#treeview-searchable').treeview({
-            data: defaultData,
-            onNodeSelected: function (event, data) {
-                // Your logic goes here
-                alert('dsadsa');
-            },
-        });
-
-        var search = function (e) {
-            var pattern = $('#input-search').val();
-            var options = {
-                //不区分大小写
-                //ignoreCase:true,
-                //精确查找
-                //exactMatch:true,
-                //展现结果
-                revealResults: true
-            };
-            var results = $searchableTree.treeview('search', [pattern, options]);
-        }
-
-        $('#btn-search').on('click', search);
-        $('#input-search').on('keyup', search);
-
-        /**
-         * 更新通讯录信息
-         */
-        $('#btn-refresh').click(function () {
-            var href = '<?php echo Url("index/update"); ?>';
-            if (window.confirm('你确定要更新通讯录吗？该操作需要一些时间')) {
-                //真的话怎么操作　　假的话怎么操作
-                $.ajax({
-                    type: "POST",
-                    dataType: "html",
-                    //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
-                    async: false,
-                    url: href,
-                    success: function (data) {
-
-                    },
-                    error: function (jqXHR, textStatus, errorThrown) {
-                        //获取数据失败
-                    }
-                });
-            }
-        });
-        $('#btn-clear-search').on('click', function (e) {
-            $searchableTree.treeview('clearSearch');
-            $('#input-search').val('');
-//            $('#search-output').html('');
-        });
-
-        //点击修改我的信息
-        $('#update-my-info').click(function () {
-            $('#update_info_modal').modal('show');
-            var selecter = '#update_info_content';
-            var href = '<?php echo Url("index/update_self_info");?>';
-            $.ajax({
-                type: "POST",
-                dataType: "html",
-                //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
-                async: false,
-                url: href,
-                beforeSend: function (xhr) {
-//                    var img = "<div style='width:50%;margin:0px auto;'><img src='/static/sys/image/load.gif' /></div>"
-//                    $(selecter).html(img);
-                },
-                success: function (data) {
-//                    $(selecter).html(data);
-                },
-                error: function (jqXHR, textStatus, errorThrown) {
-                    alert('qqqq');
-                }
-            });
-        });
-    })
-    ;
+    }
 </script>
 </body>
 </html>

@@ -13,11 +13,11 @@
                 <label for="name" class="col-sm-2 control-label">手机号</label>
                 <div class="col-sm-7">
                     <input type="text" name="mobile" value="{$mobile}"/>
+                    <input type="hidden" name="old_mobile" value="{$mobile}">
                 </div>
             </div>
             <input type="hidden" value="{$id}" name="id">
         </form>
-        <div class="alert alert-success" role="alert">关闭之后 不会给系统推送消息</div>
         <input type="hidden" value="{$modal_id}" name='edit_mobile_modal_id'>
     </div>
 </div>
@@ -28,8 +28,11 @@
 <script>
     //点击更新之后
     $('#reset_pwd_btn').click(function () {
+        if (!$('input[name="mobile"]').val()) {
+            alert('请填写手机号码');
+        }
         var form_id = 'bind_info_form';
-        var action = '<?php echo url("index/exec_edit_self_info");?>';
+        var action = '<?php echo url("index/exec_update_self_info");?>';
         var modal_id = $('input[name="edit_mobile_modal_id"]').val();
         var serialize_form = $('#' + form_id).serialize();
         submit_form(action, serialize_form, modal_id);
@@ -49,7 +52,7 @@
                 if (data.status == 'success') {
                     alert('手机号码更新成功。');
                 } else if (data.status == 'failed') {
-                    alert('手机号码更新失败，请稍后再试。');
+                    alert(data.msg);
                 }
             },
             error: function (jqXHR, textStatus, errorThrown) {

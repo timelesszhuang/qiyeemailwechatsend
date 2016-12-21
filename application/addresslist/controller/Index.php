@@ -210,6 +210,22 @@ class Index extends Controller
         return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'id' => $user_info['id'], 'modal_id' => $modal_id]);
     }
 
+    /**
+     * 更新个人数据
+     * @access update_self_info
+     */
+    public function exec_update_self_info()
+    {
+        $id = Request::instance()->param('id');
+        $mobile = Request::instance()->param('mobile');
+        $old_mobile = Request::instance()->param('old_mobile');
+        if ($mobile != $old_mobile) {
+            
+        }
+        exit(json_encode(['status' => 'success', 'msg' => '更新数据成功']));
+        //不想等更新数据
+    }
+
 
     /**
      * 查看个人信息

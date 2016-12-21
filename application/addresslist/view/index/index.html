@@ -37,6 +37,11 @@
             </div>
         </div>
         <div class="row">
+            <div class="col-sm-12 load_img">
+
+            </div>
+        </div>
+        <div class="row">
             <div class="col-sm-12" style="padding-top: 10px;">
                 <div id="treeview-searchable" class="">
 
@@ -77,7 +82,7 @@
                     async: false,
                     url: href,
                     beforeSend: function () {
-                        $('#treeview-searchable').html('<img src="/static/sys/image/load_sm.gif">');
+                        $('.load_img').html('<img src="/static/sys/image/load_sm.gif">');
                     },
                     success: function (data) {
                         if (data.status == 'success') {
@@ -137,7 +142,7 @@
             async: false,
             url: href,
             beforeSend: function () {
-                $('#treeview-searchable').html('<img src="/static/sys/image/load_sm.gif">');
+                $('.load_img').html('<img src="/static/sys/image/load_sm.gif">');
             },
             success: function (data) {
                 r_data = data;

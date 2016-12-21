@@ -68,7 +68,6 @@
             };
             var results = $searchableTree.treeview('search', [pattern, options]);
         };
-        $('#btn-search').on('click', search);
         $('#input-search').on('keyup', search);
         /**
          * 更新通讯录信息
@@ -98,11 +97,6 @@
                     }
                 });
             }
-        });
-
-        $('#btn-clear-search').on('click', function (e) {
-            $searchableTree.treeview('clearSearch');
-            $('#input-search').val('');
         });
 
         //点击修改我的信息

@@ -165,7 +165,6 @@ class Index extends Controller
     public function user_info()
     {
         $href = substr(Request::instance()->param('href'), 5);
-        echo $href;
         print_r(Db::name('mail_user')->where(['account_openid' => $href])->find());
     }
 

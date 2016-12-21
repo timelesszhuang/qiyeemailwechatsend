@@ -72,7 +72,7 @@
                 //真的话怎么操作　　假的话怎么操作
                 $.ajax({
                     type: "POST",
-                    dataType: "html",
+                    dataType: "json",
                     //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有相应的话会阻塞
                     async: false,
                     url: href,

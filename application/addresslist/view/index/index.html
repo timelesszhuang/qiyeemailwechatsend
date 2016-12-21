@@ -111,7 +111,9 @@
         //点击修改我的信息
         $('#update-my-info').click(function () {
             var href = '<?php echo Url("index/update_self_info");?>';
-            open_modal(href, new Object());
+            var param = new Object();
+            param.modal_id = 'update_info';
+            open_modal(href, param);
         });
     });
 
@@ -133,6 +135,8 @@
             }
         });
     }
+
+
     /**
      * 获取组织架构信息
      */

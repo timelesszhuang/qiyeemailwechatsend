@@ -201,8 +201,13 @@ class Index extends Controller
      */
     public function update_self_info()
     {
+        //根据session 获取手机号码等信息
+        $corpid = Session::get('corpid');
+        $account = Session::get('account');
+        $modal_id = Request::instance()->param('modal_id');
+        $user_info = Db::where(['corpid' => $corpid, 'account' => $account])->find();
         //然后还需要把　其他的信息也保存下来
-        return $this->fetch('update_self_info');
+        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'id' => $user_info['id'], 'modal_id' => $modal_id]);
     }
 
 

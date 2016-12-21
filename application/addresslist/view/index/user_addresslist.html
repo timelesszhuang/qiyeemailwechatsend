@@ -1,0 +1,42 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        <img src="/static/sys/image/list.png"> 通讯录
+    </h4>
+</div>
+<div class="modal-body">
+    <div style="width:80%; margin: 0px auto;">
+        <div class="row">
+            <div class="col-sm-12">
+                <spsn class="glyphicon glyphicon-user"></spsn>
+                {$info.nickname} &nbsp;&nbsp;&nbsp;{$info.unit_name}
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-sm-12">
+                邮箱账号:
+                {$info.account_name} <span class="glyphicon glyphicon-envelope"></span>
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+            <tel class="col-sm-12">
+                手机号:
+                <tel to="{$info.mobile}">{$info.mobile}</tel>    <span class="glyphicon glyphicon-phone"><span>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-sm-12">
+                工号:{$info.job_no}
+            </div>
+        </div>
+        <div class="row" style="padding-top: 10px;">
+            <div class="col-sm-12">
+                <?php echo date('Y-m-d',$info['create_time'])?>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>

@@ -15,6 +15,7 @@ class Index extends Controller
 
     public function index()
     {
+        return $this->fetch('index');
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -76,6 +77,7 @@ class Index extends Controller
     {
         //首先获取部门的数据
         $corpid = Session::get('corpid');
+        $corpid = 'wxe041af5a55ce7365';
         if (!$corpid) {
             exit('请求异常。');
         }
@@ -164,8 +166,13 @@ class Index extends Controller
      */
     public function user_info()
     {
-        $href = substr(Request::instance()->param('href'), 5);
-        print_r(Db::name('mail_user')->where(['account_openid' => $href])->find());
+        $id = Request::instance()->param('href');
+        if (!$id) {
+            //错误的情况
+        }
+        $href = substr($id, 5);
+        $info = Db::name('mail_user')->where(['account_openid' => $href])->find();
+        return $this->fetch('user_addresslist', ['info' => $info]);
     }
 
 

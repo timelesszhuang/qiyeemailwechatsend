@@ -85,6 +85,7 @@
                         $('.load_img').html('<img src="/static/sys/image/load_sm.gif">');
                     },
                     success: function (data) {
+                        $('.load_img').html('');
                         if (data.status == 'success') {
                             $searchableTree = refresh_treeview();
                         } else {
@@ -145,6 +146,7 @@
                 $('.load_img').html('<img src="/static/sys/image/load_sm.gif">');
             },
             success: function (data) {
+                $('.load_img').html('');
                 r_data = data;
             },
             error: function (jqXHR, textStatus, errorThrown) {

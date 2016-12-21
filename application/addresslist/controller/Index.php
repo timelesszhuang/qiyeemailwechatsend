@@ -75,8 +75,7 @@ class Index extends Controller
     public function get_data()
     {
         //首先获取部门的数据
-        $corpid = session('corpid');
-        $corpid = 'wxe041af5a55ce7365';
+        $corpid = Session::get('corpid');
         if (!$corpid) {
             exit('请求异常。');
         }

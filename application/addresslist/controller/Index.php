@@ -3,6 +3,8 @@ namespace app\addresslist\controller;
 
 
 use app\admin\model\cachetool;
+use app\common\model\common;
+use app\common\model\wechattool;
 use app\mailapi\controller\maildep;
 use app\mailapi\controller\mailuser;
 use think\Controller;
@@ -15,30 +17,74 @@ class Index extends Controller
 
     public function index()
     {
-        return $this->fetch('index');
+        // 首先要做的第一步是获取　当前职员的数据　然后村粗在session 中
+//        return $this->fetch('msg',['msg'=>'测试']);
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
             exit('请求异常');
         }
-        //首先判断数据库中是不是已经有了
-        // 首先获取下　网易邮箱接口绑定信息
         $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
-        if ($bind_info) {
-            if ($bind_info['api_status'] != '10') {
-                return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
-            }
-            Session::set('corpid', $corpid);
-            Session::set('flag', $bind_info['flag']);
-            Session::set('corp_id', $bind_info['corp_id']);
-            Session::set('corp_name', $bind_info['corp_name']);
-            Session::set('privatesecret', $bind_info['privatesecret']);
-            Session::set('product', $bind_info['product']);
-            Session::set('domain', $bind_info['domain']);
-            return $this->fetch('index');
-        } else {
+        if (empty($bind_info) || $bind_info['api_status'] != '10') {
             return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
         }
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
+        ob_start();
+        ob_end_flush();
+        header("Location:$url");
+        exit;
+    }
+
+
+    /**
+     * 获取用户信息 然后 展现地址列表
+     * @access public
+     */
+    public function getuserinfo_showaddresslist()
+    {
+        //获取请求的参数
+        $corpid = Request::instance()->param('corpid');
+        $code = Request::instance()->param('code');
+        $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
+        $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
+        $user_info = common::send_curl_request($get_userid_url, [], 'get');
+        $user_info = json_decode($user_info, true);
+        if (array_key_exists('errcode', $user_info)) {
+            exit('请求code错误');
+        }
+        if (array_key_exists('OpenId', $user_info)) {
+            exit('您不属于该公司，或者您没有权限访问');
+        }
+        $wechat_userid = $user_info['UserId'];
+        //知道UserId  corpid之后可以获取 网易邮箱账号 也可以获取网易接口数据
+        //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定
+        $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();
+        $msg = '';
+        if (empty($user_info)) {
+            $msg = '您还没有绑定邮箱账号。';
+        } else {
+            //已经完成
+            if ($user_info['status'] == '20') {
+                //审核信息 表示正在审核
+                $msg = '您的账号绑定信息正在审核，请耐心等待贵公司管理员审核!';
+            } else if ($user_info['status'] == '30') {
+                //审核失败
+                $msg = '您的绑定信息有误，贵公司管理员审核未通过!!';
+            } else {
+                Session::set('wechat_userid', $user_info['wechat_userid']);
+                Session::set('account', $user_info['account']);
+            }
+        }
+        Session::set('corpid', $corpid);
+        Session::set('flag', $bind_info['flag']);
+        Session::set('corp_id', $bind_info['corp_id']);
+        Session::set('corp_name', $bind_info['corp_name']);
+        Session::set('privatesecret', $bind_info['privatesecret']);
+        Session::set('product', $bind_info['product']);
+        Session::set('domain', $bind_info['domain']);
+        return $this->fetch('index', ['msg' => $msg]);
     }
 
 

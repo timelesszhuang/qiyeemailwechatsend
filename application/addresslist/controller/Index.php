@@ -172,7 +172,7 @@ class Index extends Controller
         }
         $href = substr($id, 5);
         $info = Db::name('mail_user')->where(['account_openid' => $href])->find();
-        return $this->fetch('user_addresslist', ['info' => $info]);
+        return $this->fetch('user_addresslist', ['info' => $info, 'domain' => Session::get('domain')]);
     }
 
 

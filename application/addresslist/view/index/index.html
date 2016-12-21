@@ -85,12 +85,12 @@
                         $('.load_img').html('<img src="/static/sys/image/load_sm.gif">');
                     },
                     success: function (data) {
-                        $('.load_img').html('');
                         if (data.status == 'success') {
                             $searchableTree = refresh_treeview();
                         } else {
                             alert(data.msg);
                         }
+                        $('.load_img').html('');
                     },
                     error: function (jqXHR, textStatus, errorThrown) {
                         //获取数据失败

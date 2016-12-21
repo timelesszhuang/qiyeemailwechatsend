@@ -141,8 +141,15 @@ class mailuser
     /**
      * 添加手机号码查询
      * @access public
+     * @param $prikey 公钥私钥
+     * @param $domain 域名
+     * @param $product 产品
+     * @param $flag 标志
+     * @param $mobile 手机号码
+     * @param $account 邮箱账号
+     * @param $id 更新数据
      */
-    public function add_mobile($mobile, $account, $flag)
+    public function add_mobile($prikey, $domain, $product, $flag, $mobile, $account, $id)
     {
 //        https://apibj.qiye.163.com/qiyeservice/api/mobile/addMobile?
 //        account_name=zhangsan&domain=abc.com&
@@ -151,10 +158,6 @@ class mailuser
 //        time=1418559787507&
 //        sign=account_name=zhangsan&domain=abc.com&mobile=13612312312&product=abc_com&time=1418559787507
         //私钥
-        $prikey = C('MAILPRIKEY');
-        //域名
-        $domain = C('MAILDOMAIN');
-        $product = C('PRODUCT');
         $time = date(time()) . '000';
         $res = openssl_pkey_get_private($prikey);
         //需要逐条获取部门信息
@@ -171,6 +174,7 @@ class mailuser
             }
             $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
             if ($response_json['suc']) {
+                Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile]);
                 exit(json_encode(['msg' => '绑定手机成功', 'status' => 'success']));
             }
             $msg = '绑定手机失败,错误参数' . $response_json['error_code'];
@@ -179,99 +183,5 @@ class mailuser
         exit(json_encode(['msg' => '更新失败，请稍后重试。', 'status' => 'success']));
     }
 
-    /**
-     * exec_delete_mobile 绑定手机号码删除
-     * @access public
-     */
-    public function exec_delete_mobile()
-    {
-//        https://apibj.qiye.163.com/qiyeservice/api/mobile/deleteMobile?
-//        account_name=zhangsan&
-//        domain=abc.com&
-//        product=abc_com&
-//        time=1418559994256&
-//        sign=account_name=zhangsan&domain=abc.com&product=abc_com&time=1418559994256
-        $mobile = I('post.mobile');
-        $account_name = I('post.account_name');
-        //私钥
-        $prikey = C('MAILPRIKEY');
-        //域名
-        $domain = C('MAILDOMAIN');
-        $product = C('PRODUCT');
-        $time = date(time()) . '000';
-        $res = openssl_pkey_get_private($prikey);
-        //需要逐条获取部门信息
-        //必须使用post方法
-        $src = "account_name=" . $account_name . "&domain=" . $domain . "&product=" . $product . "&time=" . $time;
-        if (openssl_sign($src, $out, $res)) {
-            $sign = bin2hex($out);
-            $url = "https://apibj.qiye.163.com/qiyeservice/api/mobile/deleteMobile";
-            $response_json = $this->exec_postresponse($url, $src . '&sign=' . $sign);
-            if ($response_json['suc']) {
-                format_json_ajaxreturn('删除绑定手机成功', '删除绑定手机成功', 'success');
-            }
-            $msg = !$msg ? '删除绑定手机失败,错误参数' . $response_json['error_code'] : $msg;
-        }
-        $msg = !$msg ? '删除绑定手机失败,参数异常，请联系管理员。' : $msg;
-        format_json_ajaxreturn($msg, '绑定手机失败', self::error);
-    }
-
-    /**
-     * 修改密码
-     * @access public
-     */
-    public function pwd_user()
-    {
-        $this->getassign_common_data();
-        $this->assign('account_name', I('post.id'));
-        $this->display();
-    }
-
-    /**
-     * 更新密码
-     * @access public
-     */
-    public function exec_update_pwd()
-    {
-//        https://apibj.qiye.163.com/qiyeservice/api/account/updatePassword?
-//        account_name=zhangsan&
-//        domain=abc.com&
-//        passchange_req=0&
-//        password=654321&
-//        product=abc_com&
-//        time=1418558629335&
-//        sign=account_name=zhangsan&domain=abc.com&passchange_req=0&password=654321&product=abc_com&time=1418558629335
-        $account_name = I('post.account_name');
-        $password = I('post.password');
-        $password1 = I('post.password1');
-        if ($password != $password1) {
-            format_json_ajaxreturn('两次密码输入不一致', '修改密码失败', self::error);
-        }
-        //首次登陆是不是要修改密码
-        $passchange_req = I('post.passchange_req');
-        //私钥
-        $prikey = C('MAILPRIKEY');
-        //域名
-        $domain = C('MAILDOMAIN');
-        $product = C('PRODUCT');
-        $time = date(time()) . '000';
-        $res = openssl_pkey_get_private($prikey);
-        //需要逐条获取部门信息
-        //必须使用post方法
-        $src = "account_name=" . $account_name . "&domain=" . $domain . "&pass_type=0" . "&passchange_req=" . $passchange_req . "&password=" . $password . "&product=" . $product . "&time=" . $time;
-//      echo $src;
-//      format_json_ajaxreturn($src, '修改密码失败', self::error);
-        if (openssl_sign($src, $out, $res)) {
-            $sign = bin2hex($out);
-            $url = "https://apibj.qiye.163.com/qiyeservice/api/account/updatePassword";
-            $response_json = $this->exec_postresponse($url, $src . '&sign=' . $sign);
-            if ($response_json['suc']) {
-                format_json_ajaxreturn('修改密码成功', '修改密码成功', 'success');
-            }
-            $msg = !$msg ? '修改密码失败,错误参数' . $response_json['error_code'] : $msg;
-        }
-        $msg = !$msg ? '修改密码失败,参数异常，请联系管理员。' : $msg;
-        format_json_ajaxreturn($msg, '修改密码失败', self::error);
-    }
 
 }

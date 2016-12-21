@@ -38,7 +38,9 @@
         </div>
         <div class="row">
             <div class="col-sm-12" style="padding-top: 10px;">
-                <div id="treeview-searchable" class=""></div>
+                <div id="treeview-searchable" class="">
+
+                </div>
             </div>
         </div>
     </div>
@@ -99,6 +101,9 @@
         });
     });
 
+    /**
+     * 刷新tree
+     */
     function refresh_treeview() {
         var locatehref = '<?php echo Url("index/user_info"); ?>';
         return $('#treeview-searchable').treeview({
@@ -127,6 +132,9 @@
             //因为如果是异步执行的话  没有返回就执行return 了 但是同步的话还是会有问题的 比如长时间没有的话会阻塞
             async: false,
             url: href,
+            beforeSend: function () {
+                $('#treeview-searchable').html('<img src="/static/sys/image/load_sm.gif">');
+            },
             success: function (data) {
                 r_data = data;
             },
@@ -151,8 +159,7 @@
             url: href,
             data: param,
             beforeSend: function (xhr) {
-//                    var img = "<div style='width:50%;margin:0px auto;'><img src='/static/sys/image/load.gif' /></div>"
-//                    $(selecter).html(img);
+                $(selecter).html('<img src="/static/sys/image/load_sm.gif">');
             },
             success: function (data) {
                 $(selecter).html(data);

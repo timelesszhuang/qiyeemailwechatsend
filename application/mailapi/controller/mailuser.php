@@ -105,7 +105,7 @@ class mailuser
     private static function update_user($response_json, $user_m, $unit_id, $unit_name, $corp_id, $corp_name, $corpid)
     {
         //有种情况是 比如职员比较多的情况下
-        file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
+//        file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
         if ($response_json['suc']) {
             Db::startTrans();
             try {

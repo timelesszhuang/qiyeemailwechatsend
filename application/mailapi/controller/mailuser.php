@@ -149,7 +149,7 @@ class mailuser
      * @param $account 邮箱账号
      * @param $id 更新数据
      */
-    public function add_mobile($prikey, $domain, $product, $flag, $mobile, $account, $id)
+    public static function add_mobile($prikey, $domain, $product, $flag, $mobile, $account, $id)
     {
 //        https://apibj.qiye.163.com/qiyeservice/api/mobile/addMobile?
 //        account_name=zhangsan&domain=abc.com&

@@ -207,7 +207,7 @@ class Index extends Controller
         $modal_id = Request::instance()->param('modal_id');
         $user_info = Db::where(['corpid' => $corpid, 'account' => $account])->find();
         //然后还需要把　其他的信息也保存下来
-        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'id' => $user_info['id'], 'modal_id' => $modal_id]);
+        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'account' => $account, 'id' => $user_info['id'], 'modal_id' => $modal_id]);
     }
 
     /**
@@ -217,13 +217,14 @@ class Index extends Controller
     public function exec_update_self_info()
     {
         $id = Request::instance()->param('id');
+        $account = Request::instance()->param('account');
         $mobile = Request::instance()->param('mobile');
         $old_mobile = Request::instance()->param('old_mobile');
         if ($mobile != $old_mobile) {
-            
+            Session::get('corp_name');;;;
+            mailuser::add_mobile(Session::get('privatesecret'), Session::get('domain'), Session::get('product'), Session::get('flag'), $mobile, $account, $id);
         }
         exit(json_encode(['status' => 'success', 'msg' => '更新数据成功']));
-        //不想等更新数据
     }
 
 

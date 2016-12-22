@@ -207,7 +207,7 @@ class Index extends Controller
         $modal_id = Request::instance()->param('modal_id');
         $user_info = Db::name('mail_user')->where(['corpid' => $corpid, 'account_name' => $account])->find();
         //然后还需要把　其他的信息也保存下来
-        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'account' => $account, 'id' => $user_info['id'], 'modal_id' => $modal_id]);
+        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'account' => $account, 'id' => $user_info['id'], 'nickname' => $user_info['nickname'], 'job_no' => $user_info['job_no'], 'modal_id' => $modal_id]);
     }
 
     /**
@@ -219,11 +219,11 @@ class Index extends Controller
         $id = Request::instance()->param('id');
         $account = Request::instance()->param('account');
         $mobile = Request::instance()->param('mobile');
+        $job_no = Request::instance()->param('job_no');
         $old_mobile = Request::instance()->param('old_mobile');
-        if ($mobile != $old_mobile) {
-            Session::get('corp_name');;;;
-            mailuser::add_mobile(Session::get('privatesecret'), Session::get('domain'), Session::get('product'), Session::get('flag'), $mobile, $account, $id);
-        }
+        $old_job_no = Request::instance()->param('old_job_no');
+        Session::get('corp_name');
+        mailuser::update_user_info(Session::get('privatesecret'), Session::get('domain'), Session::get('product'), Session::get('flag'), $mobile, $job_no, $account, $id);
         exit(json_encode(['status' => 'success', 'msg' => '更新数据成功']));
     }
 

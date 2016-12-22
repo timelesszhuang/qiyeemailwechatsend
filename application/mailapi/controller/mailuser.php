@@ -105,7 +105,7 @@ class mailuser
     private static function update_user($response_json, $user_m, $unit_id, $unit_name, $corp_id, $corp_name, $corpid)
     {
         //有种情况是 比如职员比较多的情况下
-	file_put_contents('a.txt',print_r($response_json,true),FILE_APPEND);
+        file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
         if ($response_json['suc']) {
             Db::startTrans();
             try {
@@ -123,11 +123,11 @@ class mailuser
                         'corp_id' => $corp_id,
                         'corp_name' => $corp_name,
                         'corpid' => $corpid,
-                        'create_time' => substr($v['create_time'],0,10),
+                        'create_time' => substr($v['create_time'], 0, 10),
                     );
                     $data[] = $perdata;
                 }
-		file_put_contents('a.txt',print_r($data,true),FILE_APPEND);
+                file_put_contents('a.txt', print_r($data, true), FILE_APPEND);
                 $user_m->insertAll($data);
                 Db::commit();
             } catch (Exception $ex) {
@@ -173,6 +173,48 @@ class mailuser
             } else {
                 //华东
                 $url = "https://apihz.qiye.163.com/qiyeservice/api/mobile/addMobile";
+            }
+            $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
+            if ($response_json['suc']) {
+                Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile]);
+                exit(json_encode(['msg' => '绑定手机成功', 'status' => 'success']));
+            }
+            $msg = '绑定手机失败,错误参数' . $response_json['error_code'];
+            exit(json_encode(['msg' => $msg, 'status' => 'failed']));
+        }
+        exit(json_encode(['msg' => '更新失败，请稍后重试。', 'status' => 'success']));
+    }
+
+    /**
+     * 更新 用户相关信息
+     * @access public
+     * @param $prikey
+     * @param $domain
+     * @param $product
+     * @param $flag
+     * @param $mobile
+     * @param $job_no
+     * @param $account
+     * @param $id
+     */
+    public static function update_user_info($prikey, $domain, $product, $flag, $mobile, $job_no, $account, $id)
+    {
+        //私钥
+        $time = date(time()) . '000';
+        $res = openssl_pkey_get_private($prikey);
+        //需要逐条获取部门信息
+        //必须使用post方法
+        $job_no_string = $job_no ? "&job_no=$job_no" : "";
+        $mobile_string = $mobile ? "&mobile=$mobile" : "";
+        $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product = " . $product . "&time = " . $time;
+        if (openssl_sign($src, $out, $res)) {
+            $sign = bin2hex($out);
+            if ($flag == '10') {
+                //华北
+                $url = "https://apibj.qiye.163.com/qiyeservice/api/account/updateAccount";
+            } else {
+                //华东
+                $url = "https://apihz.qiye.163.com/qiyeservice/api/account/updateAccount";
             }
             $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
             if ($response_json['suc']) {

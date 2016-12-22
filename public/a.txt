@@ -25,3 +25,558 @@ Array
     [suc] => 
     [ver] => 0
 )
+全部信息:Array
+(
+    [con] => Array
+        (
+            [0] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 总经理办公室
+                    [unit_id] => 810236
+                    [unit_name] => 总经理办公室
+                )
+
+            [1] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问一部
+                    [unit_id] => 796602
+                    [unit_name] => 济南顾问一部
+                )
+
+            [2] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 运营部
+                    [unit_id] => 796598
+                    [unit_name] => 运营部
+                )
+
+            [3] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问二部
+                    [unit_id] => 796608
+                    [unit_name] => 济南顾问二部
+                )
+
+            [4] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 企业邮事业部
+                    [unit_id] => 796597
+                    [unit_name] => 企业邮事业部
+                )
+
+            [5] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 有道云协作事业部
+                    [unit_id] => 796596
+                    [unit_name] => 有道云协作事业部
+                )
+
+            [6] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 北京易至信
+                    [unit_id] => 796601
+                    [unit_name] => 北京易至信
+                )
+
+            [7] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 客服部
+                    [unit_id] => 796593
+                    [unit_name] => 客服部
+                )
+
+            [8] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 郑州胜途
+                    [unit_id] => 796603
+                    [unit_name] => 郑州胜途
+                )
+
+            [9] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 产品开发
+                    [unit_id] => 796595
+                    [unit_name] => 产品开发
+                )
+
+            [10] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 市场部
+                    [unit_id] => 796594
+                    [unit_name] => 市场部
+                )
+
+            [11] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 财务部
+                    [unit_id] => 796599
+                    [unit_name] => 财务部
+                )
+
+            [12] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作一部
+                    [unit_id] => 810238
+                    [unit_name] => 云协作一部
+                )
+
+            [13] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 行政和人事
+                    [unit_id] => 796600
+                    [unit_name] => 行政和人事
+                )
+
+            [14] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作二部
+                    [unit_id] => 810239
+                    [unit_name] => 云协作二部
+                )
+
+            [15] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作三部
+                    [unit_id] => 810240
+                    [unit_name] => 云协作三部
+                )
+
+            [16] => Array
+                (
+                    [unit_id] => 2952527_default
+                    [unit_name] => 默认部门
+                )
+
+            [17] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810246
+                    [unit_name] => 网站建设部
+                )
+
+            [18] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 803302
+                    [unit_name] => 渠道
+                )
+
+            [19] => Array
+                (
+                    [parent_id] => 796603
+                    [unit_id] => 810245
+                    [unit_name] => 郑州顾问一部
+                )
+
+            [20] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810247
+                    [unit_name] => 技术服务部
+                )
+
+            [21] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 810249
+                    [unit_name] => 市场推广
+                )
+
+            [22] => Array
+                (
+                    [unit_desc] => 总公司
+                    [unit_id] => 625726
+                    [unit_name] => 总公司
+                )
+
+        )
+
+    [suc] => 1
+    [ver] => 1482117070466
+)
+全部信息:Array
+(
+    [con] => Array
+        (
+            [0] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 总经理办公室
+                    [unit_id] => 810236
+                    [unit_name] => 总经理办公室
+                )
+
+            [1] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问一部
+                    [unit_id] => 796602
+                    [unit_name] => 济南顾问一部
+                )
+
+            [2] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 运营部
+                    [unit_id] => 796598
+                    [unit_name] => 运营部
+                )
+
+            [3] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问二部
+                    [unit_id] => 796608
+                    [unit_name] => 济南顾问二部
+                )
+
+            [4] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 企业邮事业部
+                    [unit_id] => 796597
+                    [unit_name] => 企业邮事业部
+                )
+
+            [5] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 有道云协作事业部
+                    [unit_id] => 796596
+                    [unit_name] => 有道云协作事业部
+                )
+
+            [6] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 北京易至信
+                    [unit_id] => 796601
+                    [unit_name] => 北京易至信
+                )
+
+            [7] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 客服部
+                    [unit_id] => 796593
+                    [unit_name] => 客服部
+                )
+
+            [8] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 郑州胜途
+                    [unit_id] => 796603
+                    [unit_name] => 郑州胜途
+                )
+
+            [9] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 产品开发
+                    [unit_id] => 796595
+                    [unit_name] => 产品开发
+                )
+
+            [10] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 市场部
+                    [unit_id] => 796594
+                    [unit_name] => 市场部
+                )
+
+            [11] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 财务部
+                    [unit_id] => 796599
+                    [unit_name] => 财务部
+                )
+
+            [12] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作一部
+                    [unit_id] => 810238
+                    [unit_name] => 云协作一部
+                )
+
+            [13] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 行政和人事
+                    [unit_id] => 796600
+                    [unit_name] => 行政和人事
+                )
+
+            [14] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作二部
+                    [unit_id] => 810239
+                    [unit_name] => 云协作二部
+                )
+
+            [15] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作三部
+                    [unit_id] => 810240
+                    [unit_name] => 云协作三部
+                )
+
+            [16] => Array
+                (
+                    [unit_id] => 2952527_default
+                    [unit_name] => 默认部门
+                )
+
+            [17] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810246
+                    [unit_name] => 网站建设部
+                )
+
+            [18] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 803302
+                    [unit_name] => 渠道
+                )
+
+            [19] => Array
+                (
+                    [parent_id] => 796603
+                    [unit_id] => 810245
+                    [unit_name] => 郑州顾问一部
+                )
+
+            [20] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810247
+                    [unit_name] => 技术服务部
+                )
+
+            [21] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 810249
+                    [unit_name] => 市场推广
+                )
+
+            [22] => Array
+                (
+                    [unit_desc] => 总公司
+                    [unit_id] => 625726
+                    [unit_name] => 总公司
+                )
+
+        )
+
+    [suc] => 1
+    [ver] => 1482282340579
+)
+全部信息:Array
+(
+    [con] => Array
+        (
+            [0] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 总经理办公室
+                    [unit_id] => 810236
+                    [unit_name] => 总经理办公室
+                )
+
+            [1] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问一部
+                    [unit_id] => 796602
+                    [unit_name] => 济南顾问一部
+                )
+
+            [2] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 运营部
+                    [unit_id] => 796598
+                    [unit_name] => 运营部
+                )
+
+            [3] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 济南顾问二部
+                    [unit_id] => 796608
+                    [unit_name] => 济南顾问二部
+                )
+
+            [4] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 企业邮事业部
+                    [unit_id] => 796597
+                    [unit_name] => 企业邮事业部
+                )
+
+            [5] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 有道云协作事业部
+                    [unit_id] => 796596
+                    [unit_name] => 有道云协作事业部
+                )
+
+            [6] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 北京易至信
+                    [unit_id] => 796601
+                    [unit_name] => 北京易至信
+                )
+
+            [7] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 客服部
+                    [unit_id] => 796593
+                    [unit_name] => 客服部
+                )
+
+            [8] => Array
+                (
+                    [parent_id] => 796597
+                    [unit_desc] => 郑州胜途
+                    [unit_id] => 796603
+                    [unit_name] => 郑州胜途
+                )
+
+            [9] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 产品开发
+                    [unit_id] => 796595
+                    [unit_name] => 产品开发
+                )
+
+            [10] => Array
+                (
+                    [parent_id] => 625726
+                    [unit_desc] => 市场部
+                    [unit_id] => 796594
+                    [unit_name] => 市场部
+                )
+
+            [11] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 财务部
+                    [unit_id] => 796599
+                    [unit_name] => 财务部
+                )
+
+            [12] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作一部
+                    [unit_id] => 810238
+                    [unit_name] => 云协作一部
+                )
+
+            [13] => Array
+                (
+                    [parent_id] => 796598
+                    [unit_desc] => 行政和人事
+                    [unit_id] => 796600
+                    [unit_name] => 行政和人事
+                )
+
+            [14] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作二部
+                    [unit_id] => 810239
+                    [unit_name] => 云协作二部
+                )
+
+            [15] => Array
+                (
+                    [parent_id] => 796596
+                    [unit_desc] => 云协作三部
+                    [unit_id] => 810240
+                    [unit_name] => 云协作三部
+                )
+
+            [16] => Array
+                (
+                    [unit_id] => 2952527_default
+                    [unit_name] => 默认部门
+                )
+
+            [17] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810246
+                    [unit_name] => 网站建设部
+                )
+
+            [18] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 803302
+                    [unit_name] => 渠道
+                )
+
+            [19] => Array
+                (
+                    [parent_id] => 796603
+                    [unit_id] => 810245
+                    [unit_name] => 郑州顾问一部
+                )
+
+            [20] => Array
+                (
+                    [parent_id] => 796595
+                    [unit_id] => 810247
+                    [unit_name] => 技术服务部
+                )
+
+            [21] => Array
+                (
+                    [parent_id] => 796594
+                    [unit_id] => 810249
+                    [unit_name] => 市场推广
+                )
+
+            [22] => Array
+                (
+                    [unit_desc] => 总公司
+                    [unit_id] => 625726
+                    [unit_name] => 总公司
+                )
+
+        )
+
+    [suc] => 1
+    [ver] => 1482282340579
+)

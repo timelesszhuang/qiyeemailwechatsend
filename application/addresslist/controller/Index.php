@@ -205,9 +205,9 @@ class Index extends Controller
         $corpid = Session::get('corpid');
         $account = Session::get('account');
         $modal_id = Request::instance()->param('modal_id');
-        $user_info = Db::where(['corpid' => $corpid, 'account' => $account])->find();
+        $user_info = Db::name('mail_user')->where(['corpid' => $corpid, 'account_name' => $account])->find();
         //然后还需要把　其他的信息也保存下来
-        return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'id' => $user_info['id'], 'modal_id' => $modal_id]);
+	return $this->fetch('update_self_info', ['mobile' => $user_info['mobile'], 'id' => $user_info['id'], 'modal_id' => $modal_id]);
     }
 
     /**

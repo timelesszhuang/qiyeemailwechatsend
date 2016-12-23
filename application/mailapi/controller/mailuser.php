@@ -220,8 +220,8 @@ class mailuser
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
                 if ($response_json['suc']) {
-                    Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile]);
-                    exit(json_encode(['msg' => '绑定手机成功', 'status' => 'success']));
+                    Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile, 'job_no' => $job_no]);
+                    exit(json_encode(['msg' => '更新信息成功', 'status' => 'success']));
                 }
                 $msg = '绑定手机失败,错误参数' . $response_json['error_code'];
                 exit(json_encode(['msg' => $msg, 'status' => 'failed']));

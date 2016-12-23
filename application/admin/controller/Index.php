@@ -129,7 +129,7 @@ html;
             $stoptime = $i * 86400 + $start_time;
             //然后开始统计下 三十天之前的效果
             $time_arr[] = date('Y-m-d', $starttime);
-            $count[] = Db::name('entermail_log')->query('select count(distinct wechat_userid) as count from sm_entermail_log where corpid= ' . $corpid . ' and entry_time between ' . $starttime . ' and ' . $stoptime)[0]['count'];
+            $count[] = Db::name('entermail_log')->query('select count(distinct wechat_userid) as count from sm_entermail_log where corpid=' . $corpid . ' and entry_time between ' . $starttime . ' and ' . $stoptime)[0]['count'];
         }
         $count = array('name' => "过去30天活跃度", 'data' => $count);
         exit(json_encode(array("tooltip_title" => "次（去重之后）", 'title' => '总活跃度曲线', 'subtitle' => '', 'y' => '次', 'time' => $time_arr, 'statistic' => array($count))));

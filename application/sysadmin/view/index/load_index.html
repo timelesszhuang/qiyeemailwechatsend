@@ -17,7 +17,7 @@
 
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月邮件推送排行
@@ -30,7 +30,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月进入应用次数
@@ -43,13 +43,26 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+</div>
+<div class="row">
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;用户数量
                 </h3>
             </div>
             <div class="panel-body" id="user_count_order" style="height: 350px;padding-top:20px;">
+
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;用户活跃度
+                </h3>
+            </div>
+            <div class="panel-body" id="user_distinctactive_count" style="height: 350px;padding-top:20px;">
 
             </div>
         </div>
@@ -69,18 +82,25 @@
         $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
     }
 
-    //总的数量
+    //用户数量
     try {
         load_user_count("<?php echo Url('index/load_user_count'); ?>");
     } catch (ex) {
         $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
     }
 
-
+    //获取进入应用的数量
     try {
         load_entrymail_data("<?php echo Url('index/get_entryemail_count'); ?>");
     } catch (ex) {
-        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+        $.messager.alert('首页数据加载失败', '客户进入应用次数统计模块加载失败', 'error');
+    }
+
+    //获取活跃度数量
+    try {
+        load_activecount_data("<?php echo Url('index/get_distinctactive_count'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '获取客户活跃度模块加载失败', 'error');
     }
 
 
@@ -130,6 +150,71 @@
             success: function (data) {
                 $('#send_all_counthtml').html(data);
             }
+        });
+    }
+
+    /**
+     * 加载活跃用户数
+     */
+    function load_activecount_data(url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                var title = data.title;
+                var subtitle = data.subtitle;
+                var y = data.y;
+                var time = data.time;
+                var statistic = data.statistic;
+                var tooltip_title = data.tooltip_title;
+                index_distinctactive_count_chart("user_distinctactive_count", time, statistic, title, subtitle, y, tooltip_title);
+            }
+        });
+    }
+
+
+    /**
+     * 去重之后的活跃用户数
+     */
+    function index_distinctactive_count_chart(id, time, statistic, title, subtitle, y, tooltip_title) {
+        $('#' + id).highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: title
+            },
+            subtitle: {
+                text: subtitle
+            },
+            xAxis: {
+                categories: time
+            },
+            yAxis: {
+                title: {
+                    text: y
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                enable: true,
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' + this.x + ': ' + this.y + tooltip_title;
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: statistic
         });
     }
 
@@ -207,7 +292,7 @@
             },
             yAxis: {
                 title: {
-                    text: "封"
+                    text: "次（不去重）"
                 }
             },
             credits: {
@@ -216,5 +301,6 @@
             series: series
         });
     }
+
 
 </script>

@@ -63,10 +63,33 @@ class Index extends Base
             'accesstime' => ['gt', $time],
         ];
         $sum = Db::name('crontab_log')->where($where)->sum('mailsendcount') ?: 0;
+        //获取下　总的用户数量
+        $user_count = Db::name('wechat_user')->count('id') ?: 0;
+        //授权的企业数量
+        $corp_count = Db::name('auth_corp_info')->count('id') ?: 0;
         $html = <<<html
-  <h4>本月系统共推送{$sum}封邮件</h4>
+  <h4>本月系统共推送邮件{$sum}封；授权企业数量{$corp_count}个；用户总数：{$user_count}户</h4>
 html;
         echo $html;
+    }
+
+
+    /**
+     * 获取每天的 总的活跃度
+     */
+    public function get_distinctactive_count()
+    {
+        $start_time = strtotime(date('Y-m-d 00:00:00', strtotime('-30 days')));
+        //过去30 天的 活跃度
+        for ($i = 1; $i <= 31; $i++) {
+            $starttime = ($i - 1) * 86400 + $start_time;
+            $stoptime = $i * 86400 + $start_time;
+            //然后开始统计下 三十天之前的效果
+            $time_arr[] = date('Y-m-d', $starttime);
+            $count[] = Db::name('entermail_log')->query('select count(distinct wechat_userid) as count from sm_entermail_log where entry_time between ' . $starttime . ' and ' . $stoptime)[0]['count'];
+        }
+        $count = array('name' => "过去30天活跃度", 'data' => $count);
+        exit(json_encode(array("tooltip_title" => "次（去重之后）", 'title' => '总活跃度曲线', 'subtitle' => '', 'y' => '次', 'time' => $time_arr, 'statistic' => array($count))));
     }
 
 

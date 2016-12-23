@@ -14,7 +14,7 @@
     {$msg}
 </div>
 <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月邮件推送排行
@@ -27,7 +27,7 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;推送总量
@@ -38,7 +38,9 @@
             </div>
         </div>
     </div>
-    <div class="col-sm-4">
+</div>
+<div>
+    <div class="col-sm-6">
         <div class="panel panel-info">
             <div class="panel-heading">
                 <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月进入应用次数
@@ -46,6 +48,19 @@
             </div>
             <div class="panel-body">
                 <div id='entry_mail_log' style='height: 350px;padding: 2px;border:1px solid #E8E8E8;'>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-6">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <h3 class="panel-title"><span class="glyphicon glyphicon-th-list"></span>&nbsp;&nbsp;本月进入应用次数
+                </h3>
+            </div>
+            <div class="panel-body">
+                <div id='user_distinctactive_count' style='height: 350px;padding: 2px;border:1px solid #E8E8E8;'>
 
                 </div>
             </div>
@@ -72,6 +87,81 @@
     } catch (ex) {
         $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
     }
+
+    //获取活跃度数量
+    try {
+        load_activecount_data("<?php echo Url('index/get_distinctactive_count'); ?>");
+    } catch (ex) {
+        $.messager.alert('首页数据加载失败', '获取客户活跃度模块加载失败', 'error');
+    }
+
+
+    /**
+     * 加载活跃用户数
+     */
+    function load_activecount_data(url) {
+        $.ajax({
+            url: url,
+            dataType: "json",
+            success: function (data) {
+                var title = data.title;
+                var subtitle = data.subtitle;
+                var y = data.y;
+                var time = data.time;
+                var statistic = data.statistic;
+                var tooltip_title = data.tooltip_title;
+                index_distinctactive_count_chart("user_distinctactive_count", time, statistic, title, subtitle, y, tooltip_title);
+            }
+        });
+    }
+
+
+    /**
+     * 去重之后的活跃用户数
+     */
+    function index_distinctactive_count_chart(id, time, statistic, title, subtitle, y, tooltip_title) {
+        $('#' + id).highcharts({
+            chart: {
+                type: 'line'
+            },
+            title: {
+                text: title
+            },
+            subtitle: {
+                text: subtitle
+            },
+            xAxis: {
+                categories: time
+            },
+            yAxis: {
+                title: {
+                    text: y
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                enable: true,
+                formatter: function () {
+                    return '<b>' + this.series.name + '</b><br/>' + this.x + ': ' + this.y + tooltip_title;
+                }
+            },
+            plotOptions: {
+                line: {
+                    dataLabels: {
+                        enabled: true
+                    },
+                    enableMouseTracking: true
+                }
+            },
+            series: statistic
+        });
+    }
+
+
 
 
     //加载客户积分数据

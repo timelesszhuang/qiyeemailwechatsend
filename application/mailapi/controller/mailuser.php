@@ -207,7 +207,7 @@ class mailuser
         $job_no_string = $job_no ? "&job_no=$job_no" : "";
         $mobile_string = $mobile ? "&mobile=$mobile" : "";
         $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product=" . $product . "&time =" . $time;
-        file_put_contents('a.txt',$src,FILE_APPEND);
+//        file_put_contents('a.txt',$src,FILE_APPEND);
         if (openssl_sign($src, $out, $res)) {
             $sign = bin2hex($out);
             if ($flag == '10') {

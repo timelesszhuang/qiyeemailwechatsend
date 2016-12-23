@@ -1,582 +1,684 @@
-
-Array
+account_name=xingzhuang&domain=cio.club&job_no=68&mobile=13698612743&product=qiangbi_net&time =1482474187000https://apibj.qiye.163.com/qiyeservice/api/account/updateAccount&signbef5f399a723ce1e2eac7734c6d824b906fe02722efb0160d99166afce30d5838003a9b7344e890d7cdf8891dc14f6fb46b4318d70cf8f2fdd7ddfc093a912b8656928251b64a1d244f15ccfb6e4a311a457ef20af6b0d2ba16c537bc1d881b91f292aa36a128468c071f9c97dcff715d28160d524626fed069f76bb3d477377https://apibj.qiye.163.com/qiyeservice/api/account/updateAccount?account_name=xingzhuang&domain=cio.club&job_no=68&mobile=13698612743&product=qiangbi_net&time =1482475566000&sign9d6b289c344b4cfa333a2117731616090b16210cc776c11a77a109f917d6b43dca64a597aa2e56cbc026c136fef5149b55840f83c26c4b324cab73f3f0e119fe05450540775fbe392e3ab13c46943f69dc7f59d88eea5b46b4de567e4cf280127fa550f6b25d20110f8d3c6bdd553560c9e85aba3b40f809822a08007e54dd16Array
 (
-    [errcode] => 60020
-    [errmsg] => not allow to access from your ip
 )
 Array
 (
-    [errcode] => 60020
-    [errmsg] => not allow to access from your ip
-)
-Array
-(
-    [errcode] => 60020
-    [errmsg] => not allow to access from your ip
-)
-Array
-(
-    [errcode] => 60020
-    [errmsg] => not allow to access from your ip
-)
-Array
-(
-    [error_code] => SYSTEM.IPDENY:112.229.80.242
-    [suc] => 
-    [ver] => 0
-)
-全部信息:Array
-(
-    [con] => Array
+    [0] => Array
         (
-            [0] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 总经理办公室
-                    [unit_id] => 810236
-                    [unit_name] => 总经理办公室
-                )
-
-            [1] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问一部
-                    [unit_id] => 796602
-                    [unit_name] => 济南顾问一部
-                )
-
-            [2] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 运营部
-                    [unit_id] => 796598
-                    [unit_name] => 运营部
-                )
-
-            [3] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问二部
-                    [unit_id] => 796608
-                    [unit_name] => 济南顾问二部
-                )
-
-            [4] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 企业邮事业部
-                    [unit_id] => 796597
-                    [unit_name] => 企业邮事业部
-                )
-
-            [5] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 有道云协作事业部
-                    [unit_id] => 796596
-                    [unit_name] => 有道云协作事业部
-                )
-
-            [6] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 北京易至信
-                    [unit_id] => 796601
-                    [unit_name] => 北京易至信
-                )
-
-            [7] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 客服部
-                    [unit_id] => 796593
-                    [unit_name] => 客服部
-                )
-
-            [8] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 郑州胜途
-                    [unit_id] => 796603
-                    [unit_name] => 郑州胜途
-                )
-
-            [9] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 产品开发
-                    [unit_id] => 796595
-                    [unit_name] => 产品开发
-                )
-
-            [10] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 市场部
-                    [unit_id] => 796594
-                    [unit_name] => 市场部
-                )
-
-            [11] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 财务部
-                    [unit_id] => 796599
-                    [unit_name] => 财务部
-                )
-
-            [12] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作一部
-                    [unit_id] => 810238
-                    [unit_name] => 云协作一部
-                )
-
-            [13] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 行政和人事
-                    [unit_id] => 796600
-                    [unit_name] => 行政和人事
-                )
-
-            [14] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作二部
-                    [unit_id] => 810239
-                    [unit_name] => 云协作二部
-                )
-
-            [15] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作三部
-                    [unit_id] => 810240
-                    [unit_name] => 云协作三部
-                )
-
-            [16] => Array
-                (
-                    [unit_id] => 2952527_default
-                    [unit_name] => 默认部门
-                )
-
-            [17] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810246
-                    [unit_name] => 网站建设部
-                )
-
-            [18] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 803302
-                    [unit_name] => 渠道
-                )
-
-            [19] => Array
-                (
-                    [parent_id] => 796603
-                    [unit_id] => 810245
-                    [unit_name] => 郑州顾问一部
-                )
-
-            [20] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810247
-                    [unit_name] => 技术服务部
-                )
-
-            [21] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 810249
-                    [unit_name] => 市场推广
-                )
-
-            [22] => Array
-                (
-                    [unit_desc] => 总公司
-                    [unit_id] => 625726
-                    [unit_name] => 总公司
-                )
-
+            [unit_id] => 625726
+            [unit_name] => 总公司
+            [account_name] => shenhe
+            [account_openid] => 8d0a731ca91ca5bb6a87579fb7ff9860
+            [mobile] => 
+            [job_no] => shenhe
+            [nickname] => 审核发送专户
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1378716790
         )
 
-    [suc] => 1
-    [ver] => 1482117070466
 )
-全部信息:Array
+Array
 (
-    [con] => Array
+    [0] => Array
         (
-            [0] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 总经理办公室
-                    [unit_id] => 810236
-                    [unit_name] => 总经理办公室
-                )
-
-            [1] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问一部
-                    [unit_id] => 796602
-                    [unit_name] => 济南顾问一部
-                )
-
-            [2] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 运营部
-                    [unit_id] => 796598
-                    [unit_name] => 运营部
-                )
-
-            [3] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问二部
-                    [unit_id] => 796608
-                    [unit_name] => 济南顾问二部
-                )
-
-            [4] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 企业邮事业部
-                    [unit_id] => 796597
-                    [unit_name] => 企业邮事业部
-                )
-
-            [5] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 有道云协作事业部
-                    [unit_id] => 796596
-                    [unit_name] => 有道云协作事业部
-                )
-
-            [6] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 北京易至信
-                    [unit_id] => 796601
-                    [unit_name] => 北京易至信
-                )
-
-            [7] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 客服部
-                    [unit_id] => 796593
-                    [unit_name] => 客服部
-                )
-
-            [8] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 郑州胜途
-                    [unit_id] => 796603
-                    [unit_name] => 郑州胜途
-                )
-
-            [9] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 产品开发
-                    [unit_id] => 796595
-                    [unit_name] => 产品开发
-                )
-
-            [10] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 市场部
-                    [unit_id] => 796594
-                    [unit_name] => 市场部
-                )
-
-            [11] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 财务部
-                    [unit_id] => 796599
-                    [unit_name] => 财务部
-                )
-
-            [12] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作一部
-                    [unit_id] => 810238
-                    [unit_name] => 云协作一部
-                )
-
-            [13] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 行政和人事
-                    [unit_id] => 796600
-                    [unit_name] => 行政和人事
-                )
-
-            [14] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作二部
-                    [unit_id] => 810239
-                    [unit_name] => 云协作二部
-                )
-
-            [15] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作三部
-                    [unit_id] => 810240
-                    [unit_name] => 云协作三部
-                )
-
-            [16] => Array
-                (
-                    [unit_id] => 2952527_default
-                    [unit_name] => 默认部门
-                )
-
-            [17] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810246
-                    [unit_name] => 网站建设部
-                )
-
-            [18] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 803302
-                    [unit_name] => 渠道
-                )
-
-            [19] => Array
-                (
-                    [parent_id] => 796603
-                    [unit_id] => 810245
-                    [unit_name] => 郑州顾问一部
-                )
-
-            [20] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810247
-                    [unit_name] => 技术服务部
-                )
-
-            [21] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 810249
-                    [unit_name] => 市场推广
-                )
-
-            [22] => Array
-                (
-                    [unit_desc] => 总公司
-                    [unit_id] => 625726
-                    [unit_name] => 总公司
-                )
-
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => zhuangkai
+            [account_openid] => 147c9f96b91560fa630dc8003eaf949a
+            [mobile] => 
+            [job_no] => 125
+            [nickname] => 庄凯
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1461807530
         )
 
-    [suc] => 1
-    [ver] => 1482282340579
-)
-全部信息:Array
-(
-    [con] => Array
+    [1] => Array
         (
-            [0] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 总经理办公室
-                    [unit_id] => 810236
-                    [unit_name] => 总经理办公室
-                )
-
-            [1] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问一部
-                    [unit_id] => 796602
-                    [unit_name] => 济南顾问一部
-                )
-
-            [2] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 运营部
-                    [unit_id] => 796598
-                    [unit_name] => 运营部
-                )
-
-            [3] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 济南顾问二部
-                    [unit_id] => 796608
-                    [unit_name] => 济南顾问二部
-                )
-
-            [4] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 企业邮事业部
-                    [unit_id] => 796597
-                    [unit_name] => 企业邮事业部
-                )
-
-            [5] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 有道云协作事业部
-                    [unit_id] => 796596
-                    [unit_name] => 有道云协作事业部
-                )
-
-            [6] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 北京易至信
-                    [unit_id] => 796601
-                    [unit_name] => 北京易至信
-                )
-
-            [7] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 客服部
-                    [unit_id] => 796593
-                    [unit_name] => 客服部
-                )
-
-            [8] => Array
-                (
-                    [parent_id] => 796597
-                    [unit_desc] => 郑州胜途
-                    [unit_id] => 796603
-                    [unit_name] => 郑州胜途
-                )
-
-            [9] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 产品开发
-                    [unit_id] => 796595
-                    [unit_name] => 产品开发
-                )
-
-            [10] => Array
-                (
-                    [parent_id] => 625726
-                    [unit_desc] => 市场部
-                    [unit_id] => 796594
-                    [unit_name] => 市场部
-                )
-
-            [11] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 财务部
-                    [unit_id] => 796599
-                    [unit_name] => 财务部
-                )
-
-            [12] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作一部
-                    [unit_id] => 810238
-                    [unit_name] => 云协作一部
-                )
-
-            [13] => Array
-                (
-                    [parent_id] => 796598
-                    [unit_desc] => 行政和人事
-                    [unit_id] => 796600
-                    [unit_name] => 行政和人事
-                )
-
-            [14] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作二部
-                    [unit_id] => 810239
-                    [unit_name] => 云协作二部
-                )
-
-            [15] => Array
-                (
-                    [parent_id] => 796596
-                    [unit_desc] => 云协作三部
-                    [unit_id] => 810240
-                    [unit_name] => 云协作三部
-                )
-
-            [16] => Array
-                (
-                    [unit_id] => 2952527_default
-                    [unit_name] => 默认部门
-                )
-
-            [17] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810246
-                    [unit_name] => 网站建设部
-                )
-
-            [18] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 803302
-                    [unit_name] => 渠道
-                )
-
-            [19] => Array
-                (
-                    [parent_id] => 796603
-                    [unit_id] => 810245
-                    [unit_name] => 郑州顾问一部
-                )
-
-            [20] => Array
-                (
-                    [parent_id] => 796595
-                    [unit_id] => 810247
-                    [unit_name] => 技术服务部
-                )
-
-            [21] => Array
-                (
-                    [parent_id] => 796594
-                    [unit_id] => 810249
-                    [unit_name] => 市场推广
-                )
-
-            [22] => Array
-                (
-                    [unit_desc] => 总公司
-                    [unit_id] => 625726
-                    [unit_name] => 总公司
-                )
-
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => shuangshuang
+            [account_openid] => 12307c242c27300fd2bbe0c447be9b3e
+            [mobile] => 
+            [job_no] => 103
+            [nickname] => 刘双双
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1435546351
         )
 
-    [suc] => 1
-    [ver] => 1482282340579
+    [2] => Array
+        (
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => service
+            [account_openid] => 0aee9859cba267ed6a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 20111114
+            [nickname] => 客服邮箱
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1321227925
+        )
+
+    [3] => Array
+        (
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => pingping
+            [account_openid] => eaa7855e1e5cd2026a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 范平平
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1369446790
+        )
+
+    [4] => Array
+        (
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => linlin
+            [account_openid] => 202ec463f5d3c343cc258f48870b858f
+            [mobile] => 
+            [job_no] => 124
+            [nickname] => 王林林
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1460361133
+        )
+
+    [5] => Array
+        (
+            [unit_id] => 796593
+            [unit_name] => 客服部
+            [account_name] => gaofei
+            [account_openid] => 4dc663e5ca5fc6987b636b43f60a21de
+            [mobile] => 
+            [job_no] => 66
+            [nickname] => 高飞
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1410503442
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796595
+            [unit_name] => 产品开发
+            [account_name] => support
+            [account_openid] => f0498acfc15f1f406a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 000
+            [nickname] => VIP客户支持
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1263004553
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796596
+            [unit_name] => 有道云协作事业部
+            [account_name] => zhuguoping
+            [account_openid] => 4e4531a91e2f0bfb47423f3f13c80d8d
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 朱国平
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1470126645
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796598
+            [unit_name] => 运营部
+            [account_name] => hr
+            [account_openid] => 736bdf90dde0704b6a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 高珊
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1399258855
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796599
+            [unit_name] => 财务部
+            [account_name] => caiwu
+            [account_openid] => 61dad124130fddaa6a87579fb7ff9860
+            [mobile] => 15069085015
+            [job_no] => 
+            [nickname] => 李菲
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1329105005
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 796599
+            [unit_name] => 财务部
+            [account_name] => binjie
+            [account_openid] => 1ac748bcbf14fbdccc258f48870b858f
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 陈彬洁
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1447041194
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796601
+            [unit_name] => 北京易至信
+            [account_name] => yaxiao
+            [account_openid] => 9cb5400b664e1f5217e98b2aee89343a
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 张亚晓
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1472003611
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 796601
+            [unit_name] => 北京易至信
+            [account_name] => sales03
+            [account_openid] => cec096095cdd01f56a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 王艳红
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1396251447
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => zhijun
+            [account_openid] => d3f462ad7d2bbad017e98b2aee89343a
+            [mobile] => 
+            [job_no] => 144
+            [nickname] => 房志军
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1473384991
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => yangjing
+            [account_openid] => a46691c78541402a7cf1d05e495d00f5
+            [mobile] => 
+            [job_no] => 111
+            [nickname] => 杨晶
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1442475928
+        )
+
+    [2] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => tailin
+            [account_openid] => e87de72026e729cee5a6d7571c859156
+            [mobile] => 
+            [job_no] => 131
+            [nickname] => 赵太林
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1465778234
+        )
+
+    [3] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => shunya
+            [account_openid] => a9c00efa91eb95287cf1d05e495d00f5
+            [mobile] => 
+            [job_no] => 139
+            [nickname] => 刘顺亚
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1469408474
+        )
+
+    [4] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => sales08
+            [account_openid] => 8e44e38f99b6965f6a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 王新
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1329889034
+        )
+
+    [5] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => sales06
+            [account_openid] => 983db276411da2c16a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 06
+            [nickname] => 张利娟
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1329182273
+        )
+
+    [6] => Array
+        (
+            [unit_id] => 796602
+            [unit_name] => 济南顾问一部
+            [account_name] => liqiang
+            [account_openid] => 6064c4b614312575cc258f48870b858f
+            [mobile] => 
+            [job_no] => 145
+            [nickname] => 李强
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1474852663
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 796603
+            [unit_name] => 郑州胜途
+            [account_name] => market
+            [account_openid] => edbf93540f9ab7676a87579fb7ff9860
+            [mobile] => 18764466723
+            [job_no] => 
+            [nickname] => 李义伟 
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1343355345
+        )
+
+)
+Array
+(
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 803302
+            [unit_name] => 渠道
+            [account_name] => zhaowenkui
+            [account_openid] => dc09f604215ee0f8d2bbe0c447be9b3e
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 赵文奎
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1477380850
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 803302
+            [unit_name] => 渠道
+            [account_name] => sales12
+            [account_openid] => 5dd922f50900535f6a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 12
+            [nickname] => 岳丽华
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1334545025
+        )
+
+    [2] => Array
+        (
+            [unit_id] => 803302
+            [unit_name] => 渠道
+            [account_name] => qingdao
+            [account_openid] => 5ef89db5f3ead1a16a87579fb7ff9860
+            [mobile] => 
+            [job_no] => 015
+            [nickname] => 史先锋
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1271053852
+        )
+
+    [3] => Array
+        (
+            [unit_id] => 803302
+            [unit_name] => 渠道
+            [account_name] => eric.lee
+            [account_openid] => 9e09cc0ce6d0945617e98b2aee89343a
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 李琳
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1417683119
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810236
+            [unit_name] => 总经理办公室
+            [account_name] => liurui
+            [account_openid] => d798da8b160485a06a87579fb7ff9860
+            [mobile] => 18605310521
+            [job_no] => 
+            [nickname] => 刘锐
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1249374801
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810238
+            [unit_name] => 云协作一部
+            [account_name] => mengshuhong
+            [account_openid] => 86f1653ca861ffb617e98b2aee89343a
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 孟辉
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1467872577
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810239
+            [unit_name] => 云协作二部
+            [account_name] => wanzeng
+            [account_openid] => 8f3f744e91078e3bcc258f48870b858f
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 张万增
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1471915374
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 810239
+            [unit_name] => 云协作二部
+            [account_name] => beizhi
+            [account_openid] => c734412e44133cb7630dc8003eaf949a
+            [mobile] => 
+            [job_no] => 120
+            [nickname] => 刘倍志
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1459126249
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810240
+            [unit_name] => 云协作三部
+            [account_name] => wangchao
+            [account_openid] => 47d3dc61873b085a7b636b43f60a21de
+            [mobile] => 
+            [job_no] => 118
+            [nickname] => 王翠超
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1456792636
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810245
+            [unit_name] => 郑州顾问一部
+            [account_name] => zhangxiao
+            [account_openid] => 7e9522d643c330bbe5a6d7571c859156
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 张肖
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1469408595
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 810245
+            [unit_name] => 郑州顾问一部
+            [account_name] => yunjie
+            [account_openid] => 1e61c114a8c720b0b5e2c1e473b56077
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 吴云洁
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1471831572
+        )
+
+    [2] => Array
+        (
+            [unit_id] => 810245
+            [unit_name] => 郑州顾问一部
+            [account_name] => yueyue
+            [account_openid] => 0e2f8b72d2ad5edeb5e2c1e473b56077
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 刘月月
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1477358932
+        )
+
+    [3] => Array
+        (
+            [unit_id] => 810245
+            [unit_name] => 郑州顾问一部
+            [account_name] => wangcong
+            [account_openid] => f3455f6dde21d45ae5a6d7571c859156
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 王聪聪
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1460442811
+        )
+
+    [4] => Array
+        (
+            [unit_id] => 810245
+            [unit_name] => 郑州顾问一部
+            [account_name] => cuiyuantao
+            [account_openid] => f0c00030a3779eda17e98b2aee89343a
+            [mobile] => 
+            [job_no] => 
+            [nickname] => 崔渊涛
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1471226689
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810246
+            [unit_name] => 网站建设部
+            [account_name] => xiaoxiao
+            [account_openid] => f98a1be26b29f9c6b5e2c1e473b56077
+            [mobile] => 
+            [job_no] => 87
+            [nickname] => 张潇潇
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1417741182
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 810246
+            [unit_name] => 网站建设部
+            [account_name] => sheji
+            [account_openid] => 71331a22a21319e76a87579fb7ff9860
+            [mobile] => 13573186518
+            [job_no] => 
+            [nickname] => 徐海云
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1283130253
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810247
+            [unit_name] => 技术服务部
+            [account_name] => xingzhuang
+            [account_openid] => d9bef2c1588be67ccc258f48870b858f
+            [mobile] => 13698612743
+            [job_no] => 68
+            [nickname] => 赵兴壮
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1411090756
+        )
+
+    [1] => Array
+        (
+            [unit_id] => 810247
+            [unit_name] => 技术服务部
+            [account_name] => guozhen
+            [account_openid] => 08beae8a740af5ff17df06a97f123674
+            [mobile] => 
+            [job_no] => 133
+            [nickname] => 隋国珍
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1466382927
+        )
+
+)
+Array
+(
+    [0] => Array
+        (
+            [unit_id] => 810249
+            [unit_name] => 市场推广
+            [account_name] => xiaofei
+            [account_openid] => ea7c07ec2b2784a2630dc8003eaf949a
+            [mobile] => 
+            [job_no] => 121
+            [nickname] => 杨晓飞
+            [corp_id] => 25
+            [corp_name] => 山东强比信息技术有限公司 兴壮测试
+            [corpid] => wxe041af5a55ce7365
+            [create_time] => 1459817884
+        )
+
 )

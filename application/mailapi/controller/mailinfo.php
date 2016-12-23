@@ -43,6 +43,7 @@ class mailinfo
                 if ($response_json['suc']) {
                     return [$response_json['con'], true];
                 }
+		file_put_contents('a.txt',print_r($response_json,true),FILE_APPEND);
             }
         } catch (Exception $ex) {
             file_put_contents('a.txt', '获取邮件信息错误：' . print_r($ex->getMessage(), true), FILE_APPEND);

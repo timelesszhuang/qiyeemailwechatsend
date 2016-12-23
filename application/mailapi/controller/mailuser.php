@@ -207,7 +207,7 @@ class mailuser
         //必须使用post方法
         $job_no_string = $job_no ? "&job_no=$job_no" : "";
         $mobile_string = $mobile ? "&mobile=$mobile" : "";
-        $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product=" . $product . "&time =" . $time;
+        $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product=" . $product . "&time=" . $time;
         try {
             if (openssl_sign($src, $out, $res)) {
                 $sign = bin2hex($out);
@@ -218,7 +218,6 @@ class mailuser
                     //华东
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/account/updateAccount";
                 }
-                file_put_contents('a.txt', $url.'?'.$src.'&sign'.$sign, FILE_APPEND);
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
                 if ($response_json['suc']) {
                     Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile]);

@@ -207,7 +207,7 @@ class mailuser
         //必须使用post方法
         $job_no_string = $job_no ? "&job_no=$job_no" : "";
         $mobile_string = $mobile ? "&mobile=$mobile" : "";
-        $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product=" . $product . "&time =" . $time;
+        $src = "account_name=" . $account . "&domain=" . $domain . $job_no_string . $mobile_string . "&product=" . $product . "&time=" . $time;
         file_put_contents('a.txt', $src);
         try {
             if (openssl_sign($src, $out, $res)) {

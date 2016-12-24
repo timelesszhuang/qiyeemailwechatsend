@@ -2,6 +2,8 @@
 namespace app\admin\controller;
 
 
+use app\mailapi\controller\maildep;
+use app\mailapi\controller\mailuser;
 use think\Db;
 use think\Session;
 
@@ -10,14 +12,6 @@ class Index extends Base
 
     public function _initialize()
     {
-        /*        //测试数据
-                Session::set('api_status', '10');
-                Session::set('corp_id', '5');
-                Session::set('corpid', 'wxe041af5a55ce7365');
-                Session::set('product', 'qiangbi_net');
-                Session::set('privatesecret', '-----BEGIN RSA PRIVATE KEY----- MIICXgIBAAKBgQDImsqx5wgohQqq2p+AAxNR1s5QfkoO9LJ+nTRBa4lqg8oPkbuN YgLSD3Y0wVF1i0vffaLuVz6Jlmr4dQAGI0CuYSMmuDyaMId5cyoHeqCACRA/uQev iT9XYO2n6z7l8h61dDEOx028vc+vcwVkghmAqMKhNzmEJX/CfqclVQXahwIDAQAB AoGAB9OqRuips9MFCIeBI6B7F31XDWLwBsdbU39Us5y7ftFnh9X6yFhjnciGpyZH xFtL+YtQWRZEVV/uCoWeG58yfcmDo8NnDfNZZVpXDKdvVoW1JDGdIX6rhHmRUiso qA6m1N7GtU/lErz19dBb8Dj+GZh116fPw5u2HOMsu5bOKmkCQQD2W1nwOYmiz2k9 01h19ZXjIH5hiax7UurQW3wUXe4VQb6FH8qEBRhO+CyoWleZq+x1czoxGKrW+P08 sYLMkU6LAkEA0HT5oS9H+mlmotOhdDL6dnbsaq6od9ivvCR4FKsu/x1Jq4fL9iej 7dIgi2s3qjkO/QCy2O7yyf/An5tz7LJ/dQJBAIAJeFPmw4bPf2X3irk72xvBTo3I 7NDnhkylz3YSX2PC2I79t9Yng7u/Ng6FbZPbi7h7G5patKenno3FwDIrrwMCQQCX wpF6J1HfnJx8LlZ8oiB13l5/zGgZ2EcYUfSaF4Y/dLMNje+PZYySt0e6OHRuGNww lTGffVaEeQ1jJWlgCROBAkEA9gCeU1HUkQcRZCtMh6uC8J/dv0FFMaxWJnz3yLO/ dHz9XDwjTJxyC6AN3VhD+FU4hRMyaAKjUCreNDcZLza1KA== -----END RSA PRIVATE KEY-----');
-                Session::set('domain', 'cio.club');
-                Session::set('corp_name', '山东强比信息技术');*/
         parent::_initialize();
     }
 
@@ -135,5 +129,32 @@ html;
         exit(json_encode(array("tooltip_title" => "次（去重之后）", 'title' => '总活跃度曲线', 'subtitle' => '', 'y' => '次', 'time' => $time_arr, 'statistic' => array($count))));
     }
 
+    /**
+     * 更新通讯录信息
+     */
+    public function update_addresslist()
+    {
+        if (!Session::has('corp_id')) {
+            exit(json_encode(['msg' => '您的api 绑定信息暂时不可用，请稍后重试，或通过七鱼联系我们。', 'status' => 'failed']));
+        }
+        //从数据库中获取所属部门信息
+        $corpid = Session::get('corpid');
+        $corp_id = Session::get('corp_id');
+        $flag = Session::get('flag');
+        $corp_name = Session::get('corp_name');
+        $prikey = Session::get('privatesecret');
+        $product = Session::get('product');
+        $domain = Session::get('domain');
+        //获取组织架构的数据 首先删除信息 然后更新数据
+        if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
+            //成功的话在获取部门下的职员数据
+            if (mailuser::exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
+                exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'success']));
+            }
+        }
+        // 更新部门信息失败的情况 返回
+        exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'failed']));
+
+    }
 
 }

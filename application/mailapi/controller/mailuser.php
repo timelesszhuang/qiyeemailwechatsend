@@ -142,51 +142,6 @@ class mailuser
 
 
     /**
-     * 添加手机号码查询
-     * @access public
-     * @param $prikey 公钥私钥
-     * @param $domain 域名
-     * @param $product 产品
-     * @param $flag 标志
-     * @param $mobile 手机号码
-     * @param $account 邮箱账号
-     * @param $id 更新数据
-     */
-    /*  public static function add_mobile($prikey, $domain, $product, $flag, $mobile, $account, $id)
-      {
-  //        https://apibj.qiye.163.com/qiyeservice/api/mobile/addMobile?
-  //        account_name=zhangsan&domain=abc.com&
-  //        mobile=13612312312&
-  //        product=abc_com&
-  //        time=1418559787507&
-  //        sign=account_name=zhangsan&domain=abc.com&mobile=13612312312&product=abc_com&time=1418559787507
-          //私钥
-          $time = date(time()) . '000';
-          $res = openssl_pkey_get_private($prikey);
-          //需要逐条获取部门信息
-          //必须使用post方法
-          $src = "account_name=" . $account . "&domain=" . $domain . "&mobile=" . $mobile . "&product=" . $product . "&time=" . $time;
-          if (openssl_sign($src, $out, $res)) {
-              $sign = bin2hex($out);
-              if ($flag == '10') {
-                  //华北
-                  $url = "https://apibj.qiye.163.com/qiyeservice/api/mobile/addMobile";
-              } else {
-                  //华东
-                  $url = "https://apihz.qiye.163.com/qiyeservice/api/mobile/addMobile";
-              }
-              $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
-              if ($response_json['suc']) {
-                  Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile]);
-                  exit(json_encode(['msg' => '绑定手机成功', 'status' => 'success']));
-              }
-              $msg = '绑定手机失败,错误参数' . $response_json['error_code'];
-              exit(json_encode(['msg' => $msg, 'status' => 'failed']));
-          }
-          exit(json_encode(['msg' => '更新失败，请稍后重试。', 'status' => 'success']));
-      }*/
-
-    /**
      * 更新 用户相关信息
      * @access public
      * @param $prikey

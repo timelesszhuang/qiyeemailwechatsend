@@ -12,6 +12,7 @@
 <div class="alert alert-info alert-dismissible" role="alert">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     {$msg}
+    <button type="button" class="btn btn-success" id="update_address_info"><span class=""></span>更新通讯录</button>
 </div>
 <div class="row">
     <div class="col-sm-6">
@@ -68,32 +69,52 @@
     </div>
 </div>
 <script>
-    try {
-        load_order_data("<?php echo Url('index/emailsend_count_order'); ?>");
-    } catch (ex) {
-        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
-    }
 
-    //总的数量
-    try {
-        load_allcount_html("<?php echo Url('index/load_allcount_html'); ?>");
-    } catch (ex) {
-        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
-    }
+    $(function () {
+        $('#update_address_info').click(function () {
+            var url="<?php echo Url('index/update_addresslist'); ?>";
+            $.ajax({
+                url: url,
+                dataType: "json",
+                success: function (data) {
+                    if (data.status == 'success') {
+                        $.messager.alert('更新通讯录状态', '更新成功', 'success');
+                    } else {
+                        $.messager.alert('更新通讯录状态', '更新失败，请稍后重试', 'error');
+                    }
+                },
+                error: function () {
+                    $.messager.alert('更新通讯录状态', '更新失败，请稍后重试', 'error');
+                }
+            })
+        });
+        try {
+            load_order_data("<?php echo Url('index/emailsend_count_order'); ?>");
+        } catch (ex) {
+            $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+        }
+
+        //总的数量
+        try {
+            load_allcount_html("<?php echo Url('index/load_allcount_html'); ?>");
+        } catch (ex) {
+            $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+        }
 
 
-    try {
-        load_entrymail_data("<?php echo Url('index/get_entryemail_count'); ?>");
-    } catch (ex) {
-        $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
-    }
+        try {
+            load_entrymail_data("<?php echo Url('index/get_entryemail_count'); ?>");
+        } catch (ex) {
+            $.messager.alert('首页数据加载失败', '客户统计模块加载失败', 'error');
+        }
 
-    //获取活跃度数量
-    try {
-        load_activecount_data("<?php echo Url('index/get_distinctactive_count'); ?>");
-    } catch (ex) {
-        $.messager.alert('首页数据加载失败', '获取客户活跃度模块加载失败', 'error');
-    }
+        //获取活跃度数量
+        try {
+            load_activecount_data("<?php echo Url('index/get_distinctactive_count'); ?>");
+        } catch (ex) {
+            $.messager.alert('首页数据加载失败', '获取客户活跃度模块加载失败', 'error');
+        }
+    });
 
 
     /**
@@ -160,8 +181,6 @@
             series: statistic
         });
     }
-
-
 
 
     //加载客户积分数据

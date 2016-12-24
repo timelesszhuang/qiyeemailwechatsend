@@ -49,9 +49,9 @@
         </div>
         <div class="row">
             <div class="col-sm-12" style="padding-bottom:10px;margin: 0px auto;">
-                <button type="button" class="btn btn-info" id="btn-refresh">
+<!--            <button type="button" class="btn btn-info" id="btn-refresh">
                     <span class="glyphicon glyphicon-refresh"></span>更新通讯录
-                </button>
+                </button>-->
                 <?php if(!$msg){?>
                 <button type="button" class="btn btn-default" id="update-my-info">
                     <span class="glyphicon glyphicon-edit"></span>我的信息
@@ -78,6 +78,7 @@
             var results = $searchableTree.treeview('search', [pattern, options]);
         };
         $('#input-search').on('keyup', search);
+
         /**
          * 更新通讯录信息
          */
@@ -164,6 +165,7 @@
         });
         return r_data;
     }
+
 
     /**
      * 打开窗体

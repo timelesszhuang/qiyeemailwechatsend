@@ -219,6 +219,7 @@ class mailuser
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/account/updateAccount";
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
+                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc']) {
                     Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile, 'job_no' => $job_no]);
                     exit(json_encode(['msg' => '更新信息成功', 'status' => 'success']));

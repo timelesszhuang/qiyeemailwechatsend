@@ -224,7 +224,7 @@ class mailuser
                     Db::name('mail_user')->where(['id' => $id])->update(['mobile' => $mobile, 'job_no' => $job_no]);
                     exit(json_encode(['msg' => '更新信息成功', 'status' => 'success']));
                 }
-                $msg = '绑定手机失败,错误参数' . $response_json['error_code'];
+                $msg = '更新信息失败失败,错误参数' . $response_json['error_code'];
                 exit(json_encode(['msg' => $msg, 'status' => 'failed']));
             }
         } catch (Exception $ex) {

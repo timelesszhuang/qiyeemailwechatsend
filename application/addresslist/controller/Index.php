@@ -224,7 +224,6 @@ class Index extends Controller
         $old_job_no = Request::instance()->param('old_job_no');
         Session::get('corp_name');
         mailuser::update_user_info(Session::get('privatesecret'), Session::get('domain'), Session::get('product'), Session::get('flag'), $mobile, $job_no, $account, $id);
-        exit(json_encode(['status' => 'success', 'msg' => '更新数据成功']));
     }
 
 

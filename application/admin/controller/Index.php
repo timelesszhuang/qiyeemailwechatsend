@@ -137,24 +137,12 @@ html;
         if (!Session::has('corp_id')) {
             exit(json_encode(['msg' => '您的api 绑定信息暂时不可用，请稍后重试，或通过七鱼联系我们。', 'status' => 'failed']));
         }
-        //从数据库中获取所属部门信息
-        $corpid = Session::get('corpid');
-        $corp_id = Session::get('corp_id');
-        $flag = Session::get('flag');
-        $corp_name = Session::get('corp_name');
-        $prikey = Session::get('privatesecret');
-        $product = Session::get('product');
-        $domain = Session::get('domain');
-        //获取组织架构的数据 首先删除信息 然后更新数据
-        if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
-            //成功的话在获取部门下的职员数据
-            if (mailuser::exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
-                exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'success']));
-            }
+        //成功的话在获取部门下的职员数据
+        if ((new \app\addresslist\controller\Index())->exec_update_addresslist()) {
+            exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'success']));
         }
         // 更新部门信息失败的情况 返回
         exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'failed']));
-
     }
 
 }

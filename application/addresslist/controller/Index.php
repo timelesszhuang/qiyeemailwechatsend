@@ -18,7 +18,7 @@ class Index extends Controller
     public function index()
     {
         // 首先要做的第一步是获取　当前职员的数据　然后村粗在session 中
-//        return $this->fetch('msg',['msg'=>'测试']);
+        // return $this->fetch('msg',['msg'=>'测试']);
         //首先判断是不是请求来自微信
         $corpid = Request::instance()->param('corpid');
         if (!$corpid) {
@@ -96,6 +96,19 @@ class Index extends Controller
         if (!Session::has('corpid')) {
             exit(json_encode(['msg' => '您的请求有误,请重新请求', 'status' => 'failed']));
         }
+        if ($this->exec_update_addresslist()) {
+            exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'success']));
+        }
+        // 更新部门信息失败的情况 返回
+        exit(json_encode(['msg' => '通讯录更新失败', 'status' => 'failed']));
+    }
+
+    /**
+     * 执行更新地址操作
+     * @access private
+     */
+    public function exec_update_addresslist()
+    {
         //从数据库中获取所属部门信息
         $corpid = Session::get('corpid');
         $corp_id = Session::get('corp_id');
@@ -108,22 +121,22 @@ class Index extends Controller
         if (maildep::exec_update_alldep($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
             //成功的话在获取部门下的职员数据
             if (mailuser::exec_update_alluser($prikey, $domain, $product, $flag, $corp_id, $corpid, $corp_name)) {
-                exit(json_encode(['msg' => '数据更新成功', 'status' => 'success']));
+                return true;
             }
         }
         // 更新部门信息失败的情况 返回
-        exit(json_encode(['msg' => '更新数据失败', 'status' => 'failed']));
+        return false;
     }
 
     /**
      * ajax 获取信息
      * @access public
+     * @param int $count 该参数用于防止死循环
      */
-    public function get_data()
+    public function get_data($count = 1)
     {
         //首先获取部门的数据
         $corpid = Session::get('corpid');
-        $corpid = 'wxe041af5a55ce7365';
         if (!$corpid) {
             exit('请求异常。');
         }
@@ -151,6 +164,12 @@ class Index extends Controller
         if (!empty($all_info)) {
             //生成树状图
             exit(json_encode($this->list_to_tree($all_info)));
+        }
+        //第一次没有获取到 更新一下 再返回数据试下
+        if ($count = 1) {
+            //获取下数据然后返回
+            $this->exec_update_addresslist();
+            $this->get_data(2);
         }
     }
 

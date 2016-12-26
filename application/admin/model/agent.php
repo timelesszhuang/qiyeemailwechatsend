@@ -165,19 +165,20 @@ class agent
         if ($status) {
             //表示已经完成或者其他的审核没有通过 或者是其他的操作
             $check_status = $info['status'];
+            //统计进入应用信息
+            $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+            list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
+            Db::name('entermail_log')->insertGetId([
+                'corp_id' => $info['corp_id'],
+                'corp_name' => $info['corp_name'],
+                'corpid' => $corpid,
+                'wechat_userid' => $reqFromUserName,
+                'user_name' => $wechat_name,
+                'entry_time' => time(),
+            ]);
             switch ($check_status) {
                 case '10':
                     //绑定之后的
-                    $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
-                    list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($reqFromUserName, $corp_access_token);
-                    Db::name('entermail_log')->insertGetId([
-                        'corp_id' => $info['corp_id'],
-                        'corp_name' => $info['corp_name'],
-                        'corpid' => $corpid,
-                        'wechat_userid' => $reqFromUserName,
-                        'user_name' => $wechat_name,
-                        'entry_time' => time(),
-                    ]);
                     break;
                 case '20':
                     $content = '您的账号绑定信息正在审核中，请耐心等待审核通过，如有疑问请联系贵公司企业号管理者。';

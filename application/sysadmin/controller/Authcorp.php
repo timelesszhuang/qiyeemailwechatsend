@@ -158,6 +158,7 @@ class Authcorp extends Base
         $d['flag'] = Request::instance()->param('flag');
         $d['corpid'] = Request::instance()->param('corpid');
         $d['corp_id'] = Request::instance()->param('corp_id');
+        $d['addresslist_show'] = Request::instance()->param('addresslist_show');
         if (!$d['product'] || !$d['domain'] || !$d['corp_name'] || !$d['user_num']) {
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '每一项内容都不能为空。', self::error));
         }

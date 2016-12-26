@@ -102,7 +102,7 @@ class cachetool
     private static function get_init_corpid_bindinfo_info($mem)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
-        $info = Db::name('corp_bind_api')->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status')->select();
+        $info = Db::name('corp_bind_api')->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->select();
         $corpid_bindinfo_arr = [];
         foreach ($info as $k => $v) {
             $corpid_bindinfo_arr[$v['corpid']] = [
@@ -114,6 +114,7 @@ class cachetool
                 'domain' => $v['domain'],
                 'corp_name' => $v['corp_name'],
                 'api_status' => $v['api_status'],
+                'addresslist_show' => $v['addresslist_show']
             ];
         }
         $mem->set(Config::get('memcache.CORPID_BINDINFO'), $corpid_bindinfo_arr);

@@ -119,7 +119,6 @@ class SyseventModel
                         'permanent_code' => $permanent_code,
                     ]);
                     $json_auth_info = common::send_curl_request($get_changed_auth_url, $post, 'post');
-//                    file_put_contents('a.txt', '|||||json_auth_info' . $json_auth_info, FILE_APPEND);
                     $auth_info = json_decode($json_auth_info, true);
                     if (!auth::analyse_changeauth_corp_auth($auth_info)) {
                         return;

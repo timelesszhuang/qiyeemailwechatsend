@@ -28,6 +28,10 @@ class Index extends Controller
         if (empty($bind_info) || $bind_info['api_status'] != '10') {
             return $this->fetch('msg', ['msg' => '贵公司网易企业邮箱接口暂时不可用']);
         }
+        //表示不允许查看通讯录
+        if ($bind_info['addresslist_show'] == '20') {
+            return $this->fetch('msg', ['msg' => '贵公司通讯录暂暂不可用，若开启请贵公司管理员联系 4006360163 （山东强比信息技术有限公司）。']);
+        }
         $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();

@@ -2,49 +2,6 @@
  * 公共使用的文件
  */
 
-/**
- * @returns
- */
-function changeTheme(themeName) {
-    var $theme = $('#theme');
-    var url = $theme.attr('href');
-    var href = url.substring(0, url.indexOf('css')) + 'css/bootstrap.min.' + themeName + '.css';
-    $theme.attr('href', href);
-    $.cookie('theme', themeName, {expires: 7});
-}
-
-
-/**
- * 分成两栏的 左边是 链接列表  右边是 显示位置的  ajax 获取数据
- */
-function show_byleftlink(id, data) {
-    var show_id = 'leftlink_' + id + '_show_div';
-    var selecter = 'leftlink_' + id;
-    $('#' + selecter + ' a').click(function () {
-        var type = $(this).attr('type');
-        var url = $(this).attr('r_href');
-        $(this).siblings('a').removeClass('list-group-item-success');
-        $(this).addClass('list-group-item-success');
-        switch (type) {
-            case 'dialog':
-                //这个地方有问题   打开模态框 参数不足  有一些地方是
-                var modal_id = $(this).attr('modal_id');
-                open_modal(modal_id, url);
-                break;
-            case 'page':
-                if (url) {
-                    get_html_byajax(url, show_id, data);
-                }
-                break;
-            case 'redirect_newwindow':
-                //暂时没有使用到
-                break;
-        }
-    });
-    //默认选中的模拟点击打开页面
-    $('#' + selecter + ' .list-group-item-success').trigger('click');
-}
-
 
 /**
  *   打开模态窗体  操作完成之后没有更新之类的操作
@@ -260,6 +217,31 @@ function edit_record_modal(record_id, link, datagrid_id, pre_modal_id) {
     }
 }
 
+/**
+ * 显示系统管理员的相关信息 方便联系
+ * @access
+ */
+function show_admincontact_modal(record_id, link, pre_modal_id) {
+    var modal_id = pre_modal_id + '_modal';
+    var modal_content_id = pre_modal_id + '_content';
+    $('#' + modal_id).modal('show');
+    //要把datagrid 数据存储处在页面的隐藏字段中
+    var data = new Array();
+    data["modal_id"] = modal_id;
+    data["id"] = record_id;
+    var datastring = form_ajax_data_byarray(data);
+    var status = get_html_byajax(link, modal_content_id, datastring);
+    if (status) {
+        //这个地方解决 kindeditor 弹出层输入框不能输入框体
+        $('#' + modal_id).on('shown.bs.modal', function () {
+            $(document).off('focusin.modal');
+        });
+//        $('#' + modal_id).modal('show');
+    } else {
+        alert('打开模态框失败。');
+    }
+}
+
 
 /**
  * ajax 更新操作完成之后操作
@@ -297,24 +279,6 @@ function open_window(id, href) {
     var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;           //获得窗口的水平位置;
     var location = href + '?id=' + id;
     var win_name = 'cus_' + id;
-    var win = window.open(location, win_name, 'height=' + iHeight + ',width=' + iWidth + ',top=0,left=' + iLeft + ', toolbar = no, menubar = no, scrollbars = yes, resizable = no, location = no, status = no');
-    if (!win || (win.closed || !win.focus) || typeof (win.document) == 'unknown' || typeof (win.document) == 'undefined') {
-        alert('您的请求被拦截，请永久允许弹出窗体');
-    }
-    win.focus();
-}
-
-
-/**
- * 打开地图的浏览器窗体
- */
-function open_map_window(id, href) {
-    //左右居中操作 宽度合适
-    var iWidth = window.screen.availWidth - 100;
-    var iHeight = window.screen.availHeight - 100;
-    var iLeft = (window.screen.availWidth - 10 - iWidth) / 2;           //获得窗口的水平位置;
-    var location = href + '?id=' + id;
-    var win_name = 'map_' + id;
     var win = window.open(location, win_name, 'height=' + iHeight + ',width=' + iWidth + ',top=0,left=' + iLeft + ', toolbar = no, menubar = no, scrollbars = yes, resizable = no, location = no, status = no');
     if (!win || (win.closed || !win.focus) || typeof (win.document) == 'unknown' || typeof (win.document) == 'undefined') {
         alert('您的请求被拦截，请永久允许弹出窗体');
@@ -407,17 +371,6 @@ function submit_form(action, data) {
 
 
 /**
- * 确认是不是要关闭modal
- */
-function confirm_closemodal(data, modal_id) {
-    $.messager.confirm(data.title, data.msg, function (status) {
-        if (status) {
-            $('#' + modal_id).modal('toggle');
-        }
-    });
-}
-
-/**
  *根据关联的数组生成ajax 提交的数据
  *@param {array} data 一维关联数组
  */
@@ -432,15 +385,6 @@ function form_ajax_data_byarray(data) {
         }
     }
     return datastring;
-}
-
-/**
- * 某一个框体在加载数据的时候显示load。。。。
- * @param {string} show_div_id 要展示在的div 的id
- */
-function load_info_gif(show_div_id) {
-    var img = "/static/sys/image/load.gif";
-    $('#' + show_div_id).html('<img src="' + img + '" tag="加载中">');
 }
 
 

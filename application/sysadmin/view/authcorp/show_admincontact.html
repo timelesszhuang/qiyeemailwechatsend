@@ -1,0 +1,41 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+    <h4 class="modal-title" id="myModalLabel">
+        企业号管理员信息
+    </h4>
+</div>
+<div class="modal-body">
+    <div style="width:80%; margin: 0px auto;">
+        <form class="form-horizontal" id="bind_info_form">
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">公司名称</label>
+                <div class="col-sm-7">
+                    {$corp_name}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">姓名</label>
+                <div class="col-sm-7">
+                    {$name}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">手机号码</label>
+                <div class="col-sm-7">
+                    {$mobile}
+                </div>
+            </div>
+            <div class="form-group">
+                <label for="" class="col-sm-2 control-label">邮箱</label>
+                <div class="col-sm-7">
+                    {$email}
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+</div>

@@ -62,7 +62,8 @@
         //表示是 开启还是关闭
         var hrefstatus = '<?php echo Url("authcorp/cancelorok_sendmail")?>';
         var hrefcopy = '<?php echo Url("authcorp/copy_crontab_set");?>';
-        load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal);
+        var hrefadmincontact='<?php echo Url("authcorp/show_admincontact");?>';
+        load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, hrefadmincontact, edit_modal);
 
         $('#quick_query').click(function () {
             var corp_name = $('#auth_corp_name').val();
@@ -84,7 +85,7 @@
     /**
      * 加载datagrid 信息
      */
-    function load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, edit_modal) {
+    function load_authcorp_datagrid(datagrid_id, urljson, hrefaddapi, hrefstatus, hrefcopy, hrefadmincontact, edit_modal) {
         $('#' + datagrid_id).datagrid({
             url: urljson,
             idField: 'id',
@@ -128,7 +129,8 @@
                         }
                         return '<img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/pencil.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefaddapi + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')"  title="修改添加网易邮箱API绑定信息"/>&nbsp;&nbsp;\n\
                                  <img class="btn_do" src="/static/jquery-easyui-1.5/themes/icons/' + img + '" onclick="cancelorok_sendmail(\'' + row.id + '\',\'' + hrefstatus + '\',\'' + datagrid_id + '\',\'' + status + '\')" title="' + title + '"/>&nbsp;&nbsp;\n\ ' +
-                                '<img class="btn_do" src="/static/sys/image/code.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefcopy + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ';
+                                '<img class="btn_do" src="/static/sys/image/code.png" onclick="edit_record_modal(\'' + row.id + '\',\'' + hrefcopy + '\',\'' + datagrid_id + '\',\'' + edit_modal + '\')" title="复制crontab代码"/>&nbsp;&nbsp;\n\ ' +
+                                '<img class="btn_do" src="/static/sys/image/user_admin.png" onclick="show_admincontact_modal(\'' + row.id + '\',\'' + hrefadmincontact + '\',\'' + '\',\'' + edit_modal + '\')" title="查看管理员联系方式"/>&nbsp;&nbsp;\n\ ';
                     }, align: 'center'
                 }
             ]]

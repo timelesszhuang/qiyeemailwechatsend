@@ -11,6 +11,7 @@ namespace app\sysadmin\controller;
 
 use app\admin\model\cachetool;
 use app\common\model\common;
+use app\common\model\wechattool;
 use think\Config;
 use think\Db;
 use think\Request;
@@ -217,6 +218,27 @@ class Authcorp extends Base
         $corpid = Db::name('auth_corp_info')->where(['id' => $id])->find()['corpid'];
         $url = '*/1 * * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=' . $id . '&corpid=' . $corpid . '"';
         return $this->fetch('copy_crontab_set', ['url' => $url]);
+    }
+
+    /**
+     * 显示管理员的相关信息
+     * @access public
+     */
+    public function show_admincontact()
+    {
+        //这个是corp_id  这个是指的是
+        $this->get_assign();
+        $id = Request::instance()->param('id');
+        $corpinfo = Db::name('auth_corp_info')->where(['id' => $id])->find();
+        //获取职员信息
+        if ($corpinfo['userid']) {
+            list($name, $mobile, $email) = wechattool::get_wechat_userid_info($corpinfo['userid'], wechattool::get_corp_access_token($corpinfo['corpid'], $corpinfo['permanent_code']));
+        } else {
+            $name = '';
+            $mobile = '';
+            $email = '';
+        }
+        return $this->fetch('show_admincontact', ['name' => $name, 'corp_name' => $corpinfo['corp_name'], 'mobile' => $mobile, 'email' => $email]);
     }
 
 

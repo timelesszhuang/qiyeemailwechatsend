@@ -59,7 +59,7 @@ class Login extends Controller
             $this->redirect('Index/index');
         } else {
             //账号信息有问题  提示联系我们
-            return $this->fetch('Index/index', ['msg' =>'贵公司网易企业邮箱接口暂时不可用，请拨打 4006360163 （网易企业服务） 联系我们，或通过 在线咨询 联系我们。']);
+            return $this->fetch('index/index', ['msg' =>'贵公司网易企业邮箱接口暂时不可用，请拨打 4006360163 （网易企业服务） 联系我们，或通过 在线咨询 联系我们。']);
         }
 
     }

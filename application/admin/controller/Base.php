@@ -39,7 +39,6 @@ class Base extends Controller
             //表示没有登陆的操作
             exit('登陆异常，请从微信后台企业邮箱套件设置点击登陆。');
             //提示下在哪登陆
-            
         }
     }
 

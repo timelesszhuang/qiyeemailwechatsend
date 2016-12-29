@@ -21,6 +21,7 @@ class Login extends Controller
      */
     public function index()
     {
+        Session::clear();
         //获取登陆这的相关信息
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_login_info?access_token=' . wechattool::get_provider_token();
         $auth_code = Request::instance()->param('auth_code');

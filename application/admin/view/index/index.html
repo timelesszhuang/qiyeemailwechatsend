@@ -5,7 +5,18 @@
 {include file="index:navbar"/}
 <div style="clear: both"></div>
 <div class='width-container container' id='show_div'>
+    <?php
+    if(isset($msg)){
+    ?>
+    <div class="alert alert-danger" role="alert">{$msg}</div>
+    <?php
+    }else{
+    ?>
     {include file='index:load_index'/}
+    <?php
+    }
+    ?>
+
 </div>
 
 <!--modal 模态框-->

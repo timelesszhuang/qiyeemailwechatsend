@@ -280,7 +280,6 @@ class auth
      */
     public static function cancel_auth($corpid)
     {
-//        file_put_contents('a.txt', 'CORPID:' . $corpid, FILE_APPEND);
         $map['corpid'] = $corpid;
         // 把查询条件传入查询方法
         $pre_corpinfo = Db::name('auth_corp_info')->where($map)->find();
@@ -288,15 +287,14 @@ class auth
         $a = [
             'pre_corp_id' => $id,
             'pre_corpid' => $corpid,
-            'corp_name' => $pre_corpinfo['corp_full_name'],
+            'corp_name' => $pre_corpinfo['corp_full_name'] ?: $pre_corpinfo['corp_name'],
             'email' => $pre_corpinfo['email'],
             'mobile' => $pre_corpinfo['mobile'],
             'canceltime' => time()
         ];
-//        file_put_contents('a.txt', 'PRE_CORPINFO:' . print_r($a, true), FILE_APPEND);
         Db::startTrans();
         try {
-            //把已经取消授权的人的信息删除        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
+            //把已经取消授权的人的信息删除
             Db::name('cancel_corp_info')->insert($a);
             //删除 组织的信息
             Db::name('auth_corp_info')->where($map)->delete();

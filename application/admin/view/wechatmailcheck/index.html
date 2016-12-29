@@ -1,4 +1,8 @@
 <include file="Public:alert"/>
+
+<?php
+if(!isset($msg)){
+?>
 <div class="page-header page-header-title">
     <h4><img src="/static/sys/image/approval.png">&nbsp;&nbsp;邮箱审核</h4>
 </div>
@@ -32,7 +36,10 @@
     <table id="wechatuser_mailcheck_datagrid">
     </table>
 </div>
-
+<?php }else{ ?>
+<div class="alert alert-danger" role="alert"><h3>{$notbind_msg}</h3></div>
+<?php }
+?>
 <script>
     $(function () {
         var classid = 'wechatuser_mailcheck';

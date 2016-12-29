@@ -22,7 +22,6 @@ class Index extends Base
      */
     public function index()
     {
-
         if (Session::has('api_status')) {
             return $this->fetch('index', ['msg' => '登录成功。']);
         } else {

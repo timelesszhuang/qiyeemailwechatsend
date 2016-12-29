@@ -230,13 +230,15 @@ class Authcorp extends Base
         $this->get_assign();
         $id = Request::instance()->param('id');
         $corpinfo = Db::name('auth_corp_info')->where(['id' => $id])->find();
+        $email = $corpinfo['email'];
+        $mobile = $corpinfo['mobile'];
         //获取职员信息
         if ($corpinfo['userid']) {
-            list($name, $mobile, $email) = wechattool::get_wechat_userid_info($corpinfo['userid'], wechattool::get_corp_access_token($corpinfo['corpid'], $corpinfo['permanent_code']));
+            list($name, $adminmobile, $adminemail) = wechattool::get_wechat_userid_info($corpinfo['userid'], wechattool::get_corp_access_token($corpinfo['corpid'], $corpinfo['permanent_code']));
+            $email = $adminemail ?: $email;
+            $mobile = $adminmobile ?: $mobile;
         } else {
             $name = '';
-            $mobile = '';
-            $email = '';
         }
         return $this->fetch('show_admincontact', ['name' => $name, 'corp_name' => $corpinfo['corp_name'], 'mobile' => $mobile, 'email' => $email]);
     }

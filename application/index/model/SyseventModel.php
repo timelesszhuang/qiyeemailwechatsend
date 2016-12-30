@@ -101,9 +101,6 @@ class SyseventModel
                 case "create_auth":
                     //获取 临时授权码 临时授权码使用一次后即失效　
                     $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
-                    //file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
-                    //file_put_contents('a.txt', 'xml:' . print_r($sMsg, true), FILE_APPEND);
-                    //file_put_contents('a.txt', 'authcode:' . $authcode, FILE_APPEND);
                     //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
                     self::analyse_permanent_codeinfo($suite_id, $authcode);
                     break;
@@ -147,21 +144,17 @@ class SyseventModel
     public static function analyse_permanent_codeinfo($suite_id, $authcode)
     {
         $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
-        //file_put_contents('a.txt', '$get_permanent_code_url:' . $get_permanent_code_url, FILE_APPEND);
         $post = json_encode([
             'suite_id' => $suite_id,
             'auth_code' => $authcode,
         ]);
-        //file_put_contents('a.txt', 'post:' . $post, FILE_APPEND);
         //永久授权码，并换取授权信息、企业access_token
         $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
         $auth_info = json_decode($json_auth_info, true);
-        //file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
         list($analyse_status, $corpid) = auth::analyse_init_corp_auth($auth_info);
         if (!$analyse_status) {
             return [false, $corpid];
         }
-        //file_put_contents('a.txt', 'auth_info:' . print_r($auth_info, true), FILE_APPEND);
         return [true, $corpid];
     }
 

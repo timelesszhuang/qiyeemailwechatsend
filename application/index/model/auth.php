@@ -47,9 +47,7 @@ class auth
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
         list($add_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id, $corpid);
         //更新 公司授权表的 auth_corp_info 表的 agent 相关信息
-        //file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         self::update_corp_agentinfo($agent_info, $corp_id);
-        //file_put_contents('a.txt', '||||add_auth_agent_info:' . print_r($add_auth_agent_info, true), FILE_APPEND);
         //保存错误 数据到数据库中
         if (!self::add_auth_agent_info($add_auth_agent_info)) {
             common::add_log('添加预授权信息公司信息失败。', print_r($auth_info, true));

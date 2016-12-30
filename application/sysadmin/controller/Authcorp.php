@@ -284,7 +284,7 @@ class Authcorp extends Base
         $db = Db::name('cancel_corp_info');
         $count = $db->where($map)->count('id');
         $info = $db->where($map)->limit($firstRow, $pageRows)
-            ->select();
+            ->order('id desc')->select();
         $auth_model = new \app\sysadmin\model\authcorp();
         array_walk($info, array($auth_model, 'formatter_cancel_corp_info'));
         if ($count != 0) {

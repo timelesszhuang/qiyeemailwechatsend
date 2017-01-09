@@ -29,7 +29,7 @@ class mailinfo
             //必须使用post方法
             $src = "domain=" . $domain . "&product=" . $product . "&time=" . $time;
             if (openssl_sign($src, $out, $res)) {
-                $sign = bin2hex($out);
+                $sign = bin2hex(base64_encode($out));
                 if ($flag == '10') {
                     //华北
                     $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";
@@ -43,7 +43,7 @@ class mailinfo
                 if ($response_json['suc']) {
                     return [$response_json['con'], true];
                 }
-		file_put_contents('a.txt',print_r($response_json,true),FILE_APPEND);
+                file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
             }
         } catch (Exception $ex) {
             file_put_contents('a.txt', '获取邮件信息错误：' . print_r($ex->getMessage(), true), FILE_APPEND);

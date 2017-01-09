@@ -29,7 +29,7 @@ class mailinfo
             //必须使用post方法
             $src = "domain=" . $domain . "&product=" . $product . "&time=" . $time;
             if (openssl_sign($src, $out, $res)) {
-                $sign = bin2hex(base64_encode($out));
+                $sign = base64_encode(bin2hex($out));
                 if ($flag == '10') {
                     //华北
                     $url = "https://apibj.qiye.163.com/qiyeservice/api/domain/getDomain";

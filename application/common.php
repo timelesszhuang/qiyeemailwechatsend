@@ -17,4 +17,5 @@ return [
     'ENTRYMAILURL' => $domain . '/index.php/dailysendmail/Wechatmailsend/check_redirect_entry',
     'EMAILAGENT_ID' => 1,
     'ADS_READ_URL' => $domain . '/index.php/wap/Ad/read',
+    'SHUAIDAN_URL'=>'http://salesman.cc/index.php/api/wechatshuaidan/index',
 ];

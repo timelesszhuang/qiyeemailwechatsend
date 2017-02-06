@@ -50,7 +50,6 @@ class authcorp
                 $v['corp_type'] = '体验号';
                 break;
         }
-        $v['corp_full_name'] ?: ($v['corp_full_name'] = $v['corp_name']);
         $v['apicorp_name'] = $v['apicorp_name'] ?: $v['corp_full_name'];
         $v['status_title'] = $v['status'] == 'on' ? '开启' : '禁用';
         $v['api_status_title'] = $v['api_status'] == '10' ? '正常' : '异常';

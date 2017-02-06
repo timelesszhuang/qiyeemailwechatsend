@@ -51,7 +51,7 @@ class Shuaidan extends Controller
                 'addtime' => $v['addtime']];
         }
         //用curl 请求到salesman
-        common::send_curl_request(Config::get('wechatsuite.EMAILSEND_SUITE_ID'), ['customer' => $all_customer]);
+        common::send_curl_request(Config::get('wechatsuite.EMAILSEND_SUITE_ID'), ['customer' => serialize($all_customer)]);
     }
 
 }

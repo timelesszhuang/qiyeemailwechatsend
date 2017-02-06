@@ -50,8 +50,7 @@ class Shuaidan extends Controller
             $all_customer[] = ['corp_name' => $v['corp_name'], 'corp_full_name' => $v['corp_full_name'], 'user_name' => $name, 'email' => $email, 'mobile' => $mobile,
                 'addtime' => $v['addtime']];
         }
-        //用curl 请求到salesman
-        common::send_curl_request(Config::get('wechatsuite.EMAILSEND_SUITE_ID'), ['customer' => serialize($all_customer)]);
+        common::send_curl_request(Config::get('common.SHUAIDAN_URL'), ['customer' => serialize($all_customer)]);
     }
 
 }

@@ -125,8 +125,10 @@ class auth
             'email' => array_key_exists('email', $auth_user_info) ? $auth_user_info['email'] : '',
             'mobile' => array_key_exists('mobile', $auth_user_info) ? $auth_user_info['mobile'] : '',
             'userid' => array_key_exists('userid', $auth_user_info) ? $auth_user_info['userid'] : '',
+            'contact_status'=>'10',
             'addtime' => time(),
             'edittime' => time(),
+
         ];
     }
 

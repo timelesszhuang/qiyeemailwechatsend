@@ -1,6 +1,6 @@
 <?php
 /**
- * 甩单数据 定期 每隔一分钟 分配到乐销易
+ * 甩单数据 定期 每隔一分钟 分配到乐销易  只要有授权的客户就执行该操作 发送数据到乐销易
  * User: timeless
  * Date: 17-02-06
  * Time: 上午11:13
@@ -49,6 +49,8 @@ class Shuaidan extends Controller
             }
             $all_customer[] = ['corp_name' => $v['corp_name'], 'corp_full_name' => $v['corp_full_name'], 'user_name' => $name, 'email' => $email, 'mobile' => $mobile,
                 'addtime' => $v['addtime']];
+            $ids = array_column($info, 'id');
+            Db::name('auth_corp_info')->where(['id' => ['in', $ids]])->update(['contact_status' => '20']);
         }
         common::send_curl_request(Config::get('common.SHUAIDAN_URL'), ['customer' => serialize($all_customer)]);
     }

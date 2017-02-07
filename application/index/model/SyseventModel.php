@@ -86,7 +86,7 @@ class SyseventModel
             $xml->loadXML($sMsg);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
-//            file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
+//          file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
             switch ($info_type) {
                 case "suite_ticket":
                     //获取　suite_ticket
@@ -94,7 +94,7 @@ class SyseventModel
 //                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                     $mem_obj = common::phpmemcache();
                     $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
-//                    file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+//                  file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                     //还需要 添加到数据库中  防止没有该字段
                     Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
                     break;
@@ -107,7 +107,7 @@ class SyseventModel
                 case 'change_auth':
                     $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;
                     //根据corp_id 查询永久授权码
-                    $permanent_code = DB::name('auth_corp_info')->where('corp_id', $corp_id)->find()['permanent_code'];
+                    $permanent_code = Db::name('auth_corp_info')->where('corp_id', $corp_id)->find()['permanent_code'];
                     //file_put_contents('a.txt', '|||||permanent' . $permanent_code, FILE_APPEND);
                     $get_changed_auth_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info?suite_access_token=' . wechattool::get_suite_access_token();
                     $post = json_encode([
@@ -152,6 +152,8 @@ class SyseventModel
         $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
         $auth_info = json_decode($json_auth_info, true);
         list($analyse_status, $corpid) = auth::analyse_init_corp_auth($auth_info);
+        //这个地方可以执行 curl请求 发送甩单 到乐销易
+        
         if (!$analyse_status) {
             return [false, $corpid];
         }

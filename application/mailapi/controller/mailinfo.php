@@ -17,7 +17,7 @@ class mailinfo
      * @param $prikey 私钥
      * @param $domain 域名
      * @param $product 产品product 网易提供
-     * @param $flag 标志是华北还是华东  默认是华北
+     * @param 标志是华北还是华东|string $flag 标志是华北还是华东  默认是华北
      * @return array
      */
     public static function get_domain_info($prikey, $domain, $product, $flag = '10')
@@ -38,8 +38,6 @@ class mailinfo
                     $url = "https://apihz.qiye.163.com/qiyeservice/api/domain/getDomain";
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
-                //file_put_contents('a.txt', $url, FILE_APPEND);
-                //file_put_contents('a.txt', print_r($response_json, true), FILE_APPEND);
                 if ($response_json['suc']) {
                     return [$response_json['con'], true];
                 }

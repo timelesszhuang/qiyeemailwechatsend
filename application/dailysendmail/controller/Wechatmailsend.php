@@ -37,7 +37,8 @@ class Wechatmailsend extends Controller
     public function schedule_get_maillist()
     {
         set_time_limit(0);
-        ignore_user_abort(true);
+        file_put_contents('a.txt',time(),FILE_APPEND);
+	ignore_user_abort(true);
         //企业的corp_id 根据corpid  获取 该公司的相关数据
         $this->corp_id = Request::instance()->param('corp_id');
         //首先获取参数 corp_id  corpid  从缓存中获取 网易接口的 公钥 私钥等信息
@@ -56,7 +57,7 @@ class Wechatmailsend extends Controller
         $this->flag = $this->bindinfo['flag'];
         sleep(rand(1, 60));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
-        try {
+	try {
             //获取agent_id 根据 corp_id 还有邮件套件的 id
             //公司套件中的数据
             $email_agentid = Config::get('common.EMAILAGENT_ID');

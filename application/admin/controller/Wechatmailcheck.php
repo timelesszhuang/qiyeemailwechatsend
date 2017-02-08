@@ -13,6 +13,7 @@ namespace app\admin\controller;
 use app\admin\model\cachetool;
 use app\common\model\common;
 use app\common\model\wechattool;
+use think\Config;
 use think\Db;
 use think\Request;
 use think\Session;
@@ -27,7 +28,7 @@ class Wechatmailcheck extends Base
     public function index()
     {
         if (!Session::has('api_status')) {
-            return $this->fetch('index', ['msg' => '贵公司网易企业邮箱接口暂时不可用，请拨打 4006360163 （网易企业服务） 联系我们，或通过 在线咨询 联系我们。']);
+            return $this->fetch('index', ['msg' => Config::get('common.NOTBIND_INFO')]);
         }
         return $this->fetch('index');
     }

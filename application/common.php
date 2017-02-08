@@ -17,5 +17,6 @@ return [
     'ENTRYMAILURL' => $domain . '/index.php/dailysendmail/Wechatmailsend/check_redirect_entry',
     'EMAILAGENT_ID' => 1,
     'ADS_READ_URL' => $domain . '/index.php/wap/Ad/read',
-    'SHUAIDAN_URL'=>'http://salesman.cc/index.php/api/wechatshuaidan/index',
+    'SHUAIDAN_URL' => 'http://salesman.cc/index.php/api/wechatshuaidan/index',
+    'NOTBIND_INFO' => '我公司已经收到您的授权请求，正在给您开通微信邮件推送服务,我们会在24小时内联系您；您可以拨打 4006360163 （网易企业服务） 联系我们，或通过 七鱼在线咨询 联系我们。',
 ];

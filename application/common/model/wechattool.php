@@ -79,6 +79,7 @@ class wechattool
      * @access public
      * @param $auth_corpid
      * @param $permanent_code
+     * @return string
      */
     public static function get_corp_access_token($auth_corpid, $permanent_code)
     {
@@ -90,8 +91,8 @@ class wechattool
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_info, true);
-        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
-        return $info['access_token'];
+//        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
+        return isset($info['access_token']) ? $info['access_token'] : '';
     }
 
 

@@ -41,6 +41,8 @@ class Shuaidan extends Controller
             $name = '';
             $email = $v['email'];
             $mobile = $v['mobile'];
+            $adminemail = '';
+            $adminmobile = '';
             //获取职员信息
             if ($v['userid']) {
                 $access_token = wechattool::get_corp_access_token($v['corpid'], $v['permanent_code']);

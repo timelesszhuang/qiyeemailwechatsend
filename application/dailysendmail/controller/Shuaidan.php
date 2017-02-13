@@ -31,8 +31,8 @@ class Shuaidan extends Controller
         set_time_limit(0);
         ignore_user_abort(true);
         $info = Db::name('auth_corp_info')->where(['contact_status' => '10'])->field('id,corpid,permanent_code,corp_name,corp_full_name,userid,email,mobile,addtime')->select();
-        file_put_contents('a.txt', 'dsadsa', FILE_APPEND);
-        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
+        //file_put_contents('a.txt', 'dsadsa', FILE_APPEND);
+        //file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
         //把联系人的信息也获取到
         if (!$info) {
             return;

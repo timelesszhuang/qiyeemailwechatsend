@@ -120,13 +120,29 @@ class Authcorp extends Base
         $d['addtime'] = time();
         $d['updatetime'] = time();
         //调用网易邮箱接口获取 邮箱信息
-        list($d, $msg) = $this->get_email_info($d);
+        list($d, $msg, $bindstatus) = $this->get_email_info($d);
         if (!Db::name('corp_bind_api')->insertGetId($d)) {
             cachetool::get_bindinfo_bycorpid('', 'init');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
         cachetool::get_bindinfo_bycorpid('', 'init');
-        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        $returnjson = json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        if ($bindstatus) {
+            //表示绑定接口成功 推送提醒消息到该企业号的职员  先返回前台 然后后台发送消息
+            //省略php接口中处理数据的代码
+            echo $returnjson;
+            $size = ob_get_length();
+            // send headers to tell the browser to close the connection
+            header("Content-Length: $size");
+            header('Connection: close');
+            ob_end_flush();
+            set_time_limit(0);
+            ignore_user_abort(true);
+            //发送消息提醒接口已经可以了
+            $this->send_bindsuccess_info($d['corp_id']);
+        } else {
+            return $returnjson;
+        }
     }
 
 
@@ -138,13 +154,44 @@ class Authcorp extends Base
     {
         $d = $this->get_auth_post();
         $d['updatetime'] = time();
-        list($d, $msg) = $this->get_email_info($d);
+        list($d, $msg, $bindstatus) = $this->get_email_info($d);
         if (!Db::name('corp_bind_api')->update($d)) {
             cachetool::get_bindinfo_bycorpid('', 'init');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
         cachetool::get_bindinfo_bycorpid('', 'init');
-        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        $returnjson = json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        if ($bindstatus) {
+            //表示绑定接口成功 推送提醒消息到该企业号的职员  先返回前台 然后后台发送消息
+            //省略php接口中处理数据的代码
+            echo $returnjson;
+            $size = ob_get_length();
+            // send headers to tell the browser to close the connection
+            header("Content-Length: $size");
+            header('Connection: close');
+            ob_end_flush();
+            set_time_limit(0);
+            ignore_user_abort(true);
+            //发送消息提醒接口已经可以了
+            $this->send_bindsuccess_info($d['corp_id']);
+        } else {
+            return $returnjson;
+        }
+    }
+
+
+    /**
+     * 发送邮件绑定信息
+     * @access public
+     * @param $corp_id 组织架构的id信息
+     */
+    public function send_bindsuccess_info($corp_id)
+    {
+        //要把这个广告发送到  邮件推送的广告中
+        $email_agentid = Config::get('common.EMAILAGENT_ID');
+        list($agent_id, $corpid) = array_values(Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $corp_id])->field('agentid,corpid')->find());
+        //然后获取 公司下的职员信息
+        wechattool::send_text($corpid, '@all', $agent_id, '贵公司微信企业号邮件推送已成功开通，请填写您的邮箱绑定信息。');
     }
 
 
@@ -193,7 +240,7 @@ class Authcorp extends Base
             $d['api_status'] = '20';
         }
         $msg = $get_api_status ? '网易接口信息有效。' : '网易接口信息无效。';
-        return [$d, $msg];
+        return [$d, $msg, $get_api_status];
     }
 
     /**

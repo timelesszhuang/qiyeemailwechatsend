@@ -31,14 +31,12 @@
         </li>
         <li class="pull-left">
             <input type="radio" name="api_status" value="10">正常
-            <!--<input type="radio" name="api_status" value="20">异常-->
         </li>
         <li class="pull-left">
             &nbsp; 邮件推送状态：
         </li>
         <li class="pull-left">
             <input type="radio" name="status" value="on">启用
-            <!--<input type="radio" name="status" value="off">禁用-->
         </li>
         <li class="pull-left">
             <button type="button" class="btn btn-primary btn-sm " id="quick_query" rel='refresh_datagrid' tag='query'
@@ -74,14 +72,14 @@
             var corp_full_name = $('#corp_full_name').val();
             var domain = $('#api_domain').val();
             var api_status = $('input[name="api_status"]:checked').val();
-            var status = $('input[name="status"]:checked').val();
+            var send_status = $('input[name="status"]:checked').val();
             var datagrid_id = $(this).attr('datagrid_id');
             $('#' + datagrid_id).datagrid('load', {
                 corp_name: corp_name,
                 corp_full_name: corp_full_name,
                 domain: domain,
                 api_status: api_status,
-                status: status
+                status: send_status
             });
         });
 

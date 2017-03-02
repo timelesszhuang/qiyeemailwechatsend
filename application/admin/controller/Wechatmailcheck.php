@@ -201,9 +201,11 @@ class Wechatmailcheck extends Base
     {
         $id = Request::instance()->param('id');
         if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->update(['status' => '10', 'checktime' => time()])) {
+            //发送消息给 该公司的某个职员
+            $this->send_check_info($id, '您的邮箱绑定信息已经审核通过，可以正常的收发邮件。');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核成功', "用户审核成功。", self::success));
         }
-        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核失败', "用户审核成功。", self::failed));
+        return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核失败', "用户审核失败。", self::failed));
     }
 
     /**
@@ -214,10 +216,27 @@ class Wechatmailcheck extends Base
     {
         $id = Request::instance()->param('id');
         if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->update(['status' => '30', 'checktime' => time()])) {
+            $this->send_check_info($id, '您的邮箱绑定信息有误审核未通过，请重新填写。');
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决成功', "用户否决成功。", self::success));
         }
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决失败', "用户否决失败。", self::failed));
     }
+
+    /**
+     * 当管理员 审核通过或者未通过的 时候会推送数据到 制定的用户 应用中
+     * @access private
+     * @param $id id信息
+     * @param $msg 审核之后提醒的文字
+     */
+    private function send_check_info($id, $msg)
+    {
+        list($corpid, $corp_id, $wechat_userid) = array_values(Db::name('Wechat_user')->where(['id' => ['eq', $id]])->field('corpid,corp_id,wechat_userid')->find());
+        //还需要获取 agent_id
+        $email_agentid = Config::get('common.EMAILAGENT_ID');
+        $agent_id = Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $corp_id])->find()['agentid'];
+        wechattool::send_text($corpid, $wechat_userid, $agent_id, $msg);
+    }
+
 
     /**
      * 删除更新的相关信息

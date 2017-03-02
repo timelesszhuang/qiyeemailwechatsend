@@ -126,7 +126,7 @@ class Authcorp extends Base
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
         cachetool::get_bindinfo_bycorpid('', 'init');
-        $returnjson = json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        $returnjson = json_encode(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
         if ($bindstatus) {
             //表示绑定接口成功 推送提醒消息到该企业号的职员  先返回前台 然后后台发送消息
             //省略php接口中处理数据的代码
@@ -160,7 +160,7 @@ class Authcorp extends Base
             return json(\app\sysadmin\model\common::form_ajaxreturn_arr('保存失败', '数据保存失败。', self::error));
         }
         cachetool::get_bindinfo_bycorpid('', 'init');
-        $returnjson = json(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
+        $returnjson = json_encode(\app\sysadmin\model\common::form_ajaxreturn_arr('数据保存成功', '数据保存成功,' . $msg, self::success));
         if ($bindstatus) {
             //表示绑定接口成功 推送提醒消息到该企业号的职员  先返回前台 然后后台发送消息
             //省略php接口中处理数据的代码

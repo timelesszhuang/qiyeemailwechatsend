@@ -202,8 +202,15 @@ class Wechatmailcheck extends Base
         $id = Request::instance()->param('id');
         if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->update(['status' => '10', 'checktime' => time()])) {
             //发送消息给 该公司的某个职员
-            $this->send_check_info($id, '您的邮箱绑定信息已经审核通过，可以正常的收发邮件。');
-            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核成功', "用户审核成功。", self::success));
+            echo json_encode(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核成功', "用户审核成功。", self::success));
+            $size = ob_get_length();
+            header("Content-Length: $size");
+            header('Connection: close');
+            ob_end_flush();
+            set_time_limit(0);
+            ignore_user_abort(true);
+            //发送消息提醒收发邮件已经可以了
+            $this->send_check_info($id, '您的邮箱绑定信息已经审核通过，可以正常收发邮件。');
         }
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户审核失败', "用户审核失败。", self::failed));
     }
@@ -216,8 +223,15 @@ class Wechatmailcheck extends Base
     {
         $id = Request::instance()->param('id');
         if (Db::name('Wechat_user')->where(['id' => ['eq', $id]])->update(['status' => '30', 'checktime' => time()])) {
+            echo json_encode(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决成功', "用户否决成功。", self::success));
+            $size = ob_get_length();
+            header("Content-Length: $size");
+            header('Connection: close');
+            ob_end_flush();
+            set_time_limit(0);
+            ignore_user_abort(true);
+            //发送消息提醒收发邮件已经可以了
             $this->send_check_info($id, '您的邮箱绑定信息有误审核未通过，请重新填写。');
-            return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决成功', "用户否决成功。", self::success));
         }
         return json(\app\sysadmin\model\common::form_ajaxreturn_arr('用户否决失败', "用户否决失败。", self::failed));
     }

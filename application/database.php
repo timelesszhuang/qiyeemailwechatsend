@@ -13,13 +13,13 @@ return [
     // 数据库类型
     'type' => 'mysql',
     // 服务器地址
-    'hostname' => '59.111.92.203',
+    'hostname' => 'rdsfjnifbfjnifbo.mysql.rds.aliyuncs.com',
     // 数据库名
     'database' => 'mailsend',
     // 用户名
-    'username' => 'root',
+    'username' => 'mailsend',
     // 密码
-    'password' => 'qiangbi123',
+    'password' => 'LiuRui123$%^',
     // 端口
     'hostport' => '3306',
     // 连接dsn

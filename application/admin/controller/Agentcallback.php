@@ -12,5 +12,4 @@ class Agentcallback
         agent::event();
         //验证回调接口
     }
-
 }

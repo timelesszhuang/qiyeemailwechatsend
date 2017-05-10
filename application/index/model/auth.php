@@ -116,7 +116,7 @@ class auth
             'corp_round_logo_url' => $auth_corp_info_arr['corp_round_logo_url'], //授权方企业号圆形头像
             'corp_square_logo_url' => $auth_corp_info_arr['corp_square_logo_url'], //授权方企业号方形头像
             'corp_user_max' => $auth_corp_info_arr['corp_user_max'], //	授权方企业号用户规模
-            'corp_agent_max' => $auth_corp_info_arr['corp_agent_max'],
+            'corp_agent_max' => array_key_exists('corp_agent_max', $auth_corp_info_arr) ? $auth_corp_info_arr['corp_agent_max'] : 0,
             'corp_wxqrcode' => $auth_corp_info_arr['corp_wxqrcode'], //	授权方企业号二维码
             'corp_full_name' => array_key_exists('corp_full_name', $auth_corp_info_arr) ? $auth_corp_info_arr['corp_full_name'] : '', //所绑定的企业号主体名称
             'subject_type' => array_key_exists('subject_type', $auth_corp_info_arr) ? $auth_corp_info_arr['subject_type'] : '10', //企业类型，1. 企业; 2. 政府以及事业单位; 3. 其他组织, 4.团队号

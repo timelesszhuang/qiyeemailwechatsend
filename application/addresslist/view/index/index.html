@@ -132,7 +132,8 @@
         var locatehref = '<?php echo Url("index/user_info"); ?>';
         return $('#treeview-searchable').treeview({
             data: getdata(),
-            onNodeSelected: function (event, data) {
+            levels: 1,
+	    onNodeSelected: function (event, data) {
                 var href = data.href;
                 var param = new Object();
                 param.href = href;

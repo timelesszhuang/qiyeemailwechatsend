@@ -18,6 +18,8 @@ use think\Db;
 
 //访问的 url 为 http://sm.youdao.so/index.php/dailysendmail/qiyeemailduetime/index  定期执行脚本 更新邮箱的到期时间信息
 
+//执行定时请求
+//* 8 * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/qiyeemailduetime/index"
 
 class Qiyeemailduetime extends Controller
 {

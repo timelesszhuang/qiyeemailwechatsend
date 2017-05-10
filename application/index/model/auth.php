@@ -127,7 +127,7 @@ class auth
             'email' => array_key_exists('email', $auth_user_info) ? $auth_user_info['email'] : '',
             'mobile' => array_key_exists('mobile', $auth_user_info) ? $auth_user_info['mobile'] : '',
             'userid' => array_key_exists('userid', $auth_user_info) ? $auth_user_info['userid'] : '',
-            'contact_status'=>'10',
+            'contact_status' => '10',
             'addtime' => time(),
             'edittime' => time(),
 
@@ -169,11 +169,11 @@ class auth
      */
     public static function analyse_agent_info($agent_info, $corp_id, $corpid)
     {
-//        file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         $add_auth_agent_info = [];
         $all_agent_info = [];
         foreach ($agent_info as $k => $v) {
-//            file_put_contents('a.txt', '||||per_agent_info:' . print_r($v, true), FILE_APPEND);
+            file_put_contents('a.txt', '||||per_agent_info:' . print_r($v, true), FILE_APPEND);
             $privilege = array_key_exists('privilege', $v) ? $v['privilege'] : [];
 //                "privilege":{
 //                          "level":1,
@@ -191,7 +191,7 @@ class auth
                 'appid' => $v['appid'], //服务商套件中的对应应用id
                 'name' => $v['name'],   //授权方应用名字
                 'square_logo_url' => $v['square_logo_url'],        //授权方应用方形头像
-                'round_logo_url' => $v['round_logo_url'],          //授权方应用圆形头像
+                'round_logo_url' => array_key_exists('round_logo_url', $v) ? $v['round_logo_url'] : '',          //授权方应用圆形头像
                 'level' => $privilege['level'] ?: '',              //权限等级, 1: 标识信息只读, 2:信息只读, 3：信息读写
                 'allow_party' => array_key_exists('allow_party', $privilege) ? ',' . implode(',', $privilege['allow_party']) . ',' : '',  //应用可见范围（部门）
                 'allow_tag' => array_key_exists('allow_tag', $privilege) ? ',' . implode(',', $privilege['allow_tag']) . ',' : '',      //应用可见范围（标签）

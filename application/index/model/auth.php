@@ -31,7 +31,7 @@ class auth
         $auth_corp_info_arr = $auth_info['auth_corp_info'];
         // 认证的 公司的信息 要 添加到数据库中的数据  分析为 添加到数据库中的数据
         $add_auth_corp_info = self::analyse_init_corp_info($auth_corp_info_arr, $auth_user_info, $permanent_code);
-        //file_put_contents('a.txt', '||||add_auth_corp_info:' . print_r($add_auth_corp_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||add_auth_corp_info:' . print_r($add_auth_corp_info, true), FILE_APPEND);
         //首先先添加 授权的公司信息 然后返回id
         $corp_id = self::add_auth_corp_info($add_auth_corp_info);
         //微信的企业 corpid
@@ -43,9 +43,11 @@ class auth
             return [false, $corpid];
         }
         $agent_auth_info = $auth_info['auth_info'];
-        //file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||agent_auth_info:' . print_r($agent_auth_info, true), FILE_APPEND);
         //分析agent的 相关授权信息  变为 添加到数据库中的 授权信息
         list($add_auth_agent_info, $agent_info) = self::analyse_agent_info($agent_auth_info['agent'], $corp_id, $corpid);
+        file_put_contents('a.txt', '||||add_auth_agent_info:' . print_r($add_auth_agent_info, true), FILE_APPEND);
+        file_put_contents('a.txt', '||||agent_info:' . print_r($agent_info, true), FILE_APPEND);
         //更新 公司授权表的 auth_corp_info 表的 agent 相关信息
         self::update_corp_agentinfo($agent_info, $corp_id);
         //保存错误 数据到数据库中

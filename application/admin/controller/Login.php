@@ -41,9 +41,9 @@ class Login extends Controller
         }
         $corpid = $info['corp_info']['corpid'];
         //这个可以保存在 session 中
-        $login_ticket = $info['redirect_login_info']['login_ticket'];
+//        $login_ticket = $info['redirect_login_info']['login_ticket'];
         Session::set('corpid', $corpid);
-        Session::set('login_ticket', $login_ticket);
+//        Session::set('login_ticket', $login_ticket);
         //然后根据 login_ticket
         //然后根据 corp_id 获取邮箱登录信息
         //根据corpid 获取 私钥,product,domain 等数据

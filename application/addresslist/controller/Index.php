@@ -55,7 +55,7 @@ class Index extends Controller
         $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
         $user_info = common::send_curl_request($get_userid_url, [], 'get');
         $user_info = json_decode($user_info, true);
-//        file_put_contents('a.txt', print_r($user_info, true), FILE_APPEND);
+        file_put_contents('a.txt', print_r($user_info, true), FILE_APPEND);
         if (array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
             exit('请求code错误');
         }

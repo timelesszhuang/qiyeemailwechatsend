@@ -53,10 +53,14 @@ class authcorp
         $v['apicorp_name'] = $v['apicorp_name'] ?: $v['corp_full_name'];
         $v['status_title'] = $v['status'] == 'on' ? '开启' : '禁用';
         $v['api_status_title'] = $v['api_status'] == '10' ? '正常' : '异常';
+        $info=[];
+        var_dump($v);
         if($v['agent_serialize']){
             $info = unserialize($v['agent_serialize']);
         }
-        $v['agent'] = implode(',', $info);
+        if($info){
+            $v['agent'] = implode(',', $info);
+        }
         $v['addtime'] = date('Y-m-d H:i', $v['addtime']);
         unset($v['agent_serialize']);
     }

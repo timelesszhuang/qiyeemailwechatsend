@@ -54,7 +54,6 @@ class authcorp
         $v['status_title'] = $v['status'] == 'on' ? '开启' : '禁用';
         $v['api_status_title'] = $v['api_status'] == '10' ? '正常' : '异常';
         $info=[];
-        var_dump($v);
         if(trim($v['agent_serialize'])){
             $info = unserialize($v['agent_serialize']);
         }

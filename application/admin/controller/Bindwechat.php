@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\controller;
 
 use app\admin\model\agent;
@@ -58,10 +59,10 @@ class Bindwechat extends Controller
     /**
      *
      */
-/*  public function test_bind()
-    {
-        return $this->fetch('bind', ['status' => '50', 'data' => ['name' => '', 'check_email' => '', 'msg' => '请填写绑定信息', 'id' => 0, 'corpid' => 'wxe041af5a55ce7365', 'wechat_userid' => 'xingzhuang']]);
-    }*/
+    /*  public function test_bind()
+        {
+            return $this->fetch('bind', ['status' => '50', 'data' => ['name' => '', 'check_email' => '', 'msg' => '请填写绑定信息', 'id' => 0, 'corpid' => 'wxe041af5a55ce7365', 'wechat_userid' => 'xingzhuang']]);
+        }*/
 
     /**
      * 执行绑定微信操作
@@ -128,6 +129,11 @@ class Bindwechat extends Controller
         //从后台获取  职员的微信账号等数据
         $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
         list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid, $corp_access_token);
+        $status = '20';
+        if ($wechat_name == $name) {
+            //如果两个名字是一致的话 直接审核通过
+            $status = '10';
+        }
         $a_data = [
             'corp_id' => $corp_id,
             'corpid' => $corpid,
@@ -139,7 +145,7 @@ class Bindwechat extends Controller
             'check_email' => $check_email,
             'account' => substr($check_email, 0, strpos($check_email, '@')),
             'mobile' => $mobile ?: '',
-            'status' => '20',
+            'status' => $status,
             'checktime' => 0,
             'addtime' => time(),
             'lastgetmailtime' => time(),

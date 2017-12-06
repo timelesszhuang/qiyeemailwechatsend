@@ -130,7 +130,7 @@ class Bindwechat extends Controller
         $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
         list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid, $corp_access_token);
         $status = '20';
-        if ($wechat_name == $name) {
+        if ($wechat_name == $name && $wechat_email == $check_email) {
             //如果两个名字是一致的话 直接审核通过
             $status = '10';
         }

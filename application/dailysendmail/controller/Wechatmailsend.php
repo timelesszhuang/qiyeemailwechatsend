@@ -298,12 +298,48 @@ class Wechatmailsend extends Controller
         if ($accounts_md5 != $this->get_entrykey($accounts, $corpid)) {
             exit("请求异常，加密字段匹配异常");
         }
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/checkUserInfo?corpid=' . $corpid . '&$account=' . $accounts);
+        $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();
         ob_end_flush();
-        $url = $this->get_entry_url($accounts, $corpid);
+        header("Location:$url");
+        exit;
+    }
+
+
+    /**
+     * 验证这个用户是不是有权限操作
+     * @access public
+     */
+    public function checkUserInfo()
+    {
+        $code = Request::instance()->param('code');
+        $corpid = Request::instance()->param('corpid');
+        $account = Request::instance()->param('account');
+        $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
+        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
+        $user_info = common::send_curl_request($get_userid_url, [], 'get');
+        $user_info = json_decode($user_info, true);
+        if (array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
+            exit('请求code错误');
+        }
+        if (array_key_exists('OpenId', $user_info)) {
+            exit('您不属于该公司，或者您没有权限访问');
+        }
+        //微信的userid
+        $wechat_userid = $user_info['UserId'];
+        //根据account获取
+        $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'account' => $account])->find();
+        if ($wechat_userid != $user_info['wechat_userid']) {
+            exit('请求异常，禁止访问');
+        }
+        ob_start();
+        ob_end_flush();
+        $url = $this->get_entry_url($account, $corpid);
         header("Location:{$url}");
         exit;
     }
+
 
     /**
      * 获取单点登录的 url

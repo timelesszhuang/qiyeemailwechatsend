@@ -298,7 +298,7 @@ class Wechatmailsend extends Controller
         if ($accounts_md5 != $this->get_entrykey($accounts, $corpid)) {
             exit("请求异常，加密字段匹配异常");
         }
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/checkUserInfo?corpid=' . $corpid . '&$account=' . $accounts);
+        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/checkUserInfo?corpid=' . $corpid . '&account=' . $accounts);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();
         ob_end_flush();

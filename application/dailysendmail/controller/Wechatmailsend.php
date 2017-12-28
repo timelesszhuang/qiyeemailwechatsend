@@ -330,12 +330,6 @@ class Wechatmailsend extends Controller
         $wechat_userid = $user_info['UserId'];
         //根据account获取
         $userinfo = Db::name('wechat_user')->where(['corpid' => $corpid, 'account' => $account])->find();
-        echo '<pre>';
-        print_r($user_info);
-        print_r($corpid);
-        print_r($account);
-        print_r($userinfo);
-        exit;
         if ($wechat_userid != $userinfo['wechat_userid']) {
             exit('请求异常，禁止访问');
         }

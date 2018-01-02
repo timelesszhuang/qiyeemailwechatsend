@@ -141,9 +141,11 @@ class Bindwechat extends Controller
                 //微信里跟填写的姓名不一致 绑定失败
                 return $this->fetch("bindwechat/failed_oath");
             }
-            $user = $this->checkAccountInfo($corpid, $account, $name);
+            //判断下邮箱中的姓名跟填写的是不是一致 不一致的话绑定失败 等待管理员审核
+            if ($this->checkAccountInfo($corpid, $account, $name)) {
+                $status = '10';
+            }
         }
-        exit('系统升级中，请稍后再试 》》》》》》');
         $a_data = [
             'corp_id' => $corp_id,
             'corpid' => $corpid,
@@ -201,7 +203,10 @@ class Bindwechat extends Controller
         }
         list($account_info, $get_api_status) = \app\mailapi\controller\mailinfo::get_account_info($prikey, $domain, $product, $flag, $account);
         if ($get_api_status) {
-            print_r($account_info);
+            $mailnickname = $account_info['nick_name'];
+            if ($name == $mailnickname) {
+                return true;
+            }
         }
         return false;
     }

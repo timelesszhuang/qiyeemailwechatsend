@@ -147,7 +147,7 @@ html;
             exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'success']));
         }
         // 更新部门信息失败的情况 返回
-        exit(json_encode(['msg' => '通讯录更新成功', 'status' => 'failed']));
+        exit(json_encode(['msg' => '通讯录更新失败', 'status' => 'failed']));
     }
 
 }

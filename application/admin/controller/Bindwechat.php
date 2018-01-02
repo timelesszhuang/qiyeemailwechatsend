@@ -10,6 +10,7 @@ use app\common\model\wechattool;
 use think\Controller;
 use think\Db;
 use think\Request;
+use think\Session;
 
 
 /**
@@ -130,10 +131,19 @@ class Bindwechat extends Controller
         $corp_access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
         list($wechat_name, $mobile, $wechat_email) = wechattool::get_wechat_userid_info($wechat_userid, $corp_access_token);
         $status = '20';
+        $account = substr($check_email, 0, strpos($check_email, '@'));
         if ($wechat_name == $name && $wechat_email == $check_email) {
             //如果两个名字是一致的话 直接审核通过
             $status = '10';
+        } else {
+            //获取用户的相关信息来
+            if ($wechat_name != $name) {
+                //微信里跟填写的姓名不一致 绑定失败
+                return $this->fetch("bindwechat/failed_oath");
+            }
+            $user = $this->checkAccountInfo($corpid, $account, $name);
         }
+        exit('系统升级中，请稍后再试 》》》》》》');
         $a_data = [
             'corp_id' => $corp_id,
             'corpid' => $corpid,
@@ -143,7 +153,7 @@ class Bindwechat extends Controller
             'wechat_userid' => $wechat_userid,
             'email' => $wechat_email ?: '',
             'check_email' => $check_email,
-            'account' => substr($check_email, 0, strpos($check_email, '@')),
+            'account' => $account,
             'mobile' => $mobile ?: '',
             'status' => $status,
             'checktime' => 0,
@@ -167,6 +177,33 @@ class Bindwechat extends Controller
         } else {
             return $this->fetch("bindwechat/check_oath");
         }
+    }
+
+
+    /**
+     * 获取账号的相关信息
+     * @access public
+     * @param $corpid
+     * @param $account
+     * @param $name
+     * @return bool|mixed
+     */
+    private function checkAccountInfo($corpid, $account, $name)
+    {
+        $bind_info = cachetool::get_bindinfo_bycorpid($corpid);
+        $api_status = $bind_info['api_status'];
+        $flag = $bind_info['flag'];
+        $prikey = $bind_info['privatesecret'];
+        $product = $bind_info['product'];
+        $domain = $bind_info['domain'];
+        if ($api_status != '10') {
+            return false;
+        }
+        list($account_info, $get_api_status) = \app\mailapi\controller\mailinfo::get_account_info($prikey, $domain, $product, $flag, $account);
+        if ($get_api_status) {
+            print_r($account_info);
+        }
+        return false;
     }
 
 

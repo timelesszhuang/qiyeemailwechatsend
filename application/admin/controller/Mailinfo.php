@@ -34,4 +34,5 @@ class Mailinfo extends Base
         return $this->fetch('mailinfo', ['msg' => '获取信息异常']);
     }
 
+
 }

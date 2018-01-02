@@ -203,7 +203,7 @@ class Bindwechat extends Controller
         }
         list($account_info, $get_api_status) = \app\mailapi\controller\mailinfo::get_account_info($prikey, $domain, $product, $flag, $account);
         if ($get_api_status) {
-            $mailnickname = $account_info['nick_name'];
+            $mailnickname = $account_info['nickname'];
             if ($name == $mailnickname) {
                 return true;
             }

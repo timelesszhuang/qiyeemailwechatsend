@@ -55,7 +55,7 @@ class Wechatmailsend extends Controller
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];
         $this->flag = $this->bindinfo['flag'];
-        sleep(rand(1, 200));
+        sleep(rand(1, 60));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
         try {
             //获取agent_id 根据 corp_id 还有邮件套件的 id
@@ -66,6 +66,7 @@ class Wechatmailsend extends Controller
             $all_sendcount = 0;
             $access_time = time();
             foreach ($wechatuserid_info as $k => $v) {
+                sleep(2);
                 list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
                 $all_sendcount += $total;
                 //更新一下 获取邮件的 上次获取时间

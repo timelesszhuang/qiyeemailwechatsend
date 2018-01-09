@@ -55,7 +55,7 @@ class Wechatmailsend extends Controller
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];
         $this->flag = $this->bindinfo['flag'];
-        sleep(rand(1, 60));
+        sleep(rand(1, 200));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
         try {
             //获取agent_id 根据 corp_id 还有邮件套件的 id

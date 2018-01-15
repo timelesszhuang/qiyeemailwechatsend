@@ -66,7 +66,6 @@ class Wechatmailsend extends Controller
             $all_sendcount = 0;
             $access_time = time();
             foreach ($wechatuserid_info as $k => $v) {
-                sleep(2);
                 list($endtime, $total) = $this->get_recmail_log($v['account'], $v['wechat_userid'], $agent_id, $v['lastgetmailtime']);
                 $all_sendcount += $total;
                 //更新一下 获取邮件的 上次获取时间

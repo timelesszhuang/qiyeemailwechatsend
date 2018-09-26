@@ -151,12 +151,12 @@ class agent
         $contact = '请联系拨打　0531-88554123（网易企业服务）联系我公司。';
         if (empty($bind_info) || $bind_info['api_status'] == '20') {
             $content = '您好，你司网易企业邮箱API绑定信息暂时不可用,' . $contact;
-            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
+//            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
             return;
         }
         if ($bind_info['status'] == 'off') {
             $content = '您好，系统管理员已经停止你公司网易企业邮箱邮件推送，' . $contact;
-            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
+//            self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
             return;
         }
         //从数据库中获取 状态 更新下有多少访问量 更新到 数据库中
@@ -181,10 +181,10 @@ class agent
                     //绑定之后的
                     break;
                 case '20':
-                    $content = '您的账号绑定信息正在审核中，请耐心等待审核通过，如有疑问请联系贵公司企业号管理者。';
+                    $content = '您的账号绑定信息正在审核中，请耐心等待审核通过，如有疑问请联系企业号管理者。';
                     break;
                 case '30':
-                    $content = '您的账号审核未通过，请点击以下链接重新填写绑定信息。' . $bind_url . '　如有疑问请联系贵公司企业号管理者。';
+                    $content = '您的账号审核未通过，请点击以下链接重新填写绑定信息。' . $bind_url . '　如有疑问请联系企业号管理者。';
                     break;
             }
         } else {
@@ -228,6 +228,7 @@ class agent
      * 获取绑定token信息
      * @param $corpid 组织的 corpid
      * @param $wechat_userid  微信的userid
+     * @return string
      */
     public static function get_bind_url_token($corpid, $wechat_userid)
     {

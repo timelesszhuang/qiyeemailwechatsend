@@ -81,7 +81,7 @@ class mailuser
                     $url = "https://apibj.qiye.163.com/qiyeservice/api/unit/getAccountList";
                 } else {
                     //华东
-                    $url = "https://apibj.qiye.163.com/qiyeservice/api/unit/getAccountList";
+                    $url = "https://apihz.qiye.163.com/qiyeservice/api/unit/getAccountList";
                 }
                 return json_decode(common::send_curl_request($url, $src . '&sign=' . $sign), true);
             }

@@ -66,7 +66,7 @@ class ad
             list($agent_id, $corpid) = array_values(Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $corp_id])->field('agentid,corpid')->find());
             //然后获取 公司下的职员信息
             foreach ($all_ads as $per_ads) {
-                wechattool::send_news($corpid, '@all', $agent_id, $per_ads);
+//                wechattool::send_news($corpid, '@all', $agent_id, $per_ads);
             }
         }
     }

@@ -241,6 +241,9 @@ class Wechatmailcheck extends Base
      * @access private
      * @param $id id信息
      * @param $msg 审核之后提醒的文字
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     private function send_check_info($id, $msg)
     {

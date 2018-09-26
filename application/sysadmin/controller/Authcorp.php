@@ -184,6 +184,9 @@ class Authcorp extends Base
      * 发送邮件绑定信息
      * @access public
      * @param $corp_id 组织架构的id信息
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function send_bindsuccess_info($corp_id)
     {
@@ -191,7 +194,7 @@ class Authcorp extends Base
         $email_agentid = Config::get('common.EMAILAGENT_ID');
         list($agent_id, $corpid) = array_values(Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $corp_id])->field('agentid,corpid')->find());
         //然后获取 公司下的职员信息
-        wechattool::send_text($corpid, '@all', $agent_id, '贵公司微信企业号邮件推送已成功开通，请填写您的邮箱绑定信息。');
+//        wechattool::send_text($corpid, '@all', $agent_id, '贵公司微信企业号邮件推送已成功开通，请填写您的邮箱绑定信息。');
     }
 
 

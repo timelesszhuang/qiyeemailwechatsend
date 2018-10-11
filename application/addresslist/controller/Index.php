@@ -31,7 +31,7 @@ class Index extends Controller
         }
         //表示不允许查看通讯录
         if ($bind_info['addresslist_show'] == '20') {
-            return $this->fetch('msg', ['msg' => '通讯录暂不可用，若开启请联系 4006360163 （网易企业服务）。']);
+            return $this->fetch('msg', ['msg' => '']);
         }
         $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
@@ -138,6 +138,9 @@ class Index extends Controller
      * ajax 获取信息
      * @access public
      * @param int $count 该参数用于防止死循环
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public function get_data($count = 1)
     {

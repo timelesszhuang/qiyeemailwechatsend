@@ -191,10 +191,9 @@ class agent
             $content = '您还没有绑定企业邮箱，请点击以下链接绑定：' . $bind_url;
         }
         //表示没有填写绑定信息的情况
-        if ($content) {
+        if ($content && $corpid != 'wxde4a8f7e6aa2394a') {
             self::send_bind_info($corpid, $reqFromUserName, $agent_id, $content);
         }
-
     }
 
 

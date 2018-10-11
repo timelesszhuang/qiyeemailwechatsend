@@ -25,14 +25,6 @@ class Index extends Controller
         if (!$corpid) {
             exit('请求异常');
         }
-        $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
-        if (empty($bind_info) || $bind_info['api_status'] != '10') {
-            return $this->fetch('msg', ['msg' => '网易企业邮箱接口暂时不可用']);
-        }
-        //表示不允许查看通讯录
-        if ($bind_info['addresslist_show'] == '20') {
-            return $this->fetch('msg', ['msg' => '']);
-        }
         // 特殊的濮阳市政府
         if ($corpid == 'wxde4a8f7e6aa2394a') {
             $url = 'http://pyqyh.qiweioa.cn:8686/wxqyh/jsp/wap/addressbook/department_list.jsp?pId=top&deptId=0&agentCode=addressBook&corp_id=wxde4a8f7e6aa2394a';
@@ -40,6 +32,14 @@ class Index extends Controller
             ob_end_flush();
             header("Location:$url");
             exit;
+        }
+        $bind_info = cachetool::get_bindinfo_bycorpid($corpid, 'get');
+        if (empty($bind_info) || $bind_info['api_status'] != '10') {
+            return $this->fetch('msg', ['msg' => '网易企业邮箱接口暂时不可用']);
+        }
+        //表示不允许查看通讯录
+        if ($bind_info['addresslist_show'] == '20') {
+            return $this->fetch('msg', ['msg' => '']);
         }
         $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";

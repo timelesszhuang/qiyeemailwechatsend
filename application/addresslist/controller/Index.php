@@ -39,7 +39,7 @@ class Index extends Controller
         }
         //表示不允许查看通讯录
         if ($bind_info['addresslist_show'] == '20') {
-            return $this->fetch('msg', ['msg' => '']);
+            return $this->fetch('msg', ['msg' => '通讯录暂时不可用，若开启请联系 4006360163 （网易企业服务）']);
         }
         $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";

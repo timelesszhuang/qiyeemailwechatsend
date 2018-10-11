@@ -33,6 +33,14 @@ class Index extends Controller
         if ($bind_info['addresslist_show'] == '20') {
             return $this->fetch('msg', ['msg' => '']);
         }
+        // 特殊的濮阳市政府
+        if ($corpid == 'wxde4a8f7e6aa2394a') {
+            $url = 'http://pyqyh.qiweioa.cn:8686/wxqyh/jsp/wap/addressbook/department_list.jsp?pId=top&deptId=0&agentCode=addressBook&corp_id=wxde4a8f7e6aa2394a';
+            ob_start();
+            ob_end_flush();
+            header("Location:$url");
+            exit;
+        }
         $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();

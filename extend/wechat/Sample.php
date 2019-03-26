@@ -38,6 +38,7 @@ $sEchoStr = "";
 $wxcpt = new WXBizMsgCrypt($token, $encodingAesKey, $corpId);
 $errCode = $wxcpt->VerifyURL($sVerifyMsgSig, $sVerifyTimeStamp, $sVerifyNonce, $sVerifyEchoStr, $sEchoStr);
 if ($errCode == 0) {
+    var_dump($sEchoStr);
 	//
 	// 验证URL成功，将sEchoStr返回
 	// HttpUtils.SetResponce($sEchoStr);
@@ -77,14 +78,18 @@ $sMsg = "";  // 解析之后的明文
 $errCode = $wxcpt->DecryptMsg($sReqMsgSig, $sReqTimeStamp, $sReqNonce, $sReqData, $sMsg);
 if ($errCode == 0) {
 	// 解密成功，sMsg即为xml格式的明文
+    var_dump($sMsg);
 	// TODO: 对明文的处理
-	// For example:
-	$xml = new DOMDocument();
-	$xml->loadXML($sMsg);
-	$content = $xml->getElementsByTagName('Content')->item(0)->nodeValue;
-	print("content: " . $content . "\n\n");
-	// ...
-	// ...
+	/*
+	"<xml><ToUserName><![CDATA[wx5823bf96d3bd56c7]]></ToUserName>
+<FromUserName><![CDATA[mycreate]]></FromUserName>
+<CreateTime>1409659813</CreateTime>
+<MsgType><![CDATA[text]]></MsgType>
+<Content><![CDATA[hello]]></Content>
+<MsgId>4561255354251345929</MsgId>
+<AgentID>218</AgentID>
+</xml>"
+*/
 } else {
 	print("ERR: " . $errCode . "\n\n");
 	//exit(-1);
@@ -117,6 +122,8 @@ $sRespData = "<xml><ToUserName><![CDATA[mycreate]]></ToUserName><FromUserName><!
 $sEncryptMsg = ""; //xml格式的密文
 $errCode = $wxcpt->EncryptMsg($sRespData, $sReqTimeStamp, $sReqNonce, $sEncryptMsg);
 if ($errCode == 0) {
+    var_dump($sEncryptMsg);
+	print("done \n");
 	// TODO:
 	// 加密成功，企业需要将加密之后的sEncryptMsg返回
 	// HttpUtils.SetResponce($sEncryptMsg);  //回复加密之后的密文

@@ -29,6 +29,7 @@ class Ad extends Base
      */
     public function index()
     {
+        echo 'dasda';
         return $this->fetch('index');
     }
 

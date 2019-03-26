@@ -79,9 +79,10 @@ class SyseventModel
             //实例化加解密类
             //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
             $sPostData = file_get_contents("php://input");
-            file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
+            file_put_contents('a.txt', 'post:' . $sPostData);
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
             $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
+            file_put_contents('a.txt', 'errorcode：' . $errCode, FILE_APPEND);
             //验证通过
             if ($errCode == 0) {
                 $xml = new \DOMDocument();
@@ -92,7 +93,7 @@ class SyseventModel
                     case "suite_ticket":
                         //获取　suite_ticket
                         $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-                         file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                         $mem_obj = common::phpmemcache();
                         $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
                         file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);

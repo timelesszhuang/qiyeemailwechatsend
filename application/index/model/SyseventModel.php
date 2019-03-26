@@ -52,7 +52,6 @@ class SyseventModel
         } catch (Exception $e) {
 
         }
-
     }
 
 
@@ -86,7 +85,6 @@ class SyseventModel
             $xml->loadXML($sMsg);
             //获取 infoType
             $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
-//          file_put_contents('a.txt', 'infotype:' . $info_type, FILE_APPEND);
             switch ($info_type) {
                 case "suite_ticket":
                     //获取　suite_ticket

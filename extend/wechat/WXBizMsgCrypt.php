@@ -29,7 +29,7 @@ class WXBizMsgCrypt
      * @param $Corpid string 公众平台的Corpid
      * @return WXBizMsgCrypt
      */
-    public function WXBizMsgCrypt($token, $encodingAesKey, $Corpid)
+    public function __construct($token, $encodingAesKey, $Corpid)
     {
         $this->m_sToken = $token;
         $this->m_sEncodingAesKey = $encodingAesKey;

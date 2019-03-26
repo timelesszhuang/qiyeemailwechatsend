@@ -14,6 +14,7 @@ use app\common\model\wechattool;
 use think\Config;
 use think\console\command\make\Model;
 use think\Db;
+use think\Exception;
 use think\Loader;
 use think\Request;
 
@@ -61,73 +62,78 @@ class SyseventModel
      */
     public static function event()
     {
-        $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
-        //企业号后台随机填写的token
-        $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
-        $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
+        try {
+
+            $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
+            //企业号后台随机填写的token
+            $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
+            $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
 //      $corp_id = Config::get('wechatsuite.CORPID');
-        //引入放在Thinkphp下的wechat 下的微信加解密包
-        Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
-        //安装官方要求接收4个get参数 并urldecode处理
-        // 获取当前请求的name变量
-        $msg_signature = urldecode(Request::instance()->param('msg_signature'));
-        $timestamp = urldecode(Request::instance()->param('timestamp'));
-        $nonce = urldecode(Request::instance()->param('nonce'));
-        //实例化加解密类
-        //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
-        $sPostData = file_get_contents("php://input");
+            //引入放在Thinkphp下的wechat 下的微信加解密包
+            Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
+            //安装官方要求接收4个get参数 并urldecode处理
+            // 获取当前请求的name变量
+            $msg_signature = urldecode(Request::instance()->param('msg_signature'));
+            $timestamp = urldecode(Request::instance()->param('timestamp'));
+            $nonce = urldecode(Request::instance()->param('nonce'));
+            //实例化加解密类
+            //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
+            $sPostData = file_get_contents("php://input");
 //        file_put_contents('a.txt', 'post:' . $sPostData, FILE_APPEND);
-        $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
-        $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
-        //验证通过
-        if ($errCode == 0) {
-            $xml = new \DOMDocument();
-            $xml->loadXML($sMsg);
-            //获取 infoType
-            $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
-            switch ($info_type) {
-                case "suite_ticket":
-                    //获取　suite_ticket
-                    $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
+            $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
+            $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
+            //验证通过
+            if ($errCode == 0) {
+                $xml = new \DOMDocument();
+                $xml->loadXML($sMsg);
+                //获取 infoType
+                $info_type = $xml->getElementsByTagName('InfoType')->item(0)->nodeValue;
+                switch ($info_type) {
+                    case "suite_ticket":
+                        //获取　suite_ticket
+                        $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
 //                    file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
-                    $mem_obj = common::phpmemcache();
-                    $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
+                        $mem_obj = common::phpmemcache();
+                        $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
 //                  file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
-                    //还需要 添加到数据库中  防止没有该字段
-                    Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
-                    break;
-                case "create_auth":
-                    //获取 临时授权码 临时授权码使用一次后即失效　
-                    $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
-                    //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
-                    self::analyse_permanent_codeinfo($suite_id, $authcode);
-                    break;
-                case 'change_auth':
-                    $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;
-                    //根据corp_id 查询永久授权码
-                    $permanent_code = Db::name('auth_corp_info')->where('corp_id', $corp_id)->find()['permanent_code'];
-                    //file_put_contents('a.txt', '|||||permanent' . $permanent_code, FILE_APPEND);
-                    $get_changed_auth_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info?suite_access_token=' . wechattool::get_suite_access_token();
-                    $post = json_encode([
-                        'suite_id' => $suite_id,
-                        'auth_corpid' => $corp_id,
-                        'permanent_code' => $permanent_code,
-                    ]);
-                    $json_auth_info = common::send_curl_request($get_changed_auth_url, $post, 'post');
-                    $auth_info = json_decode($json_auth_info, true);
-                    if (!auth::analyse_changeauth_corp_auth($auth_info)) {
-                        return;
-                    }
-                    break;
-                case 'cancel_auth':
-                    //取消授权信息
-                    //取消授权的话 需要更新，相关memcache 信息。  比如邮件推送的话  要修改信息
-                    auth::cancel_auth($xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue);
-                    break;
-                //还有好多的事件需要处理
+                        //还需要 添加到数据库中  防止没有该字段
+                        Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
+                        break;
+                    case "create_auth":
+                        //获取 临时授权码 临时授权码使用一次后即失效　
+                        $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
+                        //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
+                        self::analyse_permanent_codeinfo($suite_id, $authcode);
+                        break;
+                    case 'change_auth':
+                        $corp_id = $xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue;
+                        //根据corp_id 查询永久授权码
+                        $permanent_code = Db::name('auth_corp_info')->where('corp_id', $corp_id)->find()['permanent_code'];
+                        //file_put_contents('a.txt', '|||||permanent' . $permanent_code, FILE_APPEND);
+                        $get_changed_auth_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info?suite_access_token=' . wechattool::get_suite_access_token();
+                        $post = json_encode([
+                            'suite_id' => $suite_id,
+                            'auth_corpid' => $corp_id,
+                            'permanent_code' => $permanent_code,
+                        ]);
+                        $json_auth_info = common::send_curl_request($get_changed_auth_url, $post, 'post');
+                        $auth_info = json_decode($json_auth_info, true);
+                        if (!auth::analyse_changeauth_corp_auth($auth_info)) {
+                            return;
+                        }
+                        break;
+                    case 'cancel_auth':
+                        //取消授权信息
+                        //取消授权的话 需要更新，相关memcache 信息。  比如邮件推送的话  要修改信息
+                        auth::cancel_auth($xml->getElementsByTagName('AuthCorpId')->item(0)->nodeValue);
+                        break;
+                    //还有好多的事件需要处理
+                }
             }
+            echo 'success';
+        } catch (Exception $ex) {
+            file_put_contents('a.txt', $ex->getLine().$ex->getMessage(), 8);
         }
-        echo 'success';
     }
 
 
@@ -151,7 +157,7 @@ class SyseventModel
         $auth_info = json_decode($json_auth_info, true);
         list($analyse_status, $corpid) = auth::analyse_init_corp_auth($auth_info);
         //这个地方可以执行 curl请求 发送甩单 到乐销易
-        
+
         if (!$analyse_status) {
             return [false, $corpid];
         }

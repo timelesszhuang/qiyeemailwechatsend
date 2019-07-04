@@ -76,7 +76,10 @@ class cachetool
      * @access public
      * @param $corpid  绑定信息
      * @param string $flag 标志是获取还是更新
-     * @return array ['privatesecret' => **,'product' => **,'domain' => **]
+     * @return string ['privatesecret' => **,'product' => **,'domain' => **]
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function get_bindinfo_bycorpid($corpid, $flag = 'get')
     {
@@ -98,6 +101,9 @@ class cachetool
      * 更新memcache信息
      * @param $mem
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     private static function get_init_corpid_bindinfo_info($mem)
     {

@@ -29,7 +29,10 @@ class wechatuser
      * 更具corp_id 获取 所有的用户的相关信息
      * @access public
      * @param $corp_id 系统对公司的唯一标识
-     * @return array
+     * @return false|\PDOStatement|string|\think\Collection
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function get_wechatuser_arr_bycorp_id($corp_id)
     {

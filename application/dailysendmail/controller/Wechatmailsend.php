@@ -55,6 +55,8 @@ class Wechatmailsend extends Controller
         $this->product = $this->bindinfo['product'];
         $this->corp_name = $this->bindinfo['corp_name'];
         $this->flag = $this->bindinfo['flag'];
+        // 首先请求返回 然后后台执行操作
+        // 尝试使用使用 rabbitmq 操作
         sleep(rand(1, 60));
         $wechatuserid_info = wechatuser::get_wechatuser_arr_bycorp_id($this->corp_id);
         try {

@@ -107,6 +107,7 @@ class Getsetneteasemail extends Controller
             if ($total) {
                 Db::name('wechat_user_sendlog')->insert(['corpid' => $corpid, 'corp_id' => $corp_id, 'corp_name' => $corp_name, 'account' => $user['account'], 'name' => $user['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
             }
+            sleep(0.1);
         }
         //更新下公司的本次的请求信息 所有log数据库
         if ($all_sendcount) {

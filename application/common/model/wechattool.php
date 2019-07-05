@@ -189,4 +189,20 @@ class wechattool
     }
 
 
+    /**
+     * 发送微信news   图文
+     * @access public
+     * @param $corpid 组织的corpid
+     * @param $touser 发送给的人
+     * @param $content 　内容详情
+     * @param $agent_id 　应用的id
+     * @return bool
+     */
+    public static function sendMail($corpid, $data)
+    {
+        $post = json_encode($data, JSON_UNESCAPED_UNICODE);
+        $info = common::send_curl_request(self::get_sendwechat_url($corpid), $post, 'post');
+        return true;
+    }
+
 }

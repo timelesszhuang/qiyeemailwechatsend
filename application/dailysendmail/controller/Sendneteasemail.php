@@ -4,6 +4,7 @@ namespace app\dailysendmail\controller;
 
 use app\admin\model\wechatuser;
 use app\common\model\common;
+use app\common\model\wechattool;
 use Predis\Client;
 use think\Config;
 use think\Controller;
@@ -11,16 +12,15 @@ use think\Db;
 use think\image\Exception;
 
 /**
- * 获取 网易邮件信息
+ * 执行发送 邮件操作 可以同时起来 很多请求
  */
-class Getsetneteasemail extends Controller
+class Sendneteasemail extends Controller
 {
 
     public $redisClient;
     // 邮件待传递队列
     public $mailQueue = 'mailQueueList';
-    // 公司的相关队列
-    public $corpQueue = 'corpQueue';
+
 
     public function _initialize()
     {
@@ -28,22 +28,6 @@ class Getsetneteasemail extends Controller
         set_time_limit(0);
         ignore_user_abort(true);
         $this->redisClient = new Client(Config::get('redis.redis_config'));
-        // 循环获取所有符合规定的 客户的绑定信息
-        $coms = Db::name('corp_bind_api')->where('status', 'neq', 'off')->where('api_status', '10')->order('id', 'desc')->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->select();
-        // 存储到 队列中
-        $options = array(
-            'cas' => true,    // 使用 CAS 方式
-            'watch' => $this->corpQueue,    // 要监视的 key
-            'retry' => 1,       // 出错时重试次数
-        );
-        $corpQueue = $this->corpQueue;
-        $this->redisClient->transaction($options, function ($tx) use ($corpQueue, $coms) {
-            if ($tx->llen($this->corpQueue) == 0) {
-                foreach ($coms as $corp) {
-                    $tx->lpush($corpQueue, json_encode($corp));
-                }
-            }
-        });
     }
 
 
@@ -52,20 +36,15 @@ class Getsetneteasemail extends Controller
      */
     public function index()
     {
-        // 获取全部数据
-        $email_agentid = Config::get('common.EMAILAGENT_ID');
         while (1) {
             // 每次单独出队列
-            $corp_bind = $this->redisClient->rpop($this->corpQueue);
-            if ($corp_bind) {
-                $corp_bind = json_decode($corp_bind, true);
-                if ($corp_bind['product'] == 'cio_club') {
-                    try {
-                        $this->getSetCorpMailInfo($corp_bind, $email_agentid);
-                    } catch (\think\Exception $ex) {
-                        $this->redisClient->del($this->lock);
-                        file_put_contents('dailygetmailerror.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
-                    }
+            $mail = $this->redisClient->rpop($this->mailQueue);
+            if ($mail) {
+                try {
+                    $mail = json_decode($mail, true);
+                    wechattool::sendMail($mail['corpid'], $mail['arr']);
+                } catch (\think\Exception $ex) {
+                    file_put_contents('dailysendmailerror.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
                 }
             } else {
                 return;

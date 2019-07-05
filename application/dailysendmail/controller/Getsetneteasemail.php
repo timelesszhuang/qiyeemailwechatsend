@@ -59,14 +59,14 @@ class Getsetneteasemail extends Controller
             $corp_bind = $this->redisClient->rpop($this->corpQueue);
             if ($corp_bind) {
                 $corp_bind = json_decode($corp_bind, true);
-                if ($corp_bind['product'] == 'cio_club') {
-                    try {
-                        $this->getSetCorpMailInfo($corp_bind, $email_agentid);
-                    } catch (\think\Exception $ex) {
-                        $this->redisClient->del($this->lock);
-                        file_put_contents('dailygetmailerror.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
-                    }
+//                if ($corp_bind['product'] == 'cio_club') {
+                try {
+                    $this->getSetCorpMailInfo($corp_bind, $email_agentid);
+                } catch (\think\Exception $ex) {
+                    $this->redisClient->del($this->lock);
+                    file_put_contents('dailygetmailerror.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
                 }
+//                }
             } else {
                 return;
             }

@@ -12,12 +12,15 @@ namespace app\common\model;
 
 use app\admin\model\agent;
 use app\admin\model\cachetool;
+use Predis\Client;
 use think\Config;
 use think\console\Command;
 use think\Db;
 
 class wechattool
 {
+
+
     /**
      * 获取 suite_ticket
      * 首先从memcache 中获取 如果没有 则调用接口再次获取一次
@@ -44,6 +47,13 @@ class wechattool
      */
     public static function get_suite_access_token()
     {
+        $key = 'suiteAccessToken';
+        // 需要缓存下来
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $suite_access_token = $redisClient->get($key);
+        if ($suite_access_token) {
+            return $suite_access_token;
+        }
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token';
         //令牌套件
         $post = json_encode([
@@ -53,7 +63,10 @@ class wechattool
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_info, true);
-        return $info['suite_access_token'];
+        $suite_access_token = $info['suite_access_token'];
+        $redisClient->set($key, $suite_access_token);
+        $redisClient->expire($key, 3600);
+        return $suite_access_token;
     }
 
 
@@ -94,6 +107,8 @@ class wechattool
 //        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
         return isset($info['access_token']) ? $info['access_token'] : '';
     }
+
+
 
 
     /**

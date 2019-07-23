@@ -9,6 +9,7 @@ use app\common\model\common;
 use app\common\model\wechattool;
 use think\Config;
 use think\Controller;
+use think\Cookie;
 use think\Db;
 use think\image\Exception;
 use think\Request;
@@ -315,21 +316,26 @@ class Wechatmailsend extends Controller
      */
     public function checkUserInfo()
     {
+        $wechat_userid = Cookie::get('wechat_userid');
+        //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe041af5a55ce7365&redirect_uri=http%3A%2F%2Fsm.youdao.so%2Findex.php%2Fdailysendmail%2Fwechatmailsend%2FcheckUserInfo%3Fcorpid%3Dwxe041af5a55ce7365%26account%3Dxingzhuang&response_type=code&scope=SCOPE&state=wxe041af5a55ce7365#wechat_redirect
         $code = Request::instance()->param('code');
         $corpid = Request::instance()->param('corpid');
         $account = Request::instance()->param('account');
-        $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
-        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
-        $user_info = common::send_curl_request($get_userid_url, [], 'get');
-        $user_info = json_decode($user_info, true);
-        if (array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
-            exit('请求code错误');
-        }
-        if (array_key_exists('OpenId', $user_info)) {
-            exit('您不属于该公司，或者您没有权限访问');
+        if (!$wechat_userid) {
+            $access_token = wechattool::get_suite_access_token();
+            $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?access_token={$access_token}&code={$code}";
+            $user_info = common::send_curl_request($get_userid_url, [], 'get');
+            $user_info = json_decode($user_info, true);
+            if ($user_info && array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
+                exit('请返回企业微信 网易企业邮箱应用 重新进入');
+            }
+            if (array_key_exists('OpenId', $user_info)) {
+                exit('您不属于该公司，或者您没有权限访问');
+            }
+            $wechat_userid = $user_info['UserId'];
+            Cookie::set('wechat_userid', $wechat_userid);
         }
         //微信的userid
-        $wechat_userid = $user_info['UserId'];
         //根据account获取
         $userinfo = Db::name('wechat_user')->where(['corpid' => $corpid, 'account' => $account])->find();
         if ($wechat_userid != $userinfo['wechat_userid']) {
@@ -348,6 +354,9 @@ class Wechatmailsend extends Controller
      * @param $accounts 邮箱账号
      * @param $corpid 公司的corpid
      * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     private function get_entry_url($accounts, $corpid)
     {
@@ -412,20 +421,23 @@ class Wechatmailsend extends Controller
      */
     public function entry_menu_mail()
     {
+        $wechat_userid = Cookie::get('wechat_userid');
         $code = Request::instance()->param('code');
         $corpid = Request::instance()->param('corpid');
-        $access_token = wechattool::get_corp_access_token($corpid, cachetool::get_permanent_code_by_corpid($corpid));
-        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/user/getuserinfo?access_token={$access_token}&code={$code}";
-        $user_info = common::send_curl_request($get_userid_url, [], 'get');
-        $user_info = json_decode($user_info, true);
-//        file_put_contents('a.txt', print_r($user_info, true), FILE_APPEND);
-        if (array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
-            exit('请求code错误');
+        if (!$wechat_userid) {
+            $access_token = wechattool::get_suite_access_token();
+            $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?access_token={$access_token}&code={$code}";
+            $user_info = common::send_curl_request($get_userid_url, [], 'get');
+            $user_info = json_decode($user_info, true);
+            if (array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
+                exit('请返回企业微信 网易企业邮箱应用 重新进入');
+            }
+            if (array_key_exists('OpenId', $user_info)) {
+                exit('您不属于该公司，或者您没有权限访问');
+            }
+            $wechat_userid = $user_info['UserId'];
+            Cookie::set('wechat_userid', $wechat_userid);
         }
-        if (array_key_exists('OpenId', $user_info)) {
-            exit('您不属于该公司，或者您没有权限访问');
-        }
-        $wechat_userid = $user_info['UserId'];
         //知道UserId  corpid之后可以获取 网易邮箱账号 也可以获取网易接口数据
         //查看下是不是已经绑定信息 如果没有绑定的话 或者还没有绑定的话 需要提示绑定
         $user_info = Db::name('wechat_user')->where(['corpid' => $corpid, 'wechat_userid' => $wechat_userid])->find();

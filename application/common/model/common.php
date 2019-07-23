@@ -6,6 +6,7 @@
  * Date: 16-10-25
  * Time: 上午10:27
  */
+
 namespace app\common\model;
 
 use think\Config;
@@ -47,14 +48,12 @@ class common
         }
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
         curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, 1);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
+        curl_setopt($ch, CURLOPT_AUTOREFERER, 0);
         curl_setopt($ch, CURLOPT_HEADER, 0);            // 显示返回的Header区域内容
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        curl_setopt($ch, CURLOPT_TIMEOUT, 30); // 设置超时限制防止死循
         $temp = curl_exec($ch);
         if (curl_errno($ch)) {
-            file_put_contents('error.log', '发送curl请求错误：' . curl_error($ch) . "\r\n", FILE_APPEND);
+            file_put_contents('error.log', '发送curl请求错误：' . $url . curl_error($ch) . "\r\n", FILE_APPEND);
         }
         curl_close($ch);
         return $temp;

@@ -9,12 +9,12 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // 应用公共文件
-$domain = 'http://sm.youdao.so';
+$domain = 'http://sm.yizhixin.net';
 
 return [
     //邮件列表中点击 跳转到的位置
     'redis_config' => [
-        'host' => '59.111.92.124',
+        'host' => '121.42.250.218',
         'password' => 'LiuRui123$%^',
         'port' => 6379,
         'database' => 0

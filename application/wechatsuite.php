@@ -15,7 +15,7 @@ return [
     //邮件推送套件的 suite_id
     'EMAILSEND_SUITE_ID' => 'tjc6c18d9276c5e886',
     //微信推送邮件的 secret
-    'EMAILSEND_SECRET' => 'QTEkdZvvL0TL9W-xeTRpks2LAs1zfpI1fEmULoBYi8z55QsoovYQykQ8mPimYgE1',
+    'EMAILSEND_SECRET' => 'qOi9rxlgTXVQcI7w6Ub7alTXfRoq-gcW9xhEH9EZ2zg',
     //加密解密 相关
     'EMAILSEND_TOKEN' => 'xyLp3wkwVj8GomtUaIlqa',
     'EMAILSEND_ENCODINGAESKEY' => '63zypb8isLdXy4hWEwYAhcqjBnoTYAt69YGD62VHzrY',

@@ -13,7 +13,6 @@ use app\common\model\common;
 use app\common\model\wechattool;
 use Predis\Client;
 use think\Config;
-use think\console\command\make\Model;
 use think\Db;
 use think\Exception;
 use think\Loader;
@@ -82,7 +81,7 @@ class SyseventModel
             file_put_contents('postdata.txt', 'post:' . $sPostData, FILE_APPEND);
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
             $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
-//            file_put_contents('a.txt', 'errorcode：' . $errCode, FILE_APPEND);
+            file_put_contents('a.txt', 'errorcode：' . $errCode, FILE_APPEND);
             //验证通过
             if ($errCode == 0) {
                 $xml = new \DOMDocument();
@@ -93,12 +92,13 @@ class SyseventModel
                     case "suite_ticket":
                         //获取　suite_ticket
                         $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-//                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
-                        $redisClient = new Client(Config::get('redis.redis_config'));
-                        $redisClient->set(Config::get('redis.SUITE_TICKET'), $suiteticket);
-//                        file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
-                        //还需要 添加到数据库中  防止没有该字段
+                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                         Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
+                        $redisClient = new Client(Config::get('redis.redis_config'));
+                        $redisClient->set('a','1');
+                        $redisClient->set(Config::get('redis.SUITE_TICKET'), $suiteticket);
+                        file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+                        //还需要 添加到数据库中  防止没有该字段
                         break;
                     case "create_auth":
                         //获取 临时授权码 临时授权码使用一次后即失效　

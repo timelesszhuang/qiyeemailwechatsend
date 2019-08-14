@@ -10,6 +10,7 @@ namespace app\index\controller;
 
 
 use app\common\model\wechattool;
+use Predis\Client;
 use think\Config;
 use think\Controller;
 
@@ -21,6 +22,8 @@ class Index extends Controller
      */
     public function index()
     {
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $redisClient->set('a','1');
         return $this->fetch('index');
     }
 

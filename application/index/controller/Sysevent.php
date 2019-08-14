@@ -1,4 +1,5 @@
 <?php
+
 namespace app\index\controller;
 
 use app\common\model\wechattool;
@@ -8,6 +9,8 @@ use think\Controller;
 
 use app\common\model\common;
 use app\index\model\SyseventModel;
+use think\Exception;
+use think\Loader;
 use think\Request;
 use think\Session;
 
@@ -31,7 +34,43 @@ class Sysevent extends Controller
 //       SyseventModel::verify_url();
 //       SyseventModel::test_xml();
         //企业号后台随机填写的encodingAesKey
+//        $this->verifyUrl();
         SyseventModel::event();
+    }
+
+
+    /**
+     * 验证 url
+     */
+    public function verifyUrl()
+    {
+        try {
+            $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
+            //企业号后台随机填写的token
+            $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
+            $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
+            $corp_id = Config::get('wechatsuite.CORPID');
+            //引入放在Thinkphp下的wechat 下的微信加解密包
+            Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
+            //安装官方要求接收4个get参数 并urldecode处理
+            // 获取当前请求的name变量
+            $msg_signature = urldecode(Request::instance()->get('msg_signature'));
+            $timestamp = urldecode(Request::instance()->get('timestamp'));
+            $nonce = urldecode(Request::instance()->get('nonce'));
+            $echoStr = urldecode(Request::instance()->get('echostr'));
+            //实例化加解密类
+            //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
+            file_put_contents('postdata.txt', 'get:' . print_r(Request::instance()->get(), true), FILE_APPEND);
+            $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
+            $errCode = $wxcpt->VerifyURL($msg_signature, $timestamp, $nonce, $echoStr, $sMsg);
+            //身份校验
+            file_put_contents('postdata.txt', 'errorCode:' . $errCode, FILE_APPEND);
+            echo $sMsg;
+            file_put_contents('postdata.txt', 'msg: ' . $sMsg, FILE_APPEND);
+            exit;
+        } catch (Exception $ex) {
+            file_put_contents('error.txt', $ex->getMessage(), FILE_APPEND);
+        }
     }
 
 

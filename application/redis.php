@@ -19,4 +19,9 @@ return [
         'port' => 6379,
         'database' => 0
     ],
+    'SUITE_TICKET' => 'suite_ticket',
+    //corpid  获取 永久码
+    'CORPID_PERMANENTCODE' => 'corpidpermanentcode',
+    //corpid 获取邮箱的绑定信息
+    'CORPID_BINDINFO' => 'corpid_bindinfo',
 ];

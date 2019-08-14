@@ -11,6 +11,7 @@ namespace app\index\model;
 
 use app\common\model\common;
 use app\common\model\wechattool;
+use Predis\Client;
 use think\Config;
 use think\console\command\make\Model;
 use think\Db;
@@ -63,12 +64,11 @@ class SyseventModel
     public static function event()
     {
         try {
-
             $encodingAesKey = Config::get('wechatsuite.EMAILSEND_ENCODINGAESKEY');
             //企业号后台随机填写的token
             $token = Config::get('wechatsuite.EMAILSEND_TOKEN');
             $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
-//      $corp_id = Config::get('wechatsuite.CORPID');
+//          $corp_id = Config::get('wechatsuite.CORPID');
             //引入放在Thinkphp下的wechat 下的微信加解密包
             Loader::import('wechat.WXBizMsgCrypt', EXTEND_PATH, '.php');
             //安装官方要求接收4个get参数 并urldecode处理
@@ -79,7 +79,7 @@ class SyseventModel
             //实例化加解密类
             //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
             $sPostData = file_get_contents("php://input");
-//            file_put_contents('a.txt', 'post:' . $sPostData);
+            file_put_contents('postdata.txt', 'post:' . $sPostData, FILE_APPEND);
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
             $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
 //            file_put_contents('a.txt', 'errorcode：' . $errCode, FILE_APPEND);
@@ -94,8 +94,8 @@ class SyseventModel
                         //获取　suite_ticket
                         $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
 //                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
-                        $mem_obj = common::phpmemcache();
-                        $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $suiteticket);
+                        $redisClient = new Client(Config::get('redis.redis_config'));
+                        $redisClient->set(Config::get('redis.SUITE_TICKET'), $suiteticket);
 //                        file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                         //还需要 添加到数据库中  防止没有该字段
                         Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
@@ -104,6 +104,7 @@ class SyseventModel
                         //获取 临时授权码 临时授权码使用一次后即失效　
                         $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
                         //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
+                        file_put_contents(print_r($authcode, true), demo . txt, FILE_APPEND);
                         self::analyse_permanent_codeinfo($suite_id, $authcode);
                         break;
                     case 'change_auth':
@@ -150,15 +151,14 @@ class SyseventModel
     {
         $get_permanent_code_url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code?suite_access_token=' . wechattool::get_suite_access_token();
         $post = json_encode([
-            'suite_id' => $suite_id,
             'auth_code' => $authcode,
         ]);
         //永久授权码，并换取授权信息、企业access_token
         $json_auth_info = common::send_curl_request($get_permanent_code_url, $post, 'post');
+        //file_put_contents('demo.txt', print_r($json_auth_info, true), FILE_APPEND);
         $auth_info = json_decode($json_auth_info, true);
         list($analyse_status, $corpid) = auth::analyse_init_corp_auth($auth_info);
         //这个地方可以执行 curl请求 发送甩单 到乐销易
-
         if (!$analyse_status) {
             return [false, $corpid];
         }

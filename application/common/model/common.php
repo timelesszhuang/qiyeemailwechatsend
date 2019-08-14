@@ -46,11 +46,9 @@ class common
             curl_setopt($ch, CURLOPT_POST, 1);           // 发送一个常规的Post请求
             curl_setopt($ch, CURLOPT_POSTFIELDS, $data); // Post提交的数据包
         }
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, FALSE);
-        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 0);
-        curl_setopt($ch, CURLOPT_AUTOREFERER, 0);
-        curl_setopt($ch, CURLOPT_HEADER, 0);            // 显示返回的Header区域内容
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+        curl_setopt($ch, CURLOPT_TIMEOUT,60);
         $temp = curl_exec($ch);
         if (curl_errno($ch)) {
             file_put_contents('error.log', '发送curl请求错误：' . $url . curl_error($ch) . "\r\n", FILE_APPEND);

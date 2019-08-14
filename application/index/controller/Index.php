@@ -31,8 +31,8 @@ class Index extends Controller
     {
         $suite_id = Config::get('wechatsuite.EMAILSEND_SUITE_ID');
         $pre_auth_code = wechattool::get_pre_auth_code();
-        $redirect_uri = Config::get('common.DOMAIN') . '/index.php/index/Sysevent/trd_suite_callback';
-        $url = "https://qy.weixin.qq.com/cgi-bin/loginpage?suite_id=$suite_id&pre_auth_code=$pre_auth_code&redirect_uri=$redirect_uri&state=EMAILSEND";
+        $redirect_uri = urlencode(Config::get('common.DOMAIN') . '/index.php/index/Sysevent/trd_suite_callback');
+        $url = "https://open.work.weixin.qq.com/3rdapp/install?suite_id=$suite_id&pre_auth_code=$pre_auth_code&redirect_uri=$redirect_uri&state=EMAILSEND";
         header('Location:' . $url);
         exit;
     }

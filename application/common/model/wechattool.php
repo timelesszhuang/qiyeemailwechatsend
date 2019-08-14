@@ -28,13 +28,13 @@ class wechattool
      */
     public static function get_suite_ticket()
     {
-        $mem_obj = common::phpmemcache();
-        $suite_ticket = $mem_obj->get(Config::get('memcache.SUITE_TICKET'));
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $suite_ticket = $redisClient->get(Config::get('redis.SUITE_TICKET'));
         if ($suite_ticket) {
             return $suite_ticket;
         } else {
             $info = Db::name('suite_ticket')->where('id', 1)->find();
-            $mem_obj->set(Config::get('memcache.SUITE_TICKET'), $info['suite_ticket']);
+            $redisClient->set(Config::get('redis.SUITE_TICKET'), $info['suite_ticket']);
             return $info['suite_ticket'];
         }
     }
@@ -65,7 +65,7 @@ class wechattool
         $info = json_decode($json_info, true);
         $suite_access_token = $info['suite_access_token'];
         $redisClient->set($key, $suite_access_token);
-        $redisClient->expire($key, 3600);
+        $redisClient->expire($key, $info['expires_in']);
         return $suite_access_token;
     }
 
@@ -76,6 +76,12 @@ class wechattool
      */
     public static function get_provider_token()
     {
+        $key = 'ProviderAccessToken';
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $provider_access_token = $redisClient->get($key);
+        if ($provider_access_token) {
+            return $provider_access_token;
+        }
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_provider_token';
         $post = json_encode([
             'corpid' => Config::get('wechatsuite.CORPID'),
@@ -83,7 +89,10 @@ class wechattool
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_info, true);
+        $redisClient->set($key, $info['provider_access_token']);
+        $redisClient->expire($key, $info['expires_in']);
         return $info['provider_access_token'];
+
     }
 
 
@@ -96,19 +105,23 @@ class wechattool
      */
     public static function get_corp_access_token($auth_corpid, $permanent_code)
     {
+        $key = $auth_corpid . 'CorpAccessToken';
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $corp_access_token = $redisClient->get($key);
+        if ($corp_access_token) {
+            return $corp_access_token;
+        }
         $url = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token?suite_access_token=' . self::get_suite_access_token();
         $post = json_encode([
-            'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
             'auth_corpid' => $auth_corpid,
             'permanent_code' => $permanent_code,
         ]);
         $json_info = common::send_curl_request($url, $post, 'post');
         $info = json_decode($json_info, true);
-//        file_put_contents('a.txt', print_r($info, true), FILE_APPEND);
+        $redisClient->set($key, $info['access_token']);
+        $redisClient->expire($key, $info['expires_in']);
         return isset($info['access_token']) ? $info['access_token'] : '';
     }
-
-
 
 
     /**
@@ -144,14 +157,18 @@ class wechattool
      */
     public static function get_pre_auth_code()
     {
+        $key = 'PreAuthCode';
+        $redisClient = new Client(Config::get('redis.redis_config'));
+        $pre_auth_code = $redisClient->get($key);
+        if ($pre_auth_code) {
+            return $pre_auth_code;
+        }
         $url = "https://qyapi.weixin.qq.com/cgi-bin/service/get_pre_auth_code?suite_access_token=" . self::get_suite_access_token();
-        $post = json_encode([
-            'suite_id' => Config::get('wechatsuite.EMAILSEND_SUITE_ID'),
-        ]);
-        $json_info = common::send_curl_request($url, $post, 'post');
+        $json_info = common::send_curl_request($url, [], 'GET');
         $info = json_decode($json_info, true);
+        $redisClient->set($key, $info['pre_auth_code']);
+        $redisClient->expire($key, $info['expires_in']);
         return $info['pre_auth_code'];
-
     }
 
 

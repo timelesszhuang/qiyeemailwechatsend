@@ -10,6 +10,7 @@ namespace app\admin\model;
 
 //缓存相关操作  缓存一些微信常用的 信息
 use app\common\model\common;
+use Predis\Client;
 use think\Config;
 use think\Db;
 
@@ -25,16 +26,16 @@ class cachetool
      */
     public static function get_permanent_code_by_corpid($corpid, $flag = 'get')
     {
-        $mem = common::phpmemcache();
+        $redisClient = new Client(Config::get('redis.redis_config'));
         if ($flag != 'get') {
             //不是获取数据
-            self::get_init_corp_info($mem);
+            self::get_init_corp_info($redisClient);
         }
-        $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
+        $info = $redisClient->get(Config::get('redis.CORPID_PERMANENTCODE'));
         if (empty($info)) {
-            self::get_init_corp_info($mem);
+            self::get_init_corp_info($redisClient);
         }
-        $info = $mem->get(Config::get('memcache.CORPID_PERMANENTCODE'));
+        $info = $redisClient->get(Config::get('redis.CORPID_PERMANENTCODE'));
         return self::get_pcode_bycorpid($corpid, $info);
     }
 
@@ -59,15 +60,18 @@ class cachetool
      * 更新memcache信息
      * @param $mem
      * @return mixed
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
-    public static function get_init_corp_info($mem)
+    public static function get_init_corp_info($redisClient)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
         $info = Db::name('auth_corp_info')->field('corpid,permanent_code')->select();
         foreach ($info as $k => $v) {
             $corpid_permanentcode_arr[$v['corpid']] = $v['permanent_code'];
         }
-        $mem->set(Config::get('memcache.CORPID_PERMANENTCODE'), $corpid_permanentcode_arr);
+        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), $corpid_permanentcode_arr);
     }
 
 
@@ -83,29 +87,29 @@ class cachetool
      */
     public static function get_bindinfo_bycorpid($corpid, $flag = 'get')
     {
-        $mem = common::phpmemcache();
+        $redisClient = new Client(Config::get('redis.redis_config'));
         if ($flag != 'get') {
             //不是获取数据
-            self::get_init_corpid_bindinfo_info($mem);
+            self::get_init_corpid_bindinfo_info($redisClient);
         }
-        $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
+        $info = $redisClient->get(Config::get('redis.CORPID_BINDINFO'));
         if (empty($info)) {
-            self::get_init_corpid_bindinfo_info($mem);
+            self::get_init_corpid_bindinfo_info($redisClient);
         }
-        $info = $mem->get(Config::get('memcache.CORPID_BINDINFO'));
+        $info = $redisClient->get(Config::get('redis.CORPID_BINDINFO'));
         return self::get_bindinfo_by_corpid($corpid, $info);
     }
 
 
     /**
      * 更新memcache信息
-     * @param $mem
+     * @param $redisClient
      * @return mixed
      * @throws \think\db\exception\DataNotFoundException
      * @throws \think\db\exception\ModelNotFoundException
      * @throws \think\exception\DbException
      */
-    private static function get_init_corpid_bindinfo_info($mem)
+    private static function get_init_corpid_bindinfo_info($redisClient)
     {
         //如果 memcache中不存在 则更新  memcache 为空 也更新
         $info = Db::name('corp_bind_api')->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->select();
@@ -123,7 +127,7 @@ class cachetool
                 'addresslist_show' => $v['addresslist_show']
             ];
         }
-        $mem->set(Config::get('memcache.CORPID_BINDINFO'), $corpid_bindinfo_arr);
+        $redisClient->set(Config::get('redis.CORPID_BINDINFO'), $corpid_bindinfo_arr);
     }
 
 

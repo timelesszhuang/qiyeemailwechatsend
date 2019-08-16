@@ -12,7 +12,9 @@ use think\Db;
 use think\image\Exception;
 
 /**
+ * beta1 新版本 使用redis 相关站点
  * 执行发送 邮件操作 可以同时起来 很多请求
+ * http://sm.yizhixin.net/dailysendmail/Sendneteasemail/index
  */
 class Sendneteasemail extends Controller
 {

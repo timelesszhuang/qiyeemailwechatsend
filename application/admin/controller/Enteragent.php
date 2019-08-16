@@ -12,6 +12,7 @@ namespace app\admin\controller;
 use app\admin\model\cachetool;
 use app\common\model\common;
 use app\common\model\wechattool;
+use think\Config;
 use think\Request;
 
 /**
@@ -27,7 +28,7 @@ class Enteragent
     public function index()
     {
         $corp_id = Request::instance()->param('corpid');
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/admin/enteragent/entry_menu_mail?corpid=' . $corp_id);
+        $redirect_url = urlencode(Config::get('common.DOMAIN').'/index.php/admin/enteragent/entry_menu_mail?corpid=' . $corp_id);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corp_id}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corp_id}#wechat_redirect";
         ob_start();
         ob_end_flush();

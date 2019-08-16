@@ -17,7 +17,7 @@ return [
         'host' => '121.42.250.218',
         'password' => 'LiuRui123$%^',
         'port' => 6379,
-        'database' => 0
+        'database' => 3
     ],
     'SUITE_TICKET' => 'suite_ticket',
     //corpid  获取 永久码

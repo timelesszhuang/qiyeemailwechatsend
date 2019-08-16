@@ -1,4 +1,5 @@
 <?php
+
 namespace app\admin\controller;
 
 use app\admin\model\agent;
@@ -9,6 +10,7 @@ class Agentcallback
 {
     public function index()
     {
+//        agent::verify_url();
         agent::event();
         //验证回调接口
     }

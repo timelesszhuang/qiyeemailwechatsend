@@ -301,7 +301,7 @@ class Wechatmailsend extends Controller
         if ($accounts_md5 != $this->get_entrykey($accounts, $corpid)) {
             exit("请求异常，加密字段匹配异常");
         }
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/checkUserInfo?corpid=' . $corpid . '&account=' . $accounts);
+        $redirect_url = urlencode(Config::get('common.DOMAIN') . '/index.php/dailysendmail/wechatmailsend/checkUserInfo?corpid=' . $corpid . '&account=' . $accounts);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();
         ob_end_flush();
@@ -316,25 +316,21 @@ class Wechatmailsend extends Controller
      */
     public function checkUserInfo()
     {
-        $wechat_userid = Cookie::get('wechat_userid');
         //https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxe041af5a55ce7365&redirect_uri=http%3A%2F%2Fsm.youdao.so%2Findex.php%2Fdailysendmail%2Fwechatmailsend%2FcheckUserInfo%3Fcorpid%3Dwxe041af5a55ce7365%26account%3Dxingzhuang&response_type=code&scope=SCOPE&state=wxe041af5a55ce7365#wechat_redirect
         $code = Request::instance()->param('code');
         $corpid = Request::instance()->param('corpid');
         $account = Request::instance()->param('account');
-        if (!$wechat_userid) {
-            $access_token = wechattool::get_suite_access_token();
-            $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?access_token={$access_token}&code={$code}";
-            $user_info = common::send_curl_request($get_userid_url, [], 'get');
-            $user_info = json_decode($user_info, true);
-            if ($user_info && array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
-                exit('请返回企业微信 网易企业邮箱应用 重新进入');
-            }
-            if (array_key_exists('OpenId', $user_info)) {
-                exit('您不属于该公司，或者您没有权限访问');
-            }
-            $wechat_userid = $user_info['UserId'];
-            Cookie::set('wechat_userid', $wechat_userid);
+        $access_token = wechattool::get_suite_access_token();
+        $get_userid_url = "https://qyapi.weixin.qq.com/cgi-bin/service/getuserinfo3rd?access_token={$access_token}&code={$code}";
+        $user_info = common::send_curl_request($get_userid_url, [], 'get');
+        $user_info = json_decode($user_info, true);
+        if ($user_info && array_key_exists('errcode', $user_info) && $user_info['errcode'] != 0) {
+            exit('请返回企业微信 网易企业邮箱应用 重新进入');
         }
+        if (array_key_exists('OpenId', $user_info)) {
+            exit('您不属于该公司，或者您没有权限访问');
+        }
+        $wechat_userid = $user_info['UserId'];
         //微信的userid
         //根据account获取
         $userinfo = Db::name('wechat_user')->where(['corpid' => $corpid, 'account' => $account])->find();
@@ -406,7 +402,7 @@ class Wechatmailsend extends Controller
     public function click_entrymailmenu()
     {
         $corpid = Request::instance()->param('corpid');
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/entry_menu_mail?corpid=' . $corpid);
+        $redirect_url = urlencode(Config::get('common.DOMAIN') . '/index.php/dailysendmail/wechatmailsend/entry_menu_mail?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();
         ob_end_flush();

@@ -8,6 +8,7 @@ use app\common\model\common;
 use app\common\model\wechattool;
 use app\mailapi\controller\maildep;
 use app\mailapi\controller\mailuser;
+use think\Config;
 use think\Controller;
 use think\Db;
 use think\Request;
@@ -41,7 +42,7 @@ class Index extends Controller
         if ($bind_info['addresslist_show'] == '20') {
             return $this->fetch('msg', ['msg' => '通讯录暂时不可用，若开启请联系 4006360163 （网易企业服务）']);
         }
-        $redirect_url = urlencode('http://sm.youdao.so/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
+        $redirect_url = urlencode(Config::get('common.DOMAIN').'/index.php/addresslist/index/getuserinfo_showaddresslist?corpid=' . $corpid);
         $url = "https://open.weixin.qq.com/connect/oauth2/authorize?appid={$corpid}&redirect_uri={$redirect_url}&response_type=code&scope=SCOPE&state={$corpid}#wechat_redirect";
         ob_start();
         ob_end_flush();

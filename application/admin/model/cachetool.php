@@ -23,6 +23,9 @@ class cachetool
      * @param $corpid  各个用户公司的corpid
      * @param string $flag
      * @return string
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function get_permanent_code_by_corpid($corpid, $flag = 'get')
     {
@@ -31,11 +34,11 @@ class cachetool
             //不是获取数据
             self::get_init_corp_info($redisClient);
         }
-        $info = $redisClient->get(Config::get('redis.CORPID_PERMANENTCODE'));
+        $info = unserialize($redisClient->get(Config::get('redis.CORPID_PERMANENTCODE')));
         if (empty($info)) {
             self::get_init_corp_info($redisClient);
         }
-        $info = $redisClient->get(Config::get('redis.CORPID_PERMANENTCODE'));
+        $info = unserialize($redisClient->get(Config::get('redis.CORPID_PERMANENTCODE')));
         return self::get_pcode_bycorpid($corpid, $info);
     }
 
@@ -71,7 +74,7 @@ class cachetool
         foreach ($info as $k => $v) {
             $corpid_permanentcode_arr[$v['corpid']] = $v['permanent_code'];
         }
-        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), $corpid_permanentcode_arr);
+        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), serialize($corpid_permanentcode_arr));
     }
 
 
@@ -92,11 +95,11 @@ class cachetool
             //不是获取数据
             self::get_init_corpid_bindinfo_info($redisClient);
         }
-        $info = $redisClient->get(Config::get('redis.CORPID_BINDINFO'));
+        $info = unserialize($redisClient->get(Config::get('redis.CORPID_BINDINFO')));
         if (empty($info)) {
             self::get_init_corpid_bindinfo_info($redisClient);
         }
-        $info = $redisClient->get(Config::get('redis.CORPID_BINDINFO'));
+        $info = unserialize($redisClient->get(Config::get('redis.CORPID_BINDINFO')));
         return self::get_bindinfo_by_corpid($corpid, $info);
     }
 
@@ -127,7 +130,7 @@ class cachetool
                 'addresslist_show' => $v['addresslist_show']
             ];
         }
-        $redisClient->set(Config::get('redis.CORPID_BINDINFO'), $corpid_bindinfo_arr);
+        $redisClient->set(Config::get('redis.CORPID_BINDINFO'), serialize($corpid_bindinfo_arr));
     }
 
 

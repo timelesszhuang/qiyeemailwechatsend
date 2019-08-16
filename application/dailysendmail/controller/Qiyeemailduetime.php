@@ -15,9 +15,8 @@ use think\Config;
 use think\Controller;
 use think\Db;
 
-
+// 老版本的邮件推送
 //访问的 url 为 http://sm.youdao.so/index.php/dailysendmail/qiyeemailduetime/index  定期执行脚本 更新邮箱的到期时间信息
-
 //执行定时请求
 //* 8 * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/qiyeemailduetime/index"
 
@@ -50,6 +49,11 @@ class Qiyeemailduetime extends Controller
      * 分析每一步的信息   要保证每天都会执行这个脚本
      * @access private
      * @param $info
+     * @throws \think\Exception
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
+     * @throws \think\exception\PDOException
      */
     private function analyse_bindinfo($info)
     {

@@ -15,7 +15,7 @@ return [
     // 服务器地址
     'hostname' => 'rdsfjnifbfjnifbo.mysql.rds.aliyuncs.com',
     // 数据库名
-    'database' => 'mailsend',
+    'database' => 'mailsendbeta1',
     // 用户名
     'username' => 'mailsend',
     // 密码

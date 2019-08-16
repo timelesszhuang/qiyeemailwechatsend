@@ -9,7 +9,7 @@
 // | Author: 流年 <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 // 应用公共文件
-$domain = 'http://sm.youdao.so';
+$domain = 'http://sm.yizhixin.net';
 
 return [
     //邮件列表中点击 跳转到的位置

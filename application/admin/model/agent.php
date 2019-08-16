@@ -33,7 +33,6 @@ class agent
         $nonce = urldecode(Request::instance()->param('nonce'));
         $echostr = urldecode(Request::instance()->param('echostr'));
         //实例化加解密类
-//        file_put_contents('a.txt', '$msg_signature:' . $msg_signature . '$timestamp:' . $timestamp . '$nonce:' . $nonce . '$echostr:' . $echostr, FILE_APPEND);
         try {
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $corp_id);
             //解密数据最后 将解密后的数据返回给微信 成功会返回0 会将解密后的数据放入$echos
@@ -44,6 +43,7 @@ class agent
             } else {
                 print $errCode;
             }
+            exit;
         } catch (Exception $e) {
             //file_put_contents('a.txt', '$exception:' . $e->getMessage(), FILE_APPEND);
         }
@@ -90,6 +90,7 @@ class agent
                     switch ($reqEvent) {
                         //进入事件
                         case "enter_agent":
+
                             self::enter_agent($corp_id, $agent_id, $reqFromUserName);
                             break;
                     }
@@ -130,6 +131,8 @@ class agent
                                     break;*/
             }
         }
+        echo 'success';
+        exit;
     }
 
 
@@ -139,6 +142,9 @@ class agent
      * @param $corpid  进入应用的公司的 corp_id
      * @param $agent_id  进入的应用的 id 这个是 授权者 授权之后的应用位置
      * @param $reqFromUserName  请求来自哪个 微信id
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      * @todo 1、验证是不是已经绑定 邮箱账号 然后由后台审核。
      *       2、需要获取下该应用的进入次数也就是访问量。
      *       3、如果账号超过账号的数量限制怎么处理
@@ -161,7 +167,7 @@ class agent
         }
         //从数据库中获取 状态 更新下有多少访问量 更新到 数据库中
         list($status, $info) = wechatuser::check_wechat_userid_status($corpid, $reqFromUserName);
-        $bind_url = "http://sm.youdao.so/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&agent_id={$agent_id}&wechat_userid={$reqFromUserName}";
+        $bind_url = Config::get('common.DOMAIN') . "/index.php/admin/bindwechat/bind?token=" . agent::get_bind_url_token($corpid, $reqFromUserName) . "&corpid={$corpid}&agent_id={$agent_id}&wechat_userid={$reqFromUserName}";
         if ($status) {
             //表示已经完成或者其他的审核没有通过 或者是其他的操作
             $check_status = $info['status'];
@@ -176,6 +182,7 @@ class agent
                 'user_name' => $wechat_name,
                 'entry_time' => time(),
             ]);
+            Db::name('entermail_log')->where('entry_time', '<', time() - 30 * 86400)->delete();
             switch ($check_status) {
                 case '10':
                     //绑定之后的
@@ -204,6 +211,9 @@ class agent
      * @param $wechat_userid  微信中的 userid
      * @param $agent_id 授权方的应用id
      * @param $content
+     * @throws \think\db\exception\DataNotFoundException
+     * @throws \think\db\exception\ModelNotFoundException
+     * @throws \think\exception\DbException
      */
     public static function send_bind_info($corpid, $wechat_userid, $agent_id, $content)
     {

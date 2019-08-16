@@ -11,7 +11,9 @@ use think\Db;
 use think\image\Exception;
 
 /**
+ * beta1 新版本 使用redis 相关站点
  * 获取 网易邮件信息
+ * http://sm.yizhixin.net/dailysendmail/Getsetneteasemail/index
  */
 class Getsetneteasemail extends Controller
 {
@@ -106,6 +108,8 @@ class Getsetneteasemail extends Controller
             //更新log 数据 精确到详细的每个人
             if ($total) {
                 Db::name('wechat_user_sendlog')->insert(['corpid' => $corpid, 'corp_id' => $corp_id, 'corp_name' => $corp_name, 'account' => $user['account'], 'name' => $user['name'], 'mailsendcount' => $total, 'accesstime' => $endtime]);
+                // 需要每次删除上个月的数据
+                Db::name('wechat_user_sendlog')->where('accesstime', '<', time() - 86400 * 30)->delete();
             }
             sleep(2);
         }

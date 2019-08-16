@@ -26,7 +26,6 @@ class Authcorp extends Base
      */
     public function index()
     {
-
         return $this->fetch();
     }
 
@@ -70,7 +69,6 @@ class Authcorp extends Base
             ->field('auth.*,api.corp_name as apicorp_name,api.api_status,api.status,api.domain')
             ->order('auth.addtime desc,api.addtime desc')
             ->select();
-
         $auth_model = new \app\sysadmin\model\authcorp();
         array_walk($info, array($auth_model, 'formatter_corp_info'));
         if ($count != 0) {
@@ -190,11 +188,13 @@ class Authcorp extends Base
      */
     public function send_bindsuccess_info($corp_id)
     {
+
         //要把这个广告发送到  邮件推送的广告中
         $email_agentid = Config::get('common.EMAILAGENT_ID');
         list($agent_id, $corpid) = array_values(Db::name('agent_auth_info')->where(['appid' => $email_agentid, 'corp_id' => $corp_id])->field('agentid,corpid')->find());
         //然后获取 公司下的职员信息
-//        wechattool::send_text($corpid, '@all', $agent_id, '贵公司微信企业号邮件推送已成功开通，请填写您的邮箱绑定信息。');
+        wechattool::send_text($corpid, '@all', $agent_id, '企业微信邮件推送已成功开通，请填写您的邮箱绑定信息。');
+
     }
 
 
@@ -273,7 +273,7 @@ class Authcorp extends Base
         $this->get_assign();
         $id = Request::instance()->param('id');
         $corpid = Db::name('auth_corp_info')->where(['id' => $id])->find()['corpid'];
-        $url = '*/1 * * * * curl -s "http://sm.youdao.so/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=' . $id . '&corpid=' . $corpid . '"';
+        $url = '*/1 * * * * curl -s "'.Config::get('common.DOMAIN').'/index.php/dailysendmail/wechatmailsend/schedule_get_maillist?corp_id=' . $id . '&corpid=' . $corpid . '"';
         return $this->fetch('copy_crontab_set', ['url' => $url]);
     }
 

@@ -78,7 +78,7 @@ class SyseventModel
             //实例化加解密类
             //授权的地方不是 使用suite_id 使用 try catch  一部分使用的是
             $sPostData = file_get_contents("php://input");
-            file_put_contents('postdata.txt', 'post:' . $sPostData, FILE_APPEND);
+            //file_put_contents('postdata.txt', 'post:' . $sPostData, FILE_APPEND);
             $wxcpt = new \WXBizMsgCrypt($token, $encodingAesKey, $suite_id);
             $errCode = $wxcpt->DecryptMsg($msg_signature, $timestamp, $nonce, $sPostData, $sMsg);
             file_put_contents('a.txt', 'errorcode：' . $errCode, FILE_APPEND);
@@ -92,19 +92,18 @@ class SyseventModel
                     case "suite_ticket":
                         //获取　suite_ticket
                         $suiteticket = $xml->getElementsByTagName('SuiteTicket')->item(0)->nodeValue;
-                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
+//                        file_put_contents('a.txt', 'suiteticket:' . $suiteticket, FILE_APPEND);
                         Db::name('suite_ticket')->update(['suite_ticket' => $suiteticket, 'id' => 1, 'addtime' => time()]);
                         $redisClient = new Client(Config::get('redis.redis_config'));
-                        $redisClient->set('a','1');
                         $redisClient->set(Config::get('redis.SUITE_TICKET'), $suiteticket);
-                        file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
+//                        file_put_contents('a.txt', '||||||newsuiteticket:' . wechattool::get_suite_ticket(), FILE_APPEND);
                         //还需要 添加到数据库中  防止没有该字段
                         break;
                     case "create_auth":
                         //获取 临时授权码 临时授权码使用一次后即失效　
                         $authcode = $xml->getElementsByTagName('AuthCode')->item(0)->nodeValue;
                         //这个是临时授权码  根据临时授权码 获取 永久授权码 以及授权的信息
-                        file_put_contents(print_r($authcode, true), demo . txt, FILE_APPEND);
+                        wechattool::backRunable('success');
                         self::analyse_permanent_codeinfo($suite_id, $authcode);
                         break;
                     case 'change_auth':

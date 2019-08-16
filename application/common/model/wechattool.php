@@ -20,6 +20,25 @@ use think\Db;
 class wechattool
 {
 
+    /**
+     * 继续执行操作
+     */
+    public static function backRunable($msg)
+    {
+        ob_end_clean();
+        ob_start();
+        echo $msg;
+        $size = ob_get_length();
+        header("Content-Length: " . $size);
+        header("Connection: close");
+        header("HTTP/1.1 200 OK");
+        header('Content-Type:application/json; charset=utf-8');
+        ob_end_flush();
+        if (ob_get_length())
+            ob_flush();
+        flush();
+    }
+
 
     /**
      * 获取 suite_ticket

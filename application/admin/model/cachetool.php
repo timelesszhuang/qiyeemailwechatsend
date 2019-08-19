@@ -74,7 +74,7 @@ class cachetool
         foreach ($info as $k => $v) {
             $corpid_permanentcode_arr[$v['corpid']] = $v['permanent_code'];
         }
-        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), serialize($corpid_permanentcode_arr));
+        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), serialize($corpid_permanentcode_arr), 300);
     }
 
 
@@ -90,64 +90,14 @@ class cachetool
      */
     public static function get_bindinfo_bycorpid($corpid, $flag = 'get')
     {
+        $key = 'corpid_bindinfo' . $corpid . Config::get('redis.CORPID_BINDINFO');
         $redisClient = new Client(Config::get('redis.redis_config'));
-        if ($flag != 'get') {
-            //不是获取数据
-            self::get_init_corpid_bindinfo_info($redisClient);
+        $info = unserialize($redisClient->get($key));
+        if (!$info) {
+            $info = Db::name('corp_bind_api')->where('corpid','=', $corpid)->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->find();
+            $redisClient->set($key, serialize($info),300);
         }
-        $info = unserialize($redisClient->get(Config::get('redis.CORPID_BINDINFO')));
-        if (empty($info)) {
-            self::get_init_corpid_bindinfo_info($redisClient);
-        }
-        $info = unserialize($redisClient->get(Config::get('redis.CORPID_BINDINFO')));
-        return self::get_bindinfo_by_corpid($corpid, $info);
-    }
-
-
-    /**
-     * 更新memcache信息
-     * @param $redisClient
-     * @return mixed
-     * @throws \think\db\exception\DataNotFoundException
-     * @throws \think\db\exception\ModelNotFoundException
-     * @throws \think\exception\DbException
-     */
-    private static function get_init_corpid_bindinfo_info($redisClient)
-    {
-        //如果 memcache中不存在 则更新  memcache 为空 也更新
-        $info = Db::name('corp_bind_api')->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->select();
-        $corpid_bindinfo_arr = [];
-        foreach ($info as $k => $v) {
-            $corpid_bindinfo_arr[$v['corpid']] = [
-                'corp_id' => $v['corp_id'],
-                'privatesecret' => $v['privatesecret'],
-                'status' => $v['status'],
-                'flag' => $v['flag'],
-                'product' => $v['product'],
-                'domain' => $v['domain'],
-                'corp_name' => $v['corp_name'],
-                'api_status' => $v['api_status'],
-                'addresslist_show' => $v['addresslist_show']
-            ];
-        }
-        $redisClient->set(Config::get('redis.CORPID_BINDINFO'), serialize($corpid_bindinfo_arr));
-    }
-
-
-    /**
-     * 实际上获取数据的操作
-     * @param $corpid
-     * @param $info
-     * @return string
-     */
-    private static function get_bindinfo_by_corpid($corpid, $info)
-    {
-        if ($corpid) {
-            $arr = array_key_exists($corpid, $info) ? $info[$corpid] : '';
-            if ($arr) {
-                return $arr;
-            }
-        }
+        return $info;
     }
 
 }

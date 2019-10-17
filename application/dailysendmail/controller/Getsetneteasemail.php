@@ -159,13 +159,14 @@ class Getsetneteasemail extends Controller
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
                 if ($response_json['suc'] == '1') {
+                    file_put_contents('a.txt', print_r($response_json, true), 8);
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id, $corp_bind['corpid']);
                     //更新数据到数据库中
                 }
                 //失败  返回详细信息
             }
         } catch (Exception $ex) {
-            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
+            file_put_contents('a.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
         }
         return [$endtime, $total];
     }

@@ -79,7 +79,7 @@ class Wechatmailsend extends Controller
                 }
             }
         } catch (Exception $ex) {
-            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
+            file_put_contents('a.txt', $ex->getMessage() . $ex->getLine(), FILE_APPEND);
         }
         //更新下公司的本次的请求信息 所有log数据库
         if ($all_sendcount) {
@@ -140,7 +140,7 @@ class Wechatmailsend extends Controller
                 //失败  返回详细信息
             }
         } catch (Exception $ex) {
-            file_put_contents('a.txt', $ex->getMessage(), FILE_APPEND);
+            file_put_contents('a.txt', $ex->getMessage().$ex->getLine(), FILE_APPEND);
         }
         return [$endtime, $total];
     }

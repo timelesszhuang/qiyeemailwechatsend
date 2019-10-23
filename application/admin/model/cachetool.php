@@ -74,7 +74,7 @@ class cachetool
         foreach ($info as $k => $v) {
             $corpid_permanentcode_arr[$v['corpid']] = $v['permanent_code'];
         }
-        $redisClient->set(Config::get('redis.CORPID_PERMANENTCODE'), serialize($corpid_permanentcode_arr), 300);
+        $redisClient->setex(Config::get('redis.CORPID_PERMANENTCODE'), 300, serialize($corpid_permanentcode_arr));
     }
 
 
@@ -90,12 +90,12 @@ class cachetool
      */
     public static function get_bindinfo_bycorpid($corpid, $flag = 'get')
     {
-        $key = 'corpid_bindinfo' . $corpid . Config::get('redis.CORPID_BINDINFO');
+        $key = Config::get('redis.CORPID_BINDINFO') . $corpid;
         $redisClient = new Client(Config::get('redis.redis_config'));
         $info = unserialize($redisClient->get($key));
         if (!$info) {
-            $info = Db::name('corp_bind_api')->where('corpid','=', $corpid)->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->find();
-            $redisClient->set($key, serialize($info),300);
+            $info = Db::name('corp_bind_api')->where('corpid', '=', $corpid)->field('corpid,corp_id,privatesecret,product,domain,corp_name,status,flag,api_status,addresslist_show')->find();
+            $redisClient->setex($key, 300, serialize($info));
         }
         return $info;
     }

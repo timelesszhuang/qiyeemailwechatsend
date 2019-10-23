@@ -132,8 +132,9 @@ class Getsetneteasemail extends Controller
     {
         $accounts = $user['account'];
         $wechat_userid = $user['wechat_userid'];
-        $lastgettime = $user['lastgetmailtime'];
         //$lastgettime 如果为空的话  开始的时间为当前五分钟信息
+        $lastgettimekey = $wechat_userid . $accounts . $corp_bind['domain'] . 'lastgettime';
+        $lastgettime = $this->redisClient->get($lastgettimekey) ?: $user['lastgetmailtime'];
         $endtime = time();
         $pre_time = time() - 300;
         $starttime = $lastgettime ?: $pre_time;
@@ -159,9 +160,11 @@ class Getsetneteasemail extends Controller
                 }
                 $response_json = json_decode(common::send_curl_request($url, $src . '&sign=' . $sign, 'post'), true);
                 if ($response_json['suc'] == '1') {
+                    $this->redisClient->set($lastgettimekey, $endtime);
                     if ($response_json['con']['list']) {
-                        file_put_contents('a.txt', print_r($response_json, true), 8);
+                        file_put_contents('a.txt', print_r(['data' => $response_json, 'start' => $start, 'end' => $end], true), 8);
                     }
+
                     $total = $this->formatWechatSendeMail($response_json['con'], $accounts, $wechat_userid, $agent_id, $corp_bind['corpid']);
                     //更新数据到数据库中
                 }
